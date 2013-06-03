@@ -12,7 +12,8 @@
     <th>Correo Electronico</th>
     <th>Nombre</th>
     <th>Apellido</th>
-    <th>Activo</th>
+	<th>Activo</th>
+    <th>Eliminado</th>
     <th>Administrador</th>
     <th>Ultima fecha de coneccion</th>
     <th>Ultima direccion de coneccion</th>
@@ -26,11 +27,18 @@
     <td><%= user.email %></td>
     <td><%= user.name %></td>
     <td><%= user.lastname %></td>
-    <td>
-		<% if user.deleted == 0 %>
+	<td>
+		<% if user.active %>
 			Sí
 		<% else %>
 			No
+		<% end %>
+	</td>
+    <td>
+		<% if user.deleted == 0 %>
+			No
+		<% else %>
+			Sí
 		<% end %>
 	</td>
     <td>

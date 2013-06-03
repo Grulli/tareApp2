@@ -126,6 +126,11 @@ class UsersController < ApplicationController
 	@user.session_token = ""
 	@user.last_login_date = Time.new.advance(:hours => -4)
 	@user.last_login_server = request.remote_ip
+	
+	
+	#TODO: Aca enviar mail y setear active en false
+	@user.active = true
+	
 	if(request.env["HTTP_X_FORWARDED_FOR"])
 		@user.last_login_server = request.env["HTTP_X_FORWARDED_FOR"]
 	end
