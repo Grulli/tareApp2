@@ -50,7 +50,7 @@ class HomeworksController < ApplicationController
 			return
 		end
 	end
-	
+
     @homework = Homework.new
 
     respond_to do |format|
@@ -89,17 +89,25 @@ class HomeworksController < ApplicationController
 			return
 		end
 	end
-    @homework = Homework.new(params[:homework])
-
-    respond_to do |format|
-      if @homework.save
-        format.html { redirect_to @homework, notice: 'Homework was successfully created.' }
-        format.json { render json: @homework, status: :created, location: @homework }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @homework.errors, status: :unprocessable_entity }
-      end
+    #Contamos las tareas para asegurarnos de que no tenga más de 20
+    userid = session[:user_id]
+    if(User.find(userid).homeworks.count >= 20)
+      flash[:error] = "Usted ya tiene 20 o mas tareas"
+      redirect_to home_path
+    else
+      @homework = Homework.new(params[:homework])
+      @homework.user_id = userid
+      respond_to do |format|
+          if @homework.save
+            format.html { redirect_to @homework, notice: 'Homework was successfully created.' }
+            format.json { render json: @homework, status: :created, location: @homework }
+          else
+            format.html { render action: "new" }
+            format.json { render json: @homework.errors, status: :unprocessable_entity }
+          end
+       end
     end
+
   end
 
   # PUT /homeworks/1
