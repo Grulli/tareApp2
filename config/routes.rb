@@ -15,5 +15,7 @@ TareApp2::Application.routes.draw do
 	match 'edit_profile' => 'users#edit_profile_post', :via => :post, :as => :edit_profile_post
 	match 'change_password'=> 'users#change_password', :via => :get, :as => :change_password
 	match 'change_password'=> 'users#change_password_post', :via => :post, :as => :change_password_post
+	match 'users_index/:status' => 'users#index'
+	match 'admin' => 'home#admin', :as => :admin
 	
 end

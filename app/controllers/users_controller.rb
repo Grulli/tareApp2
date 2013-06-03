@@ -22,6 +22,14 @@ class UsersController < ApplicationController
 	end
 	
     @users = User.all
+	
+	if(params[:status])
+		if(params[:status] == "active")
+			@users = User.find_all_by_active_and_deleted(true,0)
+		elsif(params[:status] == "deleted")
+			@users = User.find(:all, :conditions =>['deleted > 0'])
+		end
+	end
 
     respond_to do |format|
       format.html # index.html.erb
