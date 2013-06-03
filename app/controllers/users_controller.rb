@@ -14,7 +14,7 @@ class UsersController < ApplicationController
 		end
 	
 		#Revisamos si es admin
-		if(!User.find(session[:user_id]).admin)
+		if(!User.find(session[:user_id]).admin || !User.find(session[:user_id]).active)
 			flash[:error] = "Acceso denegado"
 			redirect_to home_path
 			return
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
 			redirect_to home_path
 			return
 		end
-		if(!User.find(session[:user_id]).admin)
+		if(!User.find(session[:user_id]).admin || !User.find(session[:user_id]).active)
 			flash[:error] = "Acceso denegado"
 			redirect_to home_path
 			return
@@ -187,7 +187,7 @@ class UsersController < ApplicationController
 		end
 	
 		#Revisamos que sea admin
-		if(!User.find(session[:user_id]))
+		if(!User.find(session[:user_id]).admin || !User.find(session[:user_id]).active)
 			flash[:error] = "Acceso denegado"
 			redirect_to home_path
 			return
@@ -229,8 +229,13 @@ class UsersController < ApplicationController
 				redirect_to home_path
 				return
 			end
-			@user = User.find(params[:user_id])
+			if(!User.find(session[:user_id]).active)
+				flash[:error] = "Acceso denegado"
+				redirect_to home_path
+				return
+			end
 		end
+		@user = User.find(params[:user_id])
 	end
 
 	def edit_profile
@@ -240,8 +245,12 @@ class UsersController < ApplicationController
 				redirect_to home_path
 				return
 			end
+			if(!User.find(session[:user_id]).active)
+				flash[:error] = "Acceso denegado"
+				redirect_to home_path
+				return
+			end
 		end
-		
 		@user = User.find(session[:user_id])
 	end
 end

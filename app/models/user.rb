@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 	attr_accessible :active, :admin, :deleted, :email, :hashed_password, :last_login_date, :last_login_server, :lastname, :name, :profile, :salt, :session_token
 	
+	has_many :homeworks
 	
 	def to_xml(options={})
 		options[:except] ||= [:hashed_password, :salt]

@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130603164643) do
+ActiveRecord::Schema.define(:version => 20130603174152) do
+
+  create_table "homeworks", :force => true do |t|
+    t.string   "name"
+    t.string   "filename"
+    t.string   "description"
+    t.boolean  "active"
+    t.datetime "expires_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "user_id"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email"

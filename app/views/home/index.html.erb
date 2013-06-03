@@ -2,10 +2,14 @@
 <br>
 <br>
 <% if flash[:error] %>
-	<h2><%= flash[:error] %></h2>
+	<div class="alert alert-error">
+		<button type="button" class="close" data-dismiss="alert">&times;</button><%= flash[:error] %>
+	</div>
 <% end %>
 <% if flash[:succes] %>
-	<h2><%= flash[:succes] %></h2>
+	<div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button><%= flash[:succes] %>
+	</div>
 <% end %>
 <% if !session[:user_id] %>
 	<% if !session[:login_error_count] %>
@@ -17,4 +21,5 @@
 			<%= render 'login_2' %>
 		<% end %>
 	<% end %>
+	<%= link_to "Registrarse", new_user_path %>
 <% end %>

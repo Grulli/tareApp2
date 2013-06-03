@@ -16,6 +16,7 @@
 			        <li><a href="#">Contact</a></li>
 
 			        <% if session[:user_id] %>
+						<li><%= link_to "Mi Perfil", "/profile/#{session[:user_id]}" %></li>
 			        	<li><%= link_to "Cerrar Sesión", logout_path %></li>
 			        <% end %>
         		</ul>

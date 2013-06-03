@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  filename: MyString
+  description: MyString
+  active: false
+  expires_at: 2013-06-03 13:40:30
+
+two:
+  name: MyString
+  filename: MyString
+  description: MyString
+  active: false
+  expires_at: 2013-06-03 13:40:30

@@ -25,7 +25,7 @@ class HomeController < ApplicationController
 		end
 		
 		#Revisamos si existe el mail y no este eliminado
-		if(!User.exists?(:email => params[:email], :deleted => 0))
+		if(!User.exists?(:email => params[:email], :deleted => 0, :active => true))
 			flash[:error] = "Error al iniciar sesion"
 			if(!session[:login_error_count])
 				session[:login_error_count] = 1
@@ -95,7 +95,7 @@ class HomeController < ApplicationController
 		end
 		
 		#Revisamos que exista el mail y no este eliminado
-		if(!User.exists?(:email => params[:email], :deleted => 0))
+		if(!User.exists?(:email => params[:email], :deleted => 0, :active => true))
 			flash[:error] = "Error al iniciar sesion"
 			session[:login_error_count] = session[:login_error_count].to_i + 1
 			redirect_to home_path

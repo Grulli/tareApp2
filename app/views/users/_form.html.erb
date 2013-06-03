@@ -1,18 +1,16 @@
 <%= form_for(@user) do |f| %>
 	<% if @user.errors.any? || flash[:error]%>
-		<div id="error_explanation">
-			<% if @user.errors.any? %>
-				<h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-			<% end %>
+		<div class="alert alert-error">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
 			<ul>
-			<% if @user.errors.any? %>
-				<% @user.errors.full_messages.each do |msg| %>
-					<li><%= msg %></li>
+				<% if @user.errors.any? %>
+					<% @user.errors.full_messages.each do |msg| %>
+						<li><%= msg %></li>
+					<% end %>
 				<% end %>
-			<% end %>
-			<% if flash[:error] %>
-				<%= flash[:error] %>
-			<% end %>
+				<% if flash[:error] %>
+					<%= flash[:error] %>
+				<% end %>
 			</ul>
 		</div>
 	<% end %>
