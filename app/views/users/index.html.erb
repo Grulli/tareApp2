@@ -1,0 +1,60 @@
+<h1>Usuarios</h1>
+
+<% if flash[:error] %>
+	<h2><%= flash[:error] %></h2>
+<% end %>
+<% if flash[:succes] %>
+	<h2><%= flash[:succes] %></h2>
+<% end %>
+
+<table>
+  <tr>
+    <th>Correo Electronico</th>
+    <th>Nombre</th>
+    <th>Apellido</th>
+    <th>Activo</th>
+    <th>Administrador</th>
+    <th>Ultima fecha de coneccion</th>
+    <th>Ultima direccion de coneccion</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr>
+    <td><%= user.email %></td>
+    <td><%= user.name %></td>
+    <td><%= user.lastname %></td>
+    <td>
+		<% if user.deleted == 0 %>
+			Sí
+		<% else %>
+			No
+		<% end %>
+	</td>
+    <td>
+		<% if user.admin %>
+			Sí
+		<% else %>
+			No
+		<% end %>
+	</td>
+    <td><%= user.last_login_date %></td>
+    <td><%= user.last_login_server %></td>
+    <td><%= link_to 'Ver', user %></td>
+    <td>
+		<% if user.deleted == 0 %>
+			<%= link_to 'Editar', edit_user_path(user) %>
+		<% end %>
+	</td>
+    <td>
+		<% if user.deleted == 0 %>
+			<%= link_to 'Desactivar', user, method: :delete, data: { confirm: '¿Seguro que desea desactivar este usuario?' } %>
+		<% end %>
+	</td>
+  </tr>
+<% end %>
+</table>
+
+<br />

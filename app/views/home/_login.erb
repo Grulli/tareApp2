@@ -1,0 +1,16 @@
+<%= form_tag(login_path, :method=>'post') do %>
+	<%= label_tag(:form_name, "Por favor identifiquese") %>
+	<br>
+	<br>
+	<div class="field">
+		<%= label_tag(:email_label, "Correo electronico:") %>
+		<br>
+		<%= text_field_tag(:email, nil, :required => true) %>
+	</div>
+	<div class="field">
+		<%= label_tag(:password, "Contraseña:") %>
+		<br>
+		<%= password_field_tag(:password, nil, :required => true) %>
+	</div>
+	<%= submit_tag("Iniciar sesión") %>
+<% end %>

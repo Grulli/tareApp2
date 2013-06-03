@@ -1,0 +1,51 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Correo Electronico:</b>
+  <%= @user.email %>
+</p>
+
+<p>
+  <b>Nombre:</b>
+  <%= @user.name %>
+</p>
+
+<p>
+  <b>Apellido:</b>
+  <%= @user.lastname %>
+</p>
+
+<p>
+  <b>Activo:</b>
+	<% if @user.deleted == 0 %>
+		Sí
+	<% else %>
+		No
+	<% end %>
+</p>
+
+<p>
+  <b>Administrador:</b>
+	<% if @user.admin %>
+		Sí
+	<% else %>
+		No
+	<% end %>
+</p>
+
+<p>
+  <b>Session token:</b>
+  <%= @user.session_token %>
+</p>
+
+<p>
+  <b>Ultima fecha de coneccion:</b>
+  <%= @user.last_login_date %>
+</p>
+
+<p>
+  <b>Ultima direccion de coneccion:</b>
+  <%= @user.last_login_server %>
+</p>
+
+<%= link_to 'Usuarios', users_path %>

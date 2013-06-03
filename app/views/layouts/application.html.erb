@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TareApp2</title>
+		<%= stylesheet_link_tag    "application", :media => "all" %>
+		<%= javascript_include_tag "application" %>
+		<%= csrf_meta_tags %>
+		<% if session[:user_id] %>
+			<%= link_to 'Cerrar sesion', logout_path %>
+		<% end %>
+	</head>
+	<body>
+
+	<%= yield %>
+
+	</body>
+</html>
