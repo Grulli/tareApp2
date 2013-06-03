@@ -12,5 +12,8 @@ TareApp2::Application.routes.draw do
 	match 'logout' => 'home#logout', :as => :logout
 	match 'profile/:user_id' => 'users#profile'
 	match 'edit_profile' => 'users#edit_profile', :via => :get, :as => :edit_profile
+	match 'edit_profile' => 'users#edit_profile_post', :via => :post, :as => :edit_profile_post
+	match 'change_password'=> 'users#change_password', :via => :get, :as => :change_password
+	match 'change_password'=> 'users#change_password_post', :via => :post, :as => :change_password_post
 	
 end

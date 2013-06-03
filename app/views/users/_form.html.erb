@@ -1,5 +1,5 @@
 <%= form_for(@user) do |f| %>
-	<% if @user.errors.any? || flash[:error]%>
+	<% if @user.errors.any? || flash[:form_error]%>
 		<div class="alert alert-error">
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 			<ul>
@@ -8,33 +8,31 @@
 						<li><%= msg %></li>
 					<% end %>
 				<% end %>
-				<% if flash[:error] %>
-					<%= flash[:error] %>
+				<% if flash[:form_error] %>
+					<%= flash[:form_error] %>
 				<% end %>
 			</ul>
 		</div>
 	<% end %>
 
   <div class="field">
-    <%= f.label :email, "Correo electronico" %><br />
+    <%= f.label :email, "Correo electronico" %>
     <%= f.text_field :email, :required => true%>
   </div>
   <div class="field">
-    <%= f.label :name , "Nombre"%><br />
+    <%= f.label :name , "Nombre"%>
     <%= f.text_field :name, :required => true%>
   </div>
   <div class="field">
-    <%= f.label :lastname, "Apellido" %><br />
+    <%= f.label :lastname, "Apellido" %>
     <%= f.text_field :lastname, :required => true%>
   </div>
   <div class="field">
 	<%= label_tag :password, "Contraseña" %>
-	<br>
 	<%= password_field_tag :password, nil, :required => true %>
   </div>
   <div class="field">
 	<%= label_tag :password_confirmation, "Confirmación de Contraseña" %>
-	<br>
 	<%= password_field_tag :password_confirmation, nil, :required => true %>
   </div>
   <div class="actions">

@@ -73,13 +73,21 @@ class UsersController < ApplicationController
   end
 
   # GET /users/1/edit
-  def edit #Desactivados por los filtros
+  def edit #Modificado para que solo pueda cambiar nombre y apellido
 	if(filters)
-		flash[:error] = "Acceso denegado"
-		redirect_to home_path
-		return
+		if(!session[:user_id])
+			flash[:error] = "Acceso denegado"
+			redirect_to home_path
+			return
+		end
+		if(session[:user_id].to_i != params[:id].to_i and !User.find(session[:user_id]).admin)
+			flash[:error] = "Acceso denegado"
+			redirect_to home_path
+			return
+		end
 	end
     @user = User.find(params[:id])
+	@hashed_id = Digest::SHA1.hexdigest(@user.id.to_s)
   end
 
   # POST /users
@@ -98,14 +106,14 @@ class UsersController < ApplicationController
 	
 	#Revisamos que el mail no este ocupado por una cuenta activa
 	if(User.exists?(:email => @user.email, :deleted => 0))
-		flash[:error] = "Correo electronico ya inscrito"
+		flash[:form_error] = "Correo electronico ya inscrito"
 		redirect_to new_user_path
 		return
 	end
 	
 	#Que la contrasena y la confirmacion sean iguales
 	if !(params[:password] == params[:password_confirmation] and params[:password].length >= 6)
-		flash[:error] = "Error en la contrasena"
+		flash[:form_error] = "Error en la contrasena"
 		respond_to do |format|
 			format.html { render action: "new" }
 		end
@@ -134,7 +142,7 @@ class UsersController < ApplicationController
 	if(request.env["HTTP_X_FORWARDED_FOR"])
 		@user.last_login_server = request.env["HTTP_X_FORWARDED_FOR"]
 	end
-	@user.profile = ""
+	@user.profile = "<h2>#{@user.name} #{@user.lastname}</h2>"
 	if(User.all.count < 1)
 		@user.admin = true
 	end
@@ -154,7 +162,7 @@ class UsersController < ApplicationController
 
   # PUT /users/1
   # PUT /users/1.json
-  def update #Desactivados por los filtros
+  def update #Modificado para que solo pueda cambiar nombre y apellido
 	if(filters)
 		flash[:error] = "Acceso denegado"
 		redirect_to home_path
@@ -238,7 +246,7 @@ class UsersController < ApplicationController
 		@user = User.find(params[:user_id])
 	end
 
-	def edit_profile
+	def edit_profile #Muestra la vista para editar el perfil
 		if(filters)
 			if(!session[:user_id])
 				flash[:error] = "Acceso denegado"
@@ -253,4 +261,80 @@ class UsersController < ApplicationController
 		end
 		@user = User.find(session[:user_id])
 	end
+	
+	def edit_profile_post #metodo post que recibe los cambios en el perfil
+		if(filters)
+			if(!session[:user_id])
+				flash[:error] = "Acceso denegado"
+				redirect_to home_path
+				return
+			end
+		end
+		
+		if(!params[:profile])
+			flash[:error] = "Error"
+			redirect_to edit_profile_path
+			return
+		end
+		
+		user = User.find(session[:user_id])
+		user.profile = params[:profile]
+		user.save
+		flash[:succes] = "Perfil actualizado exitosamente"
+		redirect_to "/profile/#{session[:user_id]}"
+	end
+	
+	def change_password #Muestra la vista para cambiar la pagina
+		if(!session[:user_id])
+			flash[:error] = "Acceso denegado"
+			redirect_to home_path
+			return
+		end
+		@user = User.find(session[:user_id])
+	end
+	
+	def change_password_post #Metodo post para hacer los cambios
+		if(!session[:user_id])
+			flash[:error] = "Acceso denegado"
+			redirect_to home_path
+			return
+		end
+		if(!params[:old_password] || !params[:new_password] || !params[:new_password_confirmation])
+			flash[:error] = "Error"
+			redirect_to change_password_path
+			return
+		end
+		
+		@user = User.find(session[:user_id])
+		@hashed = @user.salt + params[:old_password]
+		10.times do
+			@hashed = Digest::SHA1.hexdigest(@hashed)
+		end
+		
+		if(@hashed != @user.hashed_password)
+			flash[:error] = "Contrasena incorrecta"
+			redirect_to change_password_path
+			return
+		end
+		
+		if(params[:new_password] != params[:new_password_confirmation])
+			flash[:error] = "Nueva contrasena no es igual a la confirmacion"
+			redirect_to change_password_path
+			return
+		end
+		
+		@user.salt = SecureRandom.hex
+		@hashed = @user.salt + params[:new_password]
+		10.times do
+			@hashed = Digest::SHA1.hexdigest(@hashed)
+		end
+		@user.hashed_password = @hashed
+		@user.save
+		
+		flash[:succes] = "Contrasena actualizada exitosamente"
+		
+		redirect_to "/profile/#{session[:user_id]}"
+		
+	end
+	
 end

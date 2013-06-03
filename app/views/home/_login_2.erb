@@ -4,17 +4,14 @@
 	<br>
 	<div class="field">
 		<%= label_tag(:email_label, "Correo electronico:") %>
-		<br>
 		<%= text_field_tag(:email, nil, :required => true) %>
 	</div>
 	<div class="field">
 		<%= label_tag(:password, "Contraseña:") %>
-		<br>
 		<%= password_field_tag(:password, nil, :required => true) %>
 	</div>
 	<div class="field">
 		<%= image_tag("http://captchator.com/captcha/image/#{@random}") %>
-		<br>
 		<%= text_field_tag(:captcha, nil, :required => true)  %>
 		<%= hidden_field_tag(:captcha_random, @random) %>
 		<%= hidden_field_tag(:captcha_random_hash, @random_hash) %>

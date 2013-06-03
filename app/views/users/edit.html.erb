@@ -1,6 +1,15 @@
-<h1>Editing user</h1>
+<h1>Editando datos usuario <%= @user.email %></h1>
 
-<%= render 'form' %>
-
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>
+<%= form_tag(users_path, :method=>'put') do %>
+	<%= hidden_field_tag(:user_id, @user.id) %>
+	<%= hidden_field_tag(:hashed_id, @hashed_id) %>
+	<div class="field">
+		<%= label_tag(:name, "Nombre:") %>
+		<%= text_field_tag(:name, @user.name, :required => true) %>
+	</div>
+	<div class="field">
+		<%= label_tag(:lastname, "Apellido:") %>
+		<%= text_field_tag(:lastname, @user.lastname, :required => true) %>
+	</div>
+	<%= submit_tag("Actualizar datos") %>
+<% end %>

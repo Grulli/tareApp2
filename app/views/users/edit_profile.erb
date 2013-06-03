@@ -1,19 +1,26 @@
 <h2>Editando tu perfil publico</h2>
 
-<textarea rows="10" cols="100" id = "text_area" name="profile">
-	<%= @user.profile %>
-</textarea>
-
+<textarea rows="10" cols="1000" id = "text_area" name="profile"><%= @user.profile %></textarea>
+<br>
+<%= form_tag(edit_profile_post_path, :method => "post", :id => "form") do %>
+	<button type="button" id="preview">Vista previa</button>
+	<input type="submit" value="Guardar cambios" />
+<% end %>
 <hr>
 <h4> Vista Previa </h4>
 <div id = "profile_preview_div">
-	<%= @user.profile %>
+	<%= raw @user.profile %>
 </div>
+
 
 <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
 
 <script>
-	$("#text_area").change(function() {
-		alert(document.getElementByI("text_area").innerHTML);
+	$("#preview").click(function () {
+		document.getElementById("profile_preview_div").innerHTML = document.getElementById("text_area").value;
+	});
+	$('#form').submit(function (e) {
+		$('#form').append($('<input></input>').
+			attr({ type: 'hidden', name: 'profile', value: document.getElementById("text_area").value }));
 	});
 </script>

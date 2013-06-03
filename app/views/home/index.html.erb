@@ -1,16 +1,6 @@
 <h1>Bienvenido a tareApp 2.0 - Una obra en proceso</h1>
 <br>
 <br>
-<% if flash[:error] %>
-	<div class="alert alert-error">
-		<button type="button" class="close" data-dismiss="alert">&times;</button><%= flash[:error] %>
-	</div>
-<% end %>
-<% if flash[:succes] %>
-	<div class="alert alert-success">
-        <button type="button" class="close" data-dismiss="alert">&times;</button><%= flash[:succes] %>
-	</div>
-<% end %>
 <% if !session[:user_id] %>
 	<% if !session[:login_error_count] %>
 		<%= render 'login' %>
