@@ -163,23 +163,25 @@ class UsersController < ApplicationController
   # PUT /users/1
   # PUT /users/1.json
   def update #Modificado para que solo pueda cambiar nombre y apellido
-	if(filters)
-		flash[:error] = "Acceso denegado"
+	if(!params[:user_id] or !params[:hashed_id] or !params[:name] or !params[:lastname])
+		flash[:error] = "Error"
 		redirect_to home_path
 		return
 	end
 	
-    @user = User.find(params[:id])
-
-    respond_to do |format|
-      if @user.update_attributes(params[:user])
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
+	if(Digest::SHA1.hexdigest(params[:user_id].to_s) != params[:hashed_id])
+		flash[:error] = "Error"
+		redirect_to home_path
+		return
+	end
+	
+    @user = User.find(params[:user_id])
+	@user.name = params[:name]
+	@user.lastname = params[:lastname]
+	@user.save
+	
+	flash[:succes] = "Datos actualizados"
+	redirect_to "/profile/#{@user.id}"
   end
 
   # DELETE /users/1

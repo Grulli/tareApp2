@@ -1,6 +1,6 @@
 <h1>Editando datos usuario <%= @user.email %></h1>
 
-<%= form_tag(users_path, :method=>'put') do %>
+<%= form_tag(@user, :method=>'put') do %>
 	<%= hidden_field_tag(:user_id, @user.id) %>
 	<%= hidden_field_tag(:hashed_id, @hashed_id) %>
 	<div class="field">
