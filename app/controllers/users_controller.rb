@@ -141,8 +141,8 @@ class UsersController < ApplicationController
 	@user.admin = false
 	@user.session_token = ""
 	@user.last_login_date = Time.new.advance(:hours => -4)
-	@user.last_login_server = request.remote_ip
-	
+	#@user.last_login_server = request.remote_ip
+	@user.last_login_server = "desaweb1.ing.puc.cl"
 	
 	#TODO: Aca enviar mail y setear active en false
 	@user.active = true
