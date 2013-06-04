@@ -12,4 +12,7 @@
 		<% end %>
 	<% end %>
 	<%= link_to "Registrarse", new_user_path %>
+<% else %>
+	<!-- Homeworks partial-->
+	<%= render 'homework_index_partial' %>
 <% end %>

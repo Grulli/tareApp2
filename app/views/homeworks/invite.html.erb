@@ -1,0 +1,5 @@
+<h1>Invitar a <%= @homework.name %></h1>
+<%= form_tag("/save_homework_invites/#{@homework.id}", :method => "post") do %>
+<%= text_area_tag(:invitados) %>
+<%= submit_tag("Invitar") %>
+<% end %>

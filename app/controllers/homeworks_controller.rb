@@ -153,4 +153,83 @@ class HomeworksController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  #Invite people to this homework
+  def invite
+    if(!Homework.exists?(:id=>params[:id]))
+      flash[:error] = "Tarea inexistente"
+      redirect_to home_path
+      return
+    end
+    @homework = Homework.find(params[:id])
+    render "invite.html.erb"
+  end
+
+  def saveinvites
+    if(!Homework.exists?(:id=>params[:id]))
+      flash[:error] = "Tarea inexistente"
+      redirect_to home_path
+      return
+    end
+
+    if(params[:invitados].empty?)
+
+    else
+      counter = 0
+      @homework = Homework.find(params[:id])
+      params[:invitados].split(';').each do |g|
+          if(!User.exists?(:email => g.delete(' ')))
+            @user = User.new
+            @user.email = g.delete(' ')
+            @user.name = "Firstname"
+            @user.lastname = "Lastname"
+            @user.admin = false
+
+            #Guardamos el hash
+            @user.salt = SecureRandom.hex
+            @hashed = @user.salt
+            100.times do
+              @hashed = Digest::SHA1.hexdigest(@hashed)
+            end
+            @user.hashed_password = @hashed
+
+            #Seteamos los valores por defecto
+            @user.session_token = ""
+            @user.last_login_date = Time.new.advance(:hours => -4)
+            @user.last_login_server = "desaweb1.ing.puc.cl"
+
+            @user.deleted = 0
+            @user.save
+            
+            @hu = Participation.new
+            @hu.user_id = @user.id
+            @hu.homework_id = @homework.id
+            @hu.save
+            
+            #begin
+             # UserMailer.first_invitation_email(@homework, @user).deliver
+            #rescue
+            #end
+          else
+            @user = User.find_by_email(g.delete(' '))
+            @hu = Participation.new
+            @hu.user_id = @user.id
+            @hu.homework_id = @homework.id
+            @hu.save
+            #begin
+             # UserMailer.invitation_email(@homework, @user).deliver
+            #rescue
+            #end
+          end
+          counter = counter+1
+        end
+
+         respond_to do |format|
+            format.html { redirect_to @homework, notice: '#{@counter} usuarios invitados exitosamente' }
+            format.json { render json: @homework, status: :created, location: @homework }
+        end
+    end
+  end
+
+
 end

@@ -12,6 +12,10 @@ class HomeController < ApplicationController
 					@random_hash = Digest::SHA1.hexdigest(@random.to_s)
 				end
 			end
+		else
+			@user = User.find(session[:user_id])
+			@my_homeworks = @user.homeworks
+			@other_homeworks = Homework.all	
 		end
 		flash[:active_tab] = "home"
 		render "index.html.erb"
