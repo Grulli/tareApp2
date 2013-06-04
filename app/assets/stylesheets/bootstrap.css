@@ -3876,6 +3876,9 @@ input[type="submit"].btn.btn-mini {
 }
 
 .alert {
+  width: 50%;
+  margin-left: 23%;
+  text-align: center;
   padding: 8px 35px 8px 14px;
   margin-bottom: 20px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
