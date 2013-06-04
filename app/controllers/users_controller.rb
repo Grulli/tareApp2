@@ -130,8 +130,8 @@ class UsersController < ApplicationController
 	
 	#Guardamos el hash
 	@user.salt = SecureRandom.hex
-	@hashed = @user.salt + params[:password]
-	10.times do
+	@hashed = params[:password] + @user.salt
+	100.times do
 		@hashed = Digest::SHA1.hexdigest(@hashed)
 	end
 	@user.hashed_password = @hashed
@@ -316,8 +316,8 @@ class UsersController < ApplicationController
 		end
 		
 		@user = User.find(session[:user_id])
-		@hashed = @user.salt + params[:old_password]
-		10.times do
+		@hashed = params[:old_password] + @user.salt
+		100.times do
 			@hashed = Digest::SHA1.hexdigest(@hashed)
 		end
 		
@@ -334,8 +334,8 @@ class UsersController < ApplicationController
 		end
 		
 		@user.salt = SecureRandom.hex
-		@hashed = @user.salt + params[:new_password]
-		10.times do
+		@hashed = params[:new_password] + @user.salt
+		100.times do
 			@hashed = Digest::SHA1.hexdigest(@hashed)
 		end
 		@user.hashed_password = @hashed

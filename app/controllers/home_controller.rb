@@ -38,8 +38,8 @@ class HomeController < ApplicationController
 		
 		#Revisamos si la clave corresponde
 		user = User.find_by_email_and_deleted(params[:email], 0)
-		hashed = user.salt + params[:password]
-		10.times do
+		hashed = params[:password] + user.salt
+		100.times do
 			hashed = Digest::SHA1.hexdigest(hashed)
 		end
 		if(hashed != user.hashed_password)
@@ -105,8 +105,8 @@ class HomeController < ApplicationController
 		
 		#Revisamos la contrasena
 		user = User.find_by_email_and_deleted(params[:email], 0)
-		hashed = user.salt + params[:password]
-		10.times do
+		hashed = params[:password] + user.salt
+		100.times do
 			hashed = Digest::SHA1.hexdigest(hashed)
 		end
 		if(hashed != user.hashed_password)
