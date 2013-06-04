@@ -27,11 +27,11 @@
 <table class="footable">
 	<thead>
 		<tr>
-			<th>Correo Electronico</th>
+			<th data-class="expand">Correo Electronico</th>
 		    <th data-hide="phone">Nombre</th>
 		    <th data-hide="phone">Apellido</th>
-			<th data-hide="phone,tablet">Activo</th>
-		    <th data-hide="phone">Eliminado</th>
+			<th data-hide="phone,tablet">Activado</th>
+		    <th data-hide="phone">Activo</th>
 		    <th data-hide="phone">Administrador</th>
 		    <th data-hide="phone,tablet">Última Fecha de Conexión</th>
 		    <th data-hide="phone,tablet">Último Servidor de Conexión</th>
@@ -91,9 +91,12 @@
 
 <br />
 
+<ul id="pagination" class="footable-nav"><span>Pages:</span></ul>
+
+<br />
+
 <script type="text/javascript">
   $(function() {
     $('.footable').footable();
-    $(".footable-first-column").addClass("expand");
   });
 </script>
