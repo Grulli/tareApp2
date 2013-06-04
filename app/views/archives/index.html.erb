@@ -1,0 +1,29 @@
+<h1>Listing archives</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Version</th>
+    <th>Ip</th>
+    <th>Participation</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @archives.each do |archive| %>
+  <tr>
+    <td><%= archive.name %></td>
+    <td><%= archive.version %></td>
+    <td><%= archive.ip %></td>
+    <td><%= archive.participation_id %></td>
+    <td><%= link_to 'Show', archive %></td>
+    <td><%= link_to 'Edit', edit_archive_path(archive) %></td>
+    <td><%= link_to 'Destroy', archive, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Archive', new_archive_path %>

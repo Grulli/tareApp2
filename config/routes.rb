@@ -1,4 +1,7 @@
 TareApp2::Application.routes.draw do
+  resources :archives
+
+
   resources :homeworks
 
 
