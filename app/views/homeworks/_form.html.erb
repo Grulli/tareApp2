@@ -1,7 +1,7 @@
 <%= form_for(@homework) do |f| %>
   <% if @homework.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@homework.errors.count, "error") %> prohibited this homework from being saved:</h2>
+      <h2><%= pluralize(@homework.errors.count, "error") %> impidió que este buzón se guardara:</h2>
 
       <ul>
       <% @homework.errors.full_messages.each do |msg| %>
@@ -12,26 +12,44 @@
   <% end %>
 
   <div class="field">
-    <%= f.label "Nombre del buz&oacute;n" %><br />
+    <label for="homework_name">Nombre del buzón</label><br />
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :filename %><br />
+    <label for="homework_filename">Archivo de Enunciado</label><br />
     <%= f.text_field :filename %>
   </div>
   <div class="field">
-    <%= f.label :description %><br />
+    <label for="homework_description">Descripción</label><br />
     <%= f.text_field :description %>
   </div>
   <div class="field">
-    <%= f.label :active %><br />
+     <label for="homework_active">¿Activo?</label><br />
     <%= f.check_box :active %>
   </div>
   <div class="field">
-    <%= f.label :expires_at %><br />
-    <%= f.datetime_select :expires_at %>
+   <label for="homework_expires_at">Fecha Límite</label><br />
+
+   <% if @homework.expires_at %>
+  <% @date_value = @homework.expires_at.to_date.to_s + "T" %>
+  <% if @homework.expires_at.hour < 10 %>
+    <% @date_value = @date_value + "0" %>
+  <% end %>
+  <% @date_value = @date_value + @homework.expires_at.hour.to_s + ":" %>
+  <% if @homework.expires_at.min < 10 %>
+    <% @date_value = @date_value + "0" %>
+  <% end %>
+  <% @date_value = @date_value + @homework.expires_at.min.to_s + ":" %>
+  <% if @homework.expires_at.sec < 10 %>
+    <% @date_value = @date_value + "0" %>
+  <% end %>
+  <% @date_value = @date_value + @homework.expires_at.sec.to_s %>
+    <input type="datetime-local" name="homework[expires_at]" value = "<%= @date_value.to_s %>" required>
+  <% else %>
+    <input type="datetime-local" name="homework[expires_at]" required>
+  <% end%>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Crear Buzón de Tareas"%>
   </div>
 <% end %>
