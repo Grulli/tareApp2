@@ -11,5 +11,11 @@
 		<%= label_tag(:lastname, "Apellido:") %>
 		<%= text_field_tag(:lastname, @user.lastname, :required => true) %>
 	</div>
+	<% if (User.find(session[:user_id]).admin and session[:user_id] != @user.id) %>
+		<div class="field">
+			<%= label_tag(:admin, "Administrador:") %>
+			<%= check_box_tag(:admin, "on", @user.admin) %>
+		</div>
+	<% end %>
 	<%= submit_tag("Actualizar datos") %>
 <% end %>

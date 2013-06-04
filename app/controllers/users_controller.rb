@@ -174,8 +174,20 @@ class UsersController < ApplicationController
 
   # PUT /users/1
   # PUT /users/1.json
-  def update #Modificado para que solo pueda cambiar nombre y apellido
+  def update #Modificado para que solo pueda cambiar nombre y apellido (y admin cuando el que hace el cambio sea un admin)
+	if(!session[:user_id])
+		lash[:error] = "Acceso denegado"
+		redirect_to home_path
+		return
+	end
+  
 	if(!params[:user_id] or !params[:hashed_id] or !params[:name] or !params[:lastname])
+		flash[:error] = "Error"
+		redirect_to home_path
+		return
+	end
+	
+	if(params[:admin] and !User.find(session[:user_id]).admin)
 		flash[:error] = "Error"
 		redirect_to home_path
 		return
@@ -190,9 +202,25 @@ class UsersController < ApplicationController
     @user = User.find(params[:user_id])
 	@user.name = params[:name]
 	@user.lastname = params[:lastname]
+	
+	if(User.find(session[:user_id]).admin and session[:user_id] != params[:user_id])
+		if(params[:admin])
+			@user.admin = true
+		else
+			@user.admin = false
+		end
+	end
+	
+	
 	@user.save
 	
 	flash[:succes] = "Datos actualizados"
+	
+	if(User.find(session[:user_id]).admin)
+		redirect_to admin_path
+		return
+	end
+	
 	redirect_to "/profile/#{@user.id}"
   end
 
@@ -349,6 +377,61 @@ class UsersController < ApplicationController
 		flash[:succes] = "Contrasena actualizada exitosamente"
 		
 		redirect_to "/profile/#{session[:user_id]}"
+		
+	end
+	
+	def admin_create
+		if (filters)
+			if(!session[:user_id])
+				flash[:error] = "Acceso Denegado"
+				redirect_to home_path
+				return
+			end
+			if(!User.find(session[:user_id]).admin)
+				flash[:error] = "Acceso Denegado"
+				redirect_to home_path
+				return
+			end
+		end
+		if(User.exists?(:email => params[:email], :deleted => 0))
+			flash[:error] = "Ya existe una cuenta con ese email"
+			redirect_to users_path
+			return
+		end
+		if(params[:password] != params[:password_confirmation])
+			flash[:error] = "Error en la contrasena"
+			redirect_to users_path
+			return
+		end
+		
+		user = User.new
+		user.email = params[:email]
+		user.name = params[:name]
+		user.lastname = params[:lastname]
+		user.deleted = 0
+		
+		#TODO: activar con mail
+		user.active = true
+
+		
+		user.salt = SecureRandom.hex
+		hashed = params[:password] + user.salt
+		100.times do
+			hashed = Digest::SHA1.hexdigest(hashed)
+		end
+		user.hashed_password = hashed
+		
+		if(params[:admin])
+			user.admin = true
+		else
+			user.admin = false
+		end
+		
+		user.save
+		
+		flash[:succes] = "Usuario creado exitosamente"
+		redirect_to users_path
+		return
 		
 	end
 	

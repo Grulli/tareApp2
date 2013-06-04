@@ -1,5 +1,45 @@
 <h1>Usuarios</h1>
 
+<div id="accordion">
+    <div class="accordion-group">
+		<a data-toggle="collapse" data-parent="#accordion" href="#new_user">
+            Crear nuevo usuario
+        </a>
+		<div id="new_user" class="accordion-body collapse">
+			<br/>
+			<%= form_tag(admin_create_path, :method=>'post') do %>
+				<div class="field">
+					<%= label_tag(:email, "Correo electronico:") %>
+					<%= text_field_tag(:email, nil, :required => true) %>
+				</div>
+				<div class="field">
+					<%= label_tag(:name , "Nombre") %>
+					<%= text_field_tag(:name, nil, :required => true) %>
+				</div>
+				<div class="field">
+					<%= label_tag(:lastname, "Apellido" )%>
+					<%= text_field_tag(:lastname, nil, :required => true)%>
+				</div>
+				<div class="field">
+					<%= label_tag :admin, "Administrador"%>
+					<%= check_box_tag :admin %>
+				</div>
+				<div class="field">
+					<%= label_tag :password, "Contraseña" %>
+					<%= password_field_tag :password, nil, :required => true %>
+				</div>
+				<div class="field">
+					<%= label_tag :password_confirmation, "Confirmación de Contraseña" %>
+					<%= password_field_tag :password_confirmation, nil, :required => true %>
+				</div>
+				<div class="actions">
+					<%= submit_tag "Crear cuenta" %>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</div>
+
 <ul class="nav nav-tabs">
 	<% if !params[:status] %>
 		<li class ="active">
