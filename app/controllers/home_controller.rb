@@ -59,10 +59,11 @@ class HomeController < ApplicationController
 		
 		#Guardamos los nuevos datos de coneccion
 		user.last_login_date = Time.new.advance(:hours => -4)
-		user.last_login_server = request.remote_ip
-		if(request.env["HTTP_X_FORWARDED_FOR"])
-			user.last_login_server = request.env["HTTP_X_FORWARDED_FOR"]
-		end
+		#user.last_login_server = request.remote_ip
+		#if(request.env["HTTP_X_FORWARDED_FOR"])
+		#	user.last_login_server = request.env["HTTP_X_FORWARDED_FOR"]
+		#end
+		user.last_login_server = "desaweb1.ing.puc.cl"
 		user.save
 		
 		flash[:succes] = "Bienvenido #{user.name + " " + user.lastname}"
@@ -121,10 +122,11 @@ class HomeController < ApplicationController
 		
 		#Guardamos los nuevos datos de coneccion
 		user.last_login_date = Time.new.advance(:hours => -4)
-		user.last_login_server = request.remote_ip
-		if(request.env["HTTP_X_FORWARDED_FOR"])
-			user.last_login_server = request.env["HTTP_X_FORWARDED_FOR"]
-		end
+		#user.last_login_server = request.remote_ip
+		#if(request.env["HTTP_X_FORWARDED_FOR"])
+		#	user.last_login_server = request.env["HTTP_X_FORWARDED_FOR"]
+		#end
+		user.last_login_server = "desaweb1.ing.puc.cl"
 		user.save
 		
 		flash[:succes] = "Bienvenido #{user.name + " " + user.lastname}"
