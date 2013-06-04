@@ -1,42 +1,90 @@
 <h1>Usuarios</h1>
 
-<div id="accordion">
-    <div class="accordion-group">
-		<a data-toggle="collapse" data-parent="#accordion" href="#new_user">
-            Crear nuevo usuario
-        </a>
-		<div id="new_user" class="accordion-body collapse">
-			<br/>
-			<%= form_tag(admin_create_path, :method=>'post') do %>
-				<div class="field">
-					<%= label_tag(:email, "Correo electronico:") %>
-					<%= text_field_tag(:email, nil, :required => true) %>
-				</div>
-				<div class="field">
-					<%= label_tag(:name , "Nombre") %>
-					<%= text_field_tag(:name, nil, :required => true) %>
-				</div>
-				<div class="field">
-					<%= label_tag(:lastname, "Apellido" )%>
-					<%= text_field_tag(:lastname, nil, :required => true)%>
-				</div>
-				<div class="field">
-					<%= label_tag :admin, "Administrador"%>
-					<%= check_box_tag :admin %>
-				</div>
-				<div class="field">
-					<%= label_tag :password, "Contraseña" %>
-					<%= password_field_tag :password, nil, :required => true %>
-				</div>
-				<div class="field">
-					<%= label_tag :password_confirmation, "Confirmación de Contraseña" %>
-					<%= password_field_tag :password_confirmation, nil, :required => true %>
-				</div>
-				<div class="actions">
-					<%= submit_tag "Crear cuenta" %>
-				</div>
-			<% end %>
-		</div>
+<a href="#new_user" data-toggle="modal">
+    Crear nuevo usuario
+</a>
+<div id="new_user" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="ServiceModalLabel">Nuevo Usuario</h3>
+    </div>
+	<div class="modal-body">
+		<br/>
+		<%= form_tag(admin_create_path, :method=>'post') do %>
+			<div class="field">
+				<%= label_tag(:email, "Correo electronico:") %>
+				<%= text_field_tag(:email, nil, :required => true) %>
+			</div>
+			<div class="field">
+				<%= label_tag(:name , "Nombre") %>
+				<%= text_field_tag(:name, nil, :required => true) %>
+			</div>
+			<div class="field">
+				<%= label_tag(:lastname, "Apellido" )%>
+				<%= text_field_tag(:lastname, nil, :required => true)%>
+			</div>
+			<div class="field">
+				<%= label_tag :admin, "Administrador"%>
+				<%= check_box_tag :admin %>
+			</div>
+			<div class="field">
+				<%= label_tag :password, "Contraseña" %>
+				<%= password_field_tag :password, nil, :required => true %>
+			</div>
+			<div class="field">
+				<%= label_tag :password_confirmation, "Confirmación de Contraseña" %>
+				<%= password_field_tag :password_confirmation, nil, :required => true %>
+			</div>
+			<div class="actions">
+				<%= submit_tag "Crear cuenta" %>
+			</div>
+		<% end %>
+	</div>
+</div>
+</br>
+<a href="#search_user" data-toggle="modal">
+    Buscar Usuarios
+</a>
+<div id="search_user" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="ServiceModalLabel">Buscar Usuarios</h3>
+    </div>
+	<div class="modal-body">
+		<%= form_tag("", :method => "get") do %>
+			<div class="field">
+				<%= label_tag :name, "Nombre:" %>
+				<%= text_field_tag :name %>
+			</div>
+			<div class="field">
+				<%= label_tag :lastname, "Apellido:" %>
+				<%= text_field_tag :lastname %>
+			</div>
+			<div class="field">
+				<%= label_tag :email, "Correo Electronico:" %>
+				<%= text_field_tag :email %>
+			</div>
+			<div class="field">
+				<%= label_tag :sufijo, "Sufijo email:" %>
+				<%= text_field_tag :sufijo %>
+			</div>
+			<div class="field">
+				<%= label_tag :date, "Fecha de inscripción:" %>
+				<input type="date" id="date" name="date">
+			</div>
+			<div class="field">
+				<%= label_tag :date_1_2, "Rango de fechas de inscripción:" %>
+				<input type="date" id="date_1" name="date_1">
+				<input type="date" id="date_2" name="date_2">
+			</div>
+			<div class="field">
+				<%= label_tag :admin, "Solo Administradores:" %>
+				<%= check_box_tag :admin %>
+			</div>
+			
+			<%= submit_tag("Buscar usuario") %>
+			
+		<% end %>
 	</div>
 </div>
 
@@ -138,9 +186,9 @@
 
 
 <script type="text/javascript">
-  	$(function() {
-    	$('.footable').footable();
-  	});
+	$(function() {
+		$('.footable').footable();
+	});
   
 	$(".delete_link").click(function(e){
 		if(!confirm('¿Seguro que desea eliminar?'))

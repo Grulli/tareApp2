@@ -21,5 +21,6 @@ TareApp2::Application.routes.draw do
 	match 'users_index/:status' => 'users#index'
 	match 'admin' => 'home#admin', :as => :admin
 	match 'admin_create' => 'users#admin_create', :as => :admin_create
+	match 'search_users' => 'users#search', :as => :search_users
 	
 end

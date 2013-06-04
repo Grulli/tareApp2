@@ -33,6 +33,50 @@ class UsersController < ApplicationController
 
 	flash[:active_tab] = "admin"
 	
+	#if(params[:email] or params[:name] or params[:lastname] or params[:admin] or params[:sufijo] or params[:date] or params[:date_1] or params[:date_2])
+	if(params[:commit] == "Buscar usuario")
+		flash.now[:succes] = "Buscando usuarios:"
+		@conditions = Array.new
+		if(params[:status] == "active")
+			@conditions.push("deleted = 0")
+		elsif(params[:status] == "deleted")
+			@conditions.push("deleted > 0")
+		end
+		if (params[:sufijo] != "")
+			@conditions.push("email LIKE \"%%#{params[:sufijo]}\"")
+		elsif (params[:email] != "")
+			@conditions.push("email LIKE \"#{params[:email]}\"")
+		end
+		if (params[:date] != "")
+			@conditions.push("created_at LIKE #{params[:date]}")
+		elsif ((params[:date_1] != "") and (params[:date_2] != ""))
+			@date1 = "#{params[:date_1]}"#  +"%%" + "T00:00:00Z"
+			@date2 = "#{params[:date_2]}"#  + "%%" + "T23:59:59Z"
+			@conditions.push("created_at > #{@date1} AND created_at < #{@date2}")
+		end
+		
+		if (params[:name] != "")
+			@conditions.push("name LIKE \"%%#{params[:name]}%%\"")
+		end
+		if (params[:last_name] != "")
+			@conditions.push("lastname LIKE \"%%#{params[:lastname]}%%\"")
+		end
+		
+		
+		@users = User.find(:all, :conditions=>@conditions)
+		
+		if (params[:admin])
+			@admins = Array.new
+			@users.each do |u|
+				if(u.admin)
+					@admins.push(u)
+				end
+			end
+			@users = @admins
+		end
+		
+	end
+	
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @users }
