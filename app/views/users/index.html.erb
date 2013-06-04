@@ -79,7 +79,7 @@
 					<% end %>
 					<% if user.deleted == 0 %>
 						<span>|</span>
-						<a href = <%= url_for(user) %> data-method="delete" onclick="return confirm('Are you sure?')">
+						<a href = <%= url_for(user) %> data-method="delete" class="delete_link">
 							<i class="icon-trash"></i>
 						</a>
 					<% end %>
@@ -91,12 +91,23 @@
 
 <br />
 
-<ul id="pagination" class="footable-nav"><span>Pages:</span></ul>
+<ul id="pagination" class="footable-nav"><span>Paginas:</span></ul>
 
 <br />
+
+
 
 <script type="text/javascript">
   $(function() {
     $('.footable').footable();
   });
+  
+	$(".delete_link").click(function(e){
+		if(!confirm('¿Seguro que desea eliminar?'))
+		{
+			e.preventDefault();
+			return false;
+		}
+	});
+  
 </script>
