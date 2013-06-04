@@ -31,6 +31,8 @@ class UsersController < ApplicationController
 		end
 	end
 
+	flash[:active_tab] = "admin"
+	
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @users }
@@ -54,6 +56,8 @@ class UsersController < ApplicationController
 	end
     @user = User.find(params[:id])
 
+	flash[:active_tab] = "admin"
+	
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
@@ -253,6 +257,7 @@ class UsersController < ApplicationController
 				return
 			end
 		end
+		flash[:active_tab] = "profile"
 		@user = User.find(params[:user_id])
 	end
 

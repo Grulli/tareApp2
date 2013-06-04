@@ -13,6 +13,7 @@ class HomeController < ApplicationController
 				end
 			end
 		end
+		flash[:active_tab] = "home"
 		render "index.html.erb"
 	end
 	
@@ -161,7 +162,7 @@ class HomeController < ApplicationController
 				return
 			end
 		end
-		
+		flash[:active_tab] = "admin"
 		return
 		
 	end
