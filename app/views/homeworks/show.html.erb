@@ -43,7 +43,7 @@
 	</table>
 
 	<br />
-
+	<!-- Subir archivos -->
 	<h3>Subir Archivos <%= button_tag "Agregar archivo adicional", :id => "add", :class => "btn btn-primary" %></h3>
 
 	<%= form_tag("/homeworks/#{params[:id]}/upload", :multipart => true, :id => "form") do %>
@@ -63,7 +63,8 @@
 		</div>
 		<%= submit_tag "Subir archivo(s)", :class => "btn btn-inverse" %>
 	<% end %>
-
+	<!-- Fin subir archivos -->
+	<!-- Mis archivos -->
 </div>
 
 <script>

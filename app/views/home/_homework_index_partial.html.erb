@@ -1,7 +1,5 @@
 <h3>Mis Buzones <%= link_to 'Crear Buzón', new_homework_path, :name => "commit", :class => "btn btn-primary"  %></h3>
 <% if @my_homeworks.count > 0 %>
-
-
 	<table class="footable">
 		<thead>
 			<tr>
@@ -108,12 +106,12 @@ Usted no tiene buzones.
 
 	<br />
 
-	<ul id="pagination" class="footable-nav"><span>Paginas:</span></ul>
+	<ul id="pagination" class="footable-nav"><span>Páginas:</span></ul>
 
 	<br />
 	
 <% else %>
-A usted no lo han invitado a ningún buzón de tareas :( Debería conseguir mejores amigos.
+No lo han invitado a ningún buzón de tareas.
 <% end %>
 <br />
 

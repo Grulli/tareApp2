@@ -1,5 +1,5 @@
 <h1>Viendo Buzones de Tareas <%= link_to 'Crear Buzón', new_homework_path, :name => "commit", :class => "btn btn-primary"  %></h1>
-
+<% if @homeworks.count > 0 %>
 <table class="footable">
     <thead>
         <tr>
@@ -53,7 +53,9 @@
         <% end %>
     </tbody>
 </table>
-
+<% else %>
+No hay buzones de tareas.
+<% end %>
 <br />
 
 <ul id="pagination" class="footable-nav"><span>Paginas:</span></ul>

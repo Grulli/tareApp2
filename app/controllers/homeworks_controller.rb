@@ -37,17 +37,24 @@ class HomeworksController < ApplicationController
 			redirect_to home_path
 			return
 		end
+    #Si no es admin, dueño o participante, chao
+    if((User.find(session[:user_id]).admin) || (Homework.find(params[:id]).user.id != session[:user_id]) || (Participation.exists?(:user_id => session[:user_id])) )
+      @homework = Homework.find(params[:id])
+      @random = rand(10000)
+      @random_hash = Digest::SHA1.hexdigest(@random.to_s)
+        
+      respond_to do |format|
+          format.html # show.html.erb
+          format.json { render json: @homework }
+        end
+    else
+      flash[:error] = "Acceso denegado"
+      redirect_to home_path
+      return
+    end
 	end
   
-    @homework = Homework.find(params[:id])
-	
-	@random = rand(10000)
-	@random_hash = Digest::SHA1.hexdigest(@random.to_s)
     
-	respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @homework }
-    end
   end
 
   # GET /homeworks/new
