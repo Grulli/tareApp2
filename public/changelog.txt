@@ -1,1 +1,19 @@
-- Versión funcional
+--- Versión 1.0 ---
+-Versión estable con todos los bugs detectados solucionados
+
+--- Versión 0.4 ---
+-Casi todo lo de archivos listos
+-Cambios gráficos listos
+-Lugares sin traducir traducidos
+
+--- Versión 0.3 ---
+-Listo todo lo de tareas
+-Inicio manejo de archivos
+-Cambios gráficos fuertes
+
+--- Versión 0.2 ---
+-Funcionalidades de usuarios listas
+-Funcionalidades de manejo de tareas listas
+
+--- Versión 0.1 ---
+-Funcionalidades básicas del manejo de usuarios
