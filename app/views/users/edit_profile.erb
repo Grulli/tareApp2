@@ -2,25 +2,19 @@
 
 <textarea rows="10" cols="1000" id = "text_area" name="profile"><%= @user.profile %></textarea>
 <br>
+
 <%= form_tag(edit_profile_post_path, :method => "post", :id => "form") do %>
-	<button class="btn btn-warning"type="button" id="preview">Vista previa</button>
 	<input class="btn btn-inverse" type="submit" value="Guardar cambios" />
 <% end %>
 <hr>
-<h4> Vista Previa </h4>
-<div id = "profile_preview_div">
-	<%= raw @user.profile %>
-</div>
 
-
-<script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+<script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
 
 <script>
-	$("#preview").click(function () {
-		document.getElementById("profile_preview_div").innerHTML = document.getElementById("text_area").value;
-	});
+	tinymce.init({selector: "textarea"});
+
 	$('#form').submit(function (e) {
 		$('#form').append($('<input></input>').
-			attr({ type: 'hidden', name: 'profile', value: document.getElementById("text_area").value }));
+			attr({ type: 'hidden', name: 'profile', value: tinyMCE.activeEditor.getContent({format : 'raw'}) }));
 	});
 </script>

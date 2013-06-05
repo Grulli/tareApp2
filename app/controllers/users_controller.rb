@@ -159,6 +159,14 @@ class UsersController < ApplicationController
 	end
 	
     @user = User.new(params[:user])
+
+    if !(@user.email.match(/\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+\z/))
+        flash[:form_error] = "El correo electrónico ingresado no es válido"
+		respond_to do |format|
+			format.html { render action: "new" }
+		end
+       	return
+    end
 	
 	#Revisamos que el mail no este ocupado por una cuenta activa
 	if(User.exists?(:email => @user.email, :deleted => 0))
