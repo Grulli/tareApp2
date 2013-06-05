@@ -8,6 +8,8 @@ body {
 
 .container {
 	background-color: white;
+	min-height: 100%;
+	height: auto !important;
 	height: 100%;
 }
 
