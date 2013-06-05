@@ -7,10 +7,12 @@
        	</a>
 	</div>
 	<h2><%= @homework.name %></h2>
-	<i class="icon-pencil"></i> <%= link_to 'Editar', edit_homework_path(@homework) %> |
+	<i class="icon-pencil"></i> <%= link_to 'Editar', edit_homework_path(@homework) %> | 
+	<i class="icon-eye"></i> <%= link_to 'Ver mis archivos', "/homeworks/#{@homework.id}/viewfiles" %>
+	<% if @homework.active %> |
 	<i class="icon-share"></i> <%= link_to 'Invitar gente', "/homework/invite/#{@homework.id}" %> |
 	<i class="icon-ban-circle"></i> <%= link_to 'Eliminar Invitados', "/homeworks/manageinvites/#{@homework.id}" %>
-
+	<% end %>
 	<hr>
 	
 	<%= @homework.description %>
@@ -65,6 +67,8 @@
 	<% end %>
 	<!-- Fin subir archivos -->
 	<!-- Mis archivos -->
+	<hr>
+
 </div>
 
 <script>

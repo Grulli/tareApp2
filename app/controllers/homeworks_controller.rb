@@ -38,7 +38,7 @@ class HomeworksController < ApplicationController
 			return
 		end
     #Si no es admin, dueño o participante, chao
-    if((User.find(session[:user_id]).admin) || (Homework.find(params[:id]).user.id != session[:user_id]) || (Participation.exists?(:user_id => session[:user_id])) )
+    if( (User.find(session[:user_id]).admin) || (Homework.find(params[:id]).user.id == session[:user_id]) || (Participation.exists?(:user_id => session[:user_id])) )
       @homework = Homework.find(params[:id])
       @random = rand(10000)
       @random_hash = Digest::SHA1.hexdigest(@random.to_s)
@@ -478,5 +478,25 @@ class HomeworksController < ApplicationController
     #Redirigir
     flash[:succes] = "Usuario desinvitado"
      redirect_to "/homeworks/manageinvites/#{@homework.id}"
+  end
+
+  def viewfiles
+    #Revisamos nivel de acceso
+    #Si es administrador, el usuario que está viendo es el entregado
+    @user = User.find(session[:user_id])
+    @homework = Homework.find(params[:homework_id])
+    #Obtenemos todos los archivos
+    @archives = Array.new
+    participations = Participation.find_all_by_user_id_and_homework_id(@user.id, @homework.id)
+    participations.each do |p|
+      #Obtener todos los archivos
+      all_archives = Archive.find_all_by_participation_id(p.id)
+      all_archives.each do |ar|
+        @archives.push(ar)
+      end
+    end
+    @archives.uniq!
+    @archives.sort_by{|a| a[:version]}
+    render "file_show.html.erb"
   end
 end
