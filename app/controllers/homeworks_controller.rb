@@ -179,7 +179,7 @@ class HomeworksController < ApplicationController
       existed = false
       @homework = Homework.find(params[:id])
       params[:invitados].split(';').each do |g|
-          if(!User.exists?(:email => g.delete(' ')))
+          if(!User.exists?(:email => g.delete(' '), :delete => 0))
             @user = User.new
             @user.email = g.delete(' ')
             @user.name = "Firstname"
@@ -213,7 +213,7 @@ class HomeworksController < ApplicationController
             #end
           else
             #Revisar que no haya sido invitado
-            @user = User.find_by_email(g.delete(' '))
+            @user = User.find_by_email_and_deleted(g.delete(' '), 0)
             if(!Participation.exists?(:user_id => @user.id))
                @hu = Participation.new
                 @hu.user_id = @user.id
