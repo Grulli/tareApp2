@@ -596,7 +596,7 @@ class UsersController < ApplicationController
 		end
 		user = @recovery.user
 		@user_id = user.id
-		@hashed_user_id = Digest::SHA1.hexdigest(@user_id)
+		@hashed_user_id = Digest::SHA1.hexdigest(@user_id.to_s)
 	end
 	
 	def recover_password_post
@@ -605,6 +605,33 @@ class UsersController < ApplicationController
 			redirect_to home_path
 			return
 		end
+		
+		if(Digest::SHA1.hexdigest(params[:user_id]) != params[:hashed_user_id])
+			flash[:error] = "Error"
+			redirect_to home_path
+			return
+		end
+		
+		if(params[:password] != params[:password_confirmation])
+			flash[:error] = "Error"
+			redirect_to home_path
+			return
+		end
+		
+		@user = User.find(params[:user_id])
+		
+		@user.salt = SecureRandom.hex
+		@hashed = params[:password] + @user.salt
+		100.times do
+			@hashed = Digest::SHA1.hexdigest(@hashed)
+		end
+		@user.hashed_password = @hashed
+		@user.save
+		
+		session[:user_id] = @user.id
+		flash[:succes] = "Cambiada la contrasena"
+		redirect_to home_path
+
 	end
 	
 end
