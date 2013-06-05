@@ -1,3 +1,6 @@
+require 'digest/sha1'
+require 'open-uri'
+
 class HomeworksController < ApplicationController
   # GET /homeworks
   # GET /homeworks.json
@@ -36,8 +39,11 @@ class HomeworksController < ApplicationController
 	end
   
     @homework = Homework.find(params[:id])
-
-    respond_to do |format|
+	
+	@random = rand(10000)
+	@random_hash = Digest::SHA1.hexdigest(@random.to_s)
+    
+	respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @homework }
     end
@@ -264,5 +270,76 @@ class HomeworksController < ApplicationController
     end
   end
 
+	def upload
+		@homework = Homework.find(params[:homework_id])
+		@user = User.find(session[:user_id])
+		@participation = Participation.where(:homework_id => @homework.id, :user_id => @user.id).first
+
+		if(params[:captcha_random_hash] != Digest::SHA1.hexdigest(params[:captcha_random]))
+			flash[:error] = "Error en el Captcha"
+			redirect_to @homework
+			return
+		end
+		
+		@captcha_value = open("http://captchator.com/captcha/check_answer/#{params[:captcha_random]}/#{params[:captcha]}").read.to_i
+		if(@captcha_value != 1)
+			flash[:error] = "Error en el captcha"
+			redirect_to @homework
+			return
+		end
+		
+		
+		if (!@participation)
+			flash[:error] = "Acceso denegado"
+			redirect_to home_path
+			return
+		end
+		
+		for i in 0..params[:file_count].to_i
+			begin
+				uploaded_io = params["file_#{i}"]
+				if (uploaded_io.size / 1024000 > 50)
+					flash[:error] = "Archivo demasiado grande"
+					redirect_to @homework
+					return
+				end
+			rescue
+			end
+		end
+	
+		@version = 1;
+
+		if(Archive.where(:participation_id => @participation.id).first)
+			archives = Archive.where(:participation_id => @participation.id)
+			archives.each do |a|
+				if(a.version >= @version)
+					@version = a.version + 1
+				end
+			end
+		end
+
+		uploaded_count = 0;
+		for i in 0..params[:file_count].to_i
+			@archive = Archive.new
+			@archive.version = @version
+			@archive.participation_id = @participation.id
+			@archive.ip = request.remote_ip
+			if(request.env["HTTP_X_FORWARDED_FOR"])
+				@archive.ip = request.env["HTTP_X_FORWARDED_FOR"]
+			end
+			begin
+				uploaded_io = params["file_#{i}"]
+				@archive.name = uploaded_io.original_filename
+				File.open(Rails.root.join('public', "shared_files", uploaded_io.original_filename), 'wb') do |file|
+					file.write(uploaded_io.read)
+				end
+				@archive.save
+				uploaded_count = uploaded_count + 1
+			rescue
+			end
+		end
+		flash[:succes] = "Subidos #{uploaded_count} archivos exitosamente como version #{@version}"
+		redirect_to @homework
+	end
 
 end

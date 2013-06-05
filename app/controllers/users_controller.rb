@@ -195,9 +195,9 @@ class UsersController < ApplicationController
 	#TODO: Aca enviar mail y setear active en false
 	@user.active = true
 	
-	if(request.env["HTTP_X_FORWARDED_FOR"])
-		@user.last_login_server = request.env["HTTP_X_FORWARDED_FOR"]
-	end
+	#if(request.env["HTTP_X_FORWARDED_FOR"])
+	#	@user.last_login_server = request.env["HTTP_X_FORWARDED_FOR"]
+	#end
 	@user.profile = "<h2>#{@user.name} #{@user.lastname}</h2>"
 	if(User.all.count < 1)
 		@user.admin = true

@@ -33,7 +33,34 @@
   <%= @homework.expires_at %>
 </p>
 
+<%= form_tag("/homeworks/#{params[:id]}/upload", :multipart => true, :id => "form") do %>
+	<div id = "extra_files">
+		<%= file_field_tag 'file_1' %>
+		<br/>
+	</div>
+	<%= hidden_field_tag "file_count", 1 %>
+	<div class="field">
+		<%= image_tag("http://captchator.com/captcha/image/#{@random}") %><br/>
+		<%= text_field_tag(:captcha, nil, :required => true, :placeholder => "Captcha")  %>
+		<%= hidden_field_tag(:captcha_random, @random) %>
+		<%= hidden_field_tag(:captcha_random_hash, @random_hash) %>
+		<br>
+	</div>
+	<%= submit_tag "Subir archivo(s)" %>
+	<%= button_tag "Agregar archivo", :id => "add" %>
+<% end %>
 
 <%= link_to 'Editar', edit_homework_path(@homework) %> |
 <%= link_to 'Invitar gente', "/homework/invite/#{@homework.id}" %> |
 <%= link_to 'Volver', homeworks_path %>
+
+<script>
+	var file_count = 1;
+	$("#add").click(function (e) {
+		e.preventDefault();
+		file_count++;
+		document.getElementById("file_count").value = file_count;
+		$("#extra_files").append('<input id="file_' + file_count + '" name= "file_' + file_count + '" type="file"><br/>');
+		return false;
+	});
+</script>

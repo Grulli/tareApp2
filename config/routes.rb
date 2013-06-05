@@ -24,4 +24,7 @@ TareApp2::Application.routes.draw do
 	match 'search_users' => 'users#search', :as => :search_users
 	match 'homework/invite/:id' => 'homeworks#invite', :as => :id
 	match 'save_homework_invites/:id' => 'homeworks#saveinvites', :as => :id
+	match 'homeworks/:homework_id/upload' => 'homeworks#upload'
+	
+	
 end
