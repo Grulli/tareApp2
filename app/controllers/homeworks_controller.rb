@@ -135,7 +135,7 @@ class HomeworksController < ApplicationController
 				file.write(uploaded_io.read)
 			end
 			
-            format.html { redirect_to @homework, notice: 'Homework was successfully created.' }
+            format.html { redirect_to @homework, notice: 'Tarea creada exitosamente' }
             format.json { render json: @homework, status: :created, location: @homework }
           else
             format.html { render action: "new" }
@@ -167,7 +167,7 @@ class HomeworksController < ApplicationController
 
     respond_to do |format|
       if @homework.update_attributes(params[:homework])
-        format.html { redirect_to @homework, notice: 'Homework was successfully updated.' }
+        format.html { redirect_to @homework, notice: 'Tarea actualizada exitosamente' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
