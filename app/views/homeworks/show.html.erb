@@ -1,3 +1,8 @@
+<ul class="breadcrumb">
+  <li><a href=<%= home_path %>>Inicio</a> <span class="divider">/</span></li>
+  <li class="active">Buzón <%= @homework.name %></li>
+</ul>
+
 <div class="content_centered">
 	<div class="pull-right downloadText">
 		<a href = "<%= "/shared_files/#{@homework.user_id}/#{@homework.id}/#{@homework.filename}" %>">

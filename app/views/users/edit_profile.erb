@@ -1,3 +1,11 @@
+<ul class="breadcrumb">
+	  <li><a href=<%= home_path %>>Inicio</a> <span class="divider">/</span></li>
+	  <li><%= link_to "Mi Perfil", "/profile/#{session[:user_id]}" %><span class="divider">/</span></li>
+	  <li class="active">Editando Perfil Público</li>
+
+	  </li>
+	</ul>
+
 <h2>Editando tu perfil público</h2>
 
 <textarea rows="10" cols="1000" id = "text_area" name="profile"><%= @user.profile %></textarea>

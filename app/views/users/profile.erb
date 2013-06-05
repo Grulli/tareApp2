@@ -1,3 +1,8 @@
+<ul class="breadcrumb">
+  <li><a href=<%= home_path %>>Inicio</a> <span class="divider">/</span></li>
+  <li class="active">Mi Perfil</li>
+</ul>
+
 <h2>Perfil de <%= @user.name + ' ' + @user.lastname %> </h2>
 <% if session[:user_id] == @user.id %>
 	<div>

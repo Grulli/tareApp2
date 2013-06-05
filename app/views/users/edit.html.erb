@@ -1,3 +1,19 @@
+<% if (User.find(session[:user_id]).admin) %>
+	<ul class="breadcrumb">
+	  <li><a href=<%= home_path %>>Inicio</a> <span class="divider">/</span></li>
+	  <li><a href=<%= users_path %>>Usuarios</a> <span class="divider">/</span></li>
+	  <li class="active">Editando a <%= @user.name %> <%= @user.lastname %> (<%= @user.email %>)</li>
+	</ul>
+<% else %>
+	<ul class="breadcrumb">
+	  <li><a href=<%= home_path %>>Inicio</a> <span class="divider">/</span></li>
+	  <li><%= link_to "Mi Perfil", "/profile/#{session[:user_id]}" %><span class="divider">/</span></li>
+	  <li class="active">Editando a <%= @user.name %> <%= @user.lastname %> (<%= @user.email %>)</li>
+
+	  </li>
+	</ul>
+<% end %>
+
 <div class="form_centered_mid">
 	<h1>Editando datos usuario <%= @user.email %></h1>
 	<br />

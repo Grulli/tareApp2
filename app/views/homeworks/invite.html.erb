@@ -1,3 +1,9 @@
+<ul class="breadcrumb">
+  <li><a href=<%= home_path %>>Inicio</a> <span class="divider">/</span></li>
+  <li><a href=<%= url_for(@homework) %>>Buzón <%= @homework.name %></a> <span class="divider">/</span></li>
+  <li class="active">Invitaciones a buzón <%= @homework.name %></li>
+</ul>
+
 <h1>Invitar a <%= @homework.name %></h1>
 <%= form_tag("/save_homework_invites/#{@homework.id}", :method => "post") do %>
 <input type="textarea" id="invitados">

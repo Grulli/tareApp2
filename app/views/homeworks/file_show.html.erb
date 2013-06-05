@@ -1,4 +1,10 @@
-<h2>Viendo los archivos del usuario <%= @user.name%> <%= @user.lastname %> para la tarea "<%= @homework.name %>"</h2>
+<ul class="breadcrumb">
+  <li><a href=<%= home_path %>>Inicio</a> <span class="divider">/</span></li>
+  <li><a href=<%= url_for(@homework) %>>Buzón <%= @homework.name %></a> <span class="divider">/</span></li>
+  <li class="active">Viendo los archivos del usuario <%= @user.name%> <%= @user.lastname %> para el buzón "<%= @homework.name %></li>
+</ul>
+
+<h2>Viendo los archivos del usuario <%= @user.name%> <%= @user.lastname %> para el buzón "<%= @homework.name %></h2>
 <!-- Mostrar todos los archivos -->
 <% if @archives.count > 0%>
 <div class="accordion" id="accordion2">

@@ -1,3 +1,8 @@
+<ul class="breadcrumb">
+  <li><a href=<%= home_path %>>Inicio</a> <span class="divider">/</span></li>
+  <li class="active">Usuarios</li>
+</ul>
+
 <h1>Usuarios</h1>
 
 <a href="#new_user" data-toggle="modal">
@@ -36,7 +41,7 @@
 				<%= password_field_tag :password_confirmation, nil, :required => true %>
 			</div>
 			<div class="actions">
-				<%= submit_tag "Crear cuenta" %>
+				<%= submit_tag "Crear cuenta", :class => "btn btn-inverse" %>
 			</div>
 		<% end %>
 	</div>
@@ -82,7 +87,7 @@
 				<%= check_box_tag :admin %>
 			</div>
 			
-			<%= submit_tag("Buscar usuario") %>
+			<%= submit_tag("Buscar usuario", :class => "btn btn-inverse") %>
 			
 		<% end %>
 	</div>

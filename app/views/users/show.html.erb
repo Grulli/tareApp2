@@ -1,5 +1,11 @@
 <p id="notice"><%= notice %></p>
 
+<ul class="breadcrumb">
+  <li><a href=<%= home_path %>>Inicio</a> <span class="divider">/</span></li>
+  <li><a href=<%= users_path %>>Usuarios</a> <span class="divider">/</span></li>
+  <li class="active"><%= @user.name %> <%= @user.lastname %> (<%= @user.email %>)</li>
+</ul>
+
 <div class="content_centered">
   <h2><%= @user.name %> <%= @user.lastname %> (<%= @user.email %>)</h2>
   <i class="icon-eye-open"></i> <%= link_to 'Ver perfil', "/profile/#{@user.id}" %>|

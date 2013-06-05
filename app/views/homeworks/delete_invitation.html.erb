@@ -1,3 +1,9 @@
+<ul class="breadcrumb">
+  <li><a href=<%= home_path %>>Inicio</a> <span class="divider">/</span></li>
+  <li><a href=<%= url_for(@homework) %>>Buzón <%= @homework.name %></a> <span class="divider">/</span></li>
+  <li class="active">Eliminando invitados de <%= @homework.name %></li>
+</ul>
+
 <h1>Administrar invitados de tarea "<%= @homework.name %>"</h1>
 
 <% if @invitations.count > 0%>
