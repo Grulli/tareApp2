@@ -1,52 +1,49 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Correo Electrónico:</b>
-  <%= @user.email %>
-</p>
+<div class="content_centered">
+  <h2><%= @user.name %> <%= @user.lastname %> (<%= @user.email %>)</h2>
+  <i class="icon-eye-open"></i> <%= link_to 'Ver perfil', "/profile/#{@user.id}" %>|
+  <i class="icon-edit"></i> <%= link_to 'Editar perfil', edit_profile_path(@user) %>|
+  <i class="icon-pencil"></i> <%= link_to 'Editar Usuario', edit_user_path(@user) %>
 
-<p>
-  <b>Nombre:</b>
-  <%= @user.name %>
-</p>
+  <br />
+  <br />
 
-<p>
-  <b>Apellido:</b>
-  <%= @user.lastname %>
-</p>
+  <p>
+    <b>Eliminado:</b>
+  	<% if @user.deleted == 0 %>
+  		No
+  	<% else %>
+  		Sí
+  	<% end %>
+  </p>
 
-<p>
-  <b>Eliminado:</b>
-	<% if @user.deleted == 0 %>
-		No
-	<% else %>
-		Sí
-	<% end %>
-</p>
+  <p>
+    <b>Administrador:</b>
+  	<% if @user.admin %>
+  		Sí
+  	<% else %>
+  		No
+  	<% end %>
+  </p>
 
-<p>
-  <b>Administrador:</b>
-	<% if @user.admin %>
-		Sí
-	<% else %>
-		No
-	<% end %>
-</p>
+  <p>
+    <b>Token de Sesión:</b>
+    <%= @user.session_token %>
+  </p>
 
-<p>
-  <b>Token de Sesión:</b>
-  <%= @user.session_token %>
-</p>
+  <p>
+    <b>Última fecha de conexión:</b>
+    <%= @user.last_login_date %>
+  </p>
 
-<p>
-  <b>Última fecha de conexión:</b>
-  <%= @user.last_login_date %>
-</p>
+  <p>
+    <b>Último servidor de conexión:</b>
+    <%= @user.last_login_server %>
+  </p>
 
-<p>
-  <b>Último servidor de conexión:</b>
-  <%= @user.last_login_server %>
-</p>
+  <br />
+  <br />
 
-<%= link_to 'Ver perfil', "/profile/#{@user.id}" %>|
-<%= link_to 'Usuarios', users_path %>
+  <%= link_to 'Volver a Usuarios', users_path %>
+</div>
