@@ -29,22 +29,6 @@
 							<% end %>
 								<%= link_to "Inicio", home_path %>
 							</li>
-							
-		        			<% if flash[:active_tab] == "about" %>
-								<li class="active">
-							<% else %>
-								<li>
-							<% end %>
-								<a href="#">About</a>
-							</li>
-		        			
-							<% if flash[:active_tab] == "contact" %>
-								<li class="active">
-							<% else %>
-								<li>
-							<% end %>
-								<a href="#">Contact</a>
-							</li>
 
 		        			<% if session[:user_id] %>
 		        				<% if flash[:active_tab] == "profile" || flash[:active_tab] == "admin" || flash[:active_tab] == "homeworks"%>
