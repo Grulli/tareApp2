@@ -1,58 +1,69 @@
-<p>
-  <b>Nombre del buzón:</b>
-  <%= @homework.name %>
-</p>
-
-<p>
-  <b>Profesor:</b>
-  <% @user = User.find(@homework.user_id) %>
-  <%= @user.name%> <%= @user.lastname%>
-</p>
-
-<p>
-  <b>Archivo de Enunciado:</b>
-  <%= @homework.filename %>
-</p>
-
-<p>
-  <b>Descripción:</b>
-  <%= @homework.description %>
-</p>
-
-<p>
-  <b>¿Activo?:</b>
-  <% if @homework.active %>
-    Sí
-  <% else %>
-    No
-  <% end %>
-</p>
-
-<p>
-  <b>Fecha Límite:</b>
-  <%= @homework.expires_at %>
-</p>
-
-<%= form_tag("/homeworks/#{params[:id]}/upload", :multipart => true, :id => "form") do %>
-	<div id = "extra_files">
-		<%= file_field_tag 'file_1' %>
-		<br/>
+<div class="content_centered">
+	<div class="pull-right downloadText">
+		<a href = <%= @homework.filename %>>
+			<h3>Descargar Enunciado 
+              	<img class="downloadImage" src="/download.png" />
+       		</h3>
+       	</a>
 	</div>
-	<%= hidden_field_tag "file_count", 1 %>
-	<div class="field">
-		<%= image_tag("http://captchator.com/captcha/image/#{@random}") %><br/>
-		<%= text_field_tag(:captcha, nil, :required => true, :placeholder => "Captcha")  %>
-		<%= hidden_field_tag(:captcha_random, @random) %>
-		<%= hidden_field_tag(:captcha_random_hash, @random_hash) %>
-		<br>
-	</div>
-	<%= submit_tag "Subir archivo(s)" %>
-	<%= button_tag "Agregar archivo", :id => "add" %>
-<% end %>
+	<h2><%= @homework.name %></h2>
+	<%= link_to 'Editar', edit_homework_path(@homework) %> |
+	<%= link_to 'Invitar gente', "/homework/invite/#{@homework.id}" %>
 
-<%= link_to 'Editar', edit_homework_path(@homework) %> |
-<%= link_to 'Invitar gente', "/homework/invite/#{@homework.id}" %> |
-<%= link_to 'Volver', homeworks_path %>
+	<hr>
+	
+	<%= @homework.description %>
+
+	<hr>
+
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>Profesor</th>
+				<th>¿Activo?</th>
+				<th>Fecha de Entrega</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+					<% @user = User.find(@homework.user_id) %><%= @user.name%> <%= @user.lastname%>
+				</td>
+				<td>
+					<% if @homework.active %>
+						Sí
+					<% else %>
+						No
+					<% end %>
+				</td>
+				<td><%= @homework.expires_at %></td>
+			</tr>
+		</tbody>	
+	</table>
+
+	<br />
+
+	<h3>Subir Archivos <%= button_tag "Agregar archivo adicional", :id => "add", :class => "btn btn-primary" %></h3>
+
+	<%= form_tag("/homeworks/#{params[:id]}/upload", :multipart => true, :id => "form") do %>
+		<div id = "extra_files">
+			<%= file_field_tag 'file_1' %>
+			<br/>
+		</div>
+		<%= hidden_field_tag "file_count", 1 %>
+		<div class="field">
+			<br />
+			<%= image_tag("http://captchator.com/captcha/image/#{@random}") %>
+			<%= text_field_tag(:captcha, nil, :required => true, :placeholder => "Captcha")  %>
+			<%= hidden_field_tag(:captcha_random, @random) %>
+			<%= hidden_field_tag(:captcha_random_hash, @random_hash) %>
+			<br />
+			<br />
+		</div>
+		<%= submit_tag "Subir archivo(s)", :class => "btn btn-inverse" %>
+	<% end %>
+
+</div>
 
 <script>
 	var file_count = 1;
