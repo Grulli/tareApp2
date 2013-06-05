@@ -5,10 +5,15 @@
 </ul>
 
 <h1>Invitar a <%= @homework.name %></h1>
-<%= form_tag("/save_homework_invites/#{@homework.id}", :method => "post") do %>
+<%= form_tag("/save_homework_invites/#{@homework.id}", :method => "post", :multipart => true) do %>
 <input type="textarea" id="invitados">
 <br>
 <center>
+<div class="field">
+    <label for="homework_filename">Carga rapida</label>
+	<%= link_to "Ejemplo", example_file_path %>
+    <%= file_field_tag 'file' %>
+</div>
 <%= submit_tag "Invitar", :class => 'btn btn-primary' %></center>
 <% end %>
 <script>

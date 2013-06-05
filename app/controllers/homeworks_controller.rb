@@ -2,6 +2,7 @@ require 'digest/sha1'
 require 'open-uri'
 require 'rubygems'
 require 'zip/zip'
+require 'tempfile'
 
 class HomeworksController < ApplicationController
   # GET /homeworks
@@ -259,6 +260,18 @@ class HomeworksController < ApplicationController
       return
     end
 
+	if(!params[:email]) 
+		params[:email] = Array.new
+	end
+	
+	if(params[:file])
+		uploaded_io = params["file"]
+		uploaded_io.read.each_line{ |s|
+			params[:email].push([10,s.strip()])
+			#flash[:succes] += s
+		}
+	end
+	
     if(params[:email].nil? || params[:email].empty?)
       @homework = Homework.find(params[:id])
       flash[:error] = "Debe ingresar al menos un invitado"
@@ -554,4 +567,9 @@ class HomeworksController < ApplicationController
     @archives.sort_by{|a| a[:version]}
     render "file_show.html.erb"
   end
+  
+	def example_file
+		send_data("ejemplo1@mail.com\r\nejemplo2@mail.com\r\nejemplo3@mail.com", :filename => "ejemplo.txt", :type => "application/txt")
+	end
+  
 end

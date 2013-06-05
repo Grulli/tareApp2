@@ -36,4 +36,7 @@ TareApp2::Application.routes.draw do
 	match 'activate_first/:activation_id/:token'  => 'users#activate_first_post', :via => :post
 	match 'homeworks/:homework_id/viewfiles' => 'homeworks#viewfiles'
 	match 'homeworks/:homework_id/viewfiles/:user_id' => 'homeworks#viewfiles'
+	match 'example_file.txt' => 'homeworks#example_file', :as => :example_file
+	
+	
 end
