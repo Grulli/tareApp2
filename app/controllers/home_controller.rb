@@ -22,6 +22,19 @@ class HomeController < ApplicationController
 				@other_homeworks.push(Homework.find(hu.homework_id))
 			end
 			@other_homeworks.uniq!
+			@my_active_homeworks = Array.new
+			@my_pending_homeworks = Array.new
+			@my_ended_homeworks = Array.new
+
+			@my_homeworks.each do |h|
+				if(h.active == true and h.expires_at > DateTime.now)
+					@my_active_homeworks.push(h)
+				elsif(h.active == false and h.expires_at > DateTime.now)
+					@my_pending_homeworks.push(h)
+				else
+					@my_ended_homeworks.push(h)
+				end
+			end
 		end
 		flash[:active_tab] = "home"
 		render "index.html.erb"
