@@ -63,6 +63,13 @@
 									<% end %>
 										<%= link_to "Administración", admin_path %>
 									</li>
+									<% if flash[:active_tab] == "homeworks_admin" %>
+										<li class="active">
+									<% else %>
+										<li>
+									<% end %>
+										<%= link_to "Ver Todos los Buzones", homeworks_path %>
+									</li>
 								<% end %>
 		        				<li><%= link_to "Cerrar Sesión", logout_path %></li>
 		        			<% end %>

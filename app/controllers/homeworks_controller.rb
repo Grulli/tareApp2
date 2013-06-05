@@ -9,8 +9,12 @@ class HomeworksController < ApplicationController
 			redirect_to home_path
 			return
 		end
+    if(!User.find(session[:user_id]).admin)
+        flash[:error] = "Acceso denegado"
+        redirect_to home_path
+        return
+      end
 	end
-  
     @homeworks = Homework.all
 
     respond_to do |format|
