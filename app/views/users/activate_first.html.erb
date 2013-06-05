@@ -4,6 +4,9 @@
 	<%= hidden_field_tag(:user_id, @user.id) %>
 	<%= hidden_field_tag(:hashed_id, @hashed_id) %>
 	<div class="field">
+		<%= label_tag(:email, "Correo electronico: #{@user.email}") %>
+	</div>
+	<div class="field">
 		<%= label_tag(:name, "Nombre:") %>
 		<%= text_field_tag(:name, @user.name, :required => true) %>
 	</div>
