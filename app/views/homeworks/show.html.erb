@@ -1,6 +1,6 @@
 <div class="content_centered">
 	<div class="pull-right downloadText">
-		<a href = <%= @homework.filename %>>
+		<a href = "<%= "/shared_files/#{@homework.user_id}/#{@homework.id}/#{@homework.filename}" %>">
 			<h3>Descargar Enunciado 
               	<img class="downloadImage" src="/download.png" />
        		</h3>
