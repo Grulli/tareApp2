@@ -6,24 +6,26 @@
 	<% @archives.each do |a| %>
 		<% if a.version > current %>
 			<% if current != 0 %>
-			</div></div>
+				</div></div>
 			<% end %>
-		<div class="accordion-group">
+			<div class="accordion-group">
 			<div class="accordion-heading">
-		      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion<%= a.version%>" href="#collapse<%= a.version%>">
+		    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion<%= a.version%>" href="#collapse<%= a.version%>">
 		        Versión <%= a.version%>
-		      </a>
+				|
+			<a href = "<%= "/shared_files/#{@homework.user_id}/#{@homework.id}/#{@user.id}/#{a.version}/#{a.version}.zip" %>">Descargar zip </a>
+		    </a>
 		    </div>
 		    <div id="collapse<%= a.version%>" class="accordion-body collapse">
 		    	<div class="accordion-inner">
 			        <a href="/shared_files/<%= @homework.user_id %>/<%= @homework.id %>/<%= @user.id %>/<%= a.version %>/<%= a.name %>"><%= a.name %></a>
-			      </div>
+			    </div>
 			<% current = a.version%>
-		<% else %>
+			<% else %>
 			<div class="accordion-inner">
 		        <a href="/shared_files/<%= @homework.user_id %>/<%= @homework.id %>/<%= @user.id %>/<%= a.version %>/<%= a.name %>"><%= a.name %></a>
 		      </div>
-		<% end %>
+			<% end %>
 	<% end %>
 </div>
 <% else %>

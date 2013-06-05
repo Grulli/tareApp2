@@ -1,5 +1,7 @@
 require 'digest/sha1'
 require 'open-uri'
+require 'rubygems'
+require 'zip/zip'
 
 class HomeworksController < ApplicationController
   # GET /homeworks
@@ -420,6 +422,9 @@ class HomeworksController < ApplicationController
 		Dir::mkdir(directory) unless File.exists?(directory)
 		
 		uploaded_count = 0;
+		file_path = Dir::pwd + "/public/shared_files/#{@homework.user_id.to_s}/#{@homework.id.to_s}/#{@participation.user_id.to_s}/#{@version.to_s}"
+		zipfile_name = Dir::pwd + "/public/shared_files/#{@homework.user_id.to_s}/#{@homework.id.to_s}/#{@participation.user_id.to_s}/#{@version.to_s}//#{@version.to_s}.zip"
+		
 		for i in 0..params[:file_count].to_i
 			@archive = Archive.new
 			@archive.version = @version
@@ -436,8 +441,13 @@ class HomeworksController < ApplicationController
 				end
 				@archive.save
 				uploaded_count = uploaded_count + 1
+			
+				Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|
+					zipfile.add(@archive.name, file_path + '/' + @archive.name)
+				end
 			rescue
 			end
+			
 		end
 		flash[:succes] = "Subidos #{uploaded_count} archivos exitosamente como version #{@version}"
 		redirect_to @homework
