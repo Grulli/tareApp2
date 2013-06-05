@@ -350,16 +350,20 @@ class HomeworksController < ApplicationController
 			return
 		end
 		
+		total_size = 0
+		
 		for i in 0..params[:file_count].to_i
 			begin
 				uploaded_io = params["file_#{i}"]
-				if (uploaded_io.size / 1024000 > 50)
-					flash[:error] = "Archivo demasiado grande"
-					redirect_to @homework
-					return
-				end
+				total_size = total_size + uploaded_io.size
 			rescue
 			end
+		end
+	
+		if (total_size / 1024000 > 50)
+			flash[:error] = "Archivo demasiado grande"
+			redirect_to @homework
+			return
 		end
 	
 		@version = 1;
