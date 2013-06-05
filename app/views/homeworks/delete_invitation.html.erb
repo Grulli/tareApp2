@@ -1,0 +1,29 @@
+<h1>Administrar invitados de tarea "<%= @homework.name %>"</h1>
+
+<% if @invitations.count > 0%>
+<table class="footable">
+	<thead>
+		<tr>
+			<th data-class="expand">Correo Electronico</th>
+		    <th data-hide="phone">Nombre</th>
+		    <th data-hide="phone">Apellido</th>
+		    <th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @invitations.each do |invite| %>
+		<% user = User.find(invite.user_id)%>
+	  		<tr>
+			    <td><%= user.email %></td>
+			    <td><%= user.name %></td>
+			    <td><%= user.lastname %></td>
+			    <td>
+					<%= link_to "Desinvitar", "/uninvite/#{@homework.id}/#{user.id}" , data: { confirm: '¿Seguro que desea desinvitarlo?' }%>
+				</td>
+	  		</tr>
+		<% end %>
+	</tbody>
+</table>
+<% else %>
+No hay invitados a esta tarea. Puede invitar <%= link_to 'aquí', "/homework/invite/#{@homework.id}" %>.
+<% end %>

@@ -131,6 +131,12 @@ class HomeworksController < ApplicationController
 			redirect_to home_path
 			return
 		end
+    #Revisamos que sea su tarea
+    if(Homework.find(params[:id]).user.id != session[:user_id])
+      flash[:error] = "Acceso denegado"
+      redirect_to home_path
+      return
+    end
 	end
     @homework = Homework.find(params[:id])
 
@@ -155,6 +161,12 @@ class HomeworksController < ApplicationController
 			redirect_to home_path
 			return
 		end
+    #Revisamos que sea su tarea
+    if(Homework.find(params[:id]).user.id != session[:user_id])
+      flash[:error] = "Acceso denegado"
+      redirect_to home_path
+      return
+    end
 	end
     @homework = Homework.find(params[:id])
     #Antes de borrar eliminamos todo lo asociado
@@ -174,6 +186,21 @@ class HomeworksController < ApplicationController
 
   #Invite people to this homework
   def invite
+    if(filters)
+  #Revisamos si incio sesion
+    if(!session[:user_id])
+      flash[:error] = "Acceso denegado"
+      redirect_to home_path
+      return
+    end
+  #Revisamos que sea su tarea
+    if(Homework.find(params[:id]).user.id != session[:user_id])
+      flash[:error] = "Acceso denegado"
+      redirect_to home_path
+      return
+    end
+  end
+
     if(!Homework.exists?(:id=>params[:id]))
       flash[:error] = "Tarea inexistente"
       redirect_to home_path
@@ -184,6 +211,21 @@ class HomeworksController < ApplicationController
   end
 
   def saveinvites
+    if(filters)
+  #Revisamos si incio sesion
+    if(!session[:user_id])
+      flash[:error] = "Acceso denegado"
+      redirect_to home_path
+      return
+    end
+  #Revisamos que sea su tarea
+    if(Homework.find(params[:id]).user.id != session[:user_id])
+      flash[:error] = "Acceso denegado"
+      redirect_to home_path
+      return
+    end
+  end
+
    if(!Homework.exists?(:id=>params[:id]))
       flash[:error] = "Tarea inexistente"
       redirect_to home_path
@@ -354,5 +396,68 @@ class HomeworksController < ApplicationController
 		flash[:succes] = "Subidos #{uploaded_count} archivos exitosamente como version #{@version}"
 		redirect_to @homework
 	end
+  def manageinvites
+    if(filters)
+    #Revisamos si incio sesion
+      if(!session[:user_id])
+        flash[:error] = "Acceso denegado"
+        redirect_to home_path
+        return
+      end
+    #Revisamos que sea su tarea
+      if(Homework.find(params[:id]).user.id != session[:user_id])
+        flash[:error] = "Acceso denegado"
+        redirect_to home_path
+        return
+      end
+    end
+     if(!Homework.exists?(:id=>params[:id]))
+      flash[:error] = "Tarea inexistente"
+      redirect_to home_path
+      return
+    end
 
+    @homework = Homework.find(params[:id])
+    @invitations = Participation.find_all_by_homework_id(@homework.id)
+    render "delete_invitation.html.erb"
+  end
+
+  def uninvite
+    if(filters)
+  #Revisamos si incio sesion
+    if(!session[:user_id])
+      flash[:error] = "Acceso denegado"
+      redirect_to home_path
+      return
+    end
+    if(!Homework.exists?(:id=>params[:homework_id]))
+      flash[:error] = "Tarea inexistente"
+      redirect_to home_path
+      return
+    end
+  #Revisamos que sea su tarea
+    if(Homework.find(params[:homework_id]).user.id != session[:user_id])
+      flash[:error] = "Acceso denegado"
+      redirect_to home_path
+      return
+    end
+    end
+
+
+    #Get the parameter
+    @homework = Homework.find(params[:homework_id])
+
+    if(!Participation.exists?(:homework_id => @homework.id, :user_id => params[:user_id]))
+      flash[:error] = "Ese usuario no pertenece a esa tarea"
+      redirect_to home_path
+      return
+    end
+    user = User.find(params[:user_id])
+    participation = Participation.find_by_homework_id_and_user_id(@homework.id, user.id)
+    @invitations = Participation.find_all_by_homework_id(@homework.id)
+    participation.destroy
+    #Redirigir
+    flash[:succes] = "Usuario desinvitado"
+     redirect_to "/homeworks/manageinvites/#{@homework.id}"
+  end
 end

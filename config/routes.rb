@@ -26,6 +26,7 @@ TareApp2::Application.routes.draw do
 	match 'save_homework_invites/:id' => 'homeworks#saveinvites', :as => :id
 	match 'homeworks/:homework_id/upload' => 'homeworks#upload'
 	match 'activate/:activation_id/:token' => 'users#activate'
-	
+	match 'homeworks/manageinvites/:id' => 'homeworks#manageinvites'
+	match 'uninvite/:homework_id/:user_id' => 'homeworks#uninvite'
 	
 end
