@@ -146,6 +146,13 @@ class HomeworksController < ApplicationController
 		end
 	end
     @homework = Homework.find(params[:id])
+    #Antes de borrar eliminamos todo lo asociado
+    participations = Participation.find_all_by_homework_id(params[:id])
+    participation.each do |p|
+      #Borrar achivos subidos
+      p.destroy
+    end
+    
     @homework.destroy
 
     respond_to do |format|

@@ -15,7 +15,13 @@ class HomeController < ApplicationController
 		else
 			@user = User.find(session[:user_id])
 			@my_homeworks = @user.homeworks
-			@other_homeworks = Homework.all	
+			#Obtener las tareas de las que soy parte
+			@other_homeworks = Array.new
+			participations = Participation.find_all_by_user_id(session[:user_id])
+			participations.each do |hu|
+				@other_homeworks.push(Homework.find(hu.homework_id))
+			end
+			@other_homeworks.uniq!
 		end
 		flash[:active_tab] = "home"
 		render "index.html.erb"
