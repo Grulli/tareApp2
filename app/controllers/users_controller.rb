@@ -599,7 +599,7 @@ class UsersController < ApplicationController
 		@hashed_user_id = Digest::SHA1.hexdigest(@user_id)
 	end
 	
-	def recover_password
+	def recover_password_post
 		if(session[:user_id])
 			flash[:error] = "Acceso denegado"
 			redirect_to home_path
