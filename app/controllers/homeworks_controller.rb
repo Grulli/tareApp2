@@ -115,8 +115,26 @@ class HomeworksController < ApplicationController
     else
       @homework = Homework.new(params[:homework])
       @homework.user_id = userid
+	  
+	  uploaded_io = params["file"]
+	  begin
+		@homework.filename = uploaded_io.original_filename
+	  rescue
+		@homework.filename = params["file"].to_s
+	  end
+	  
       respond_to do |format|
           if @homework.save
+			
+			directory = Dir::pwd + "/public/shared_files/#{userid.to_s}"
+			Dir::mkdir(directory) unless File.exists?(directory)
+			directory = Dir::pwd + "/public/shared_files/#{userid.to_s}/#{@homework.id.to_s}"
+			Dir::mkdir(directory) unless File.exists?(directory)
+			
+			File.open(Rails.root.join('public', "shared_files/#{userid.to_s}/#{@homework.id.to_s}", @homework.filename), 'wb') do |file|
+				file.write(uploaded_io.read)
+			end
+			
             format.html { redirect_to @homework, notice: 'Homework was successfully created.' }
             format.json { render json: @homework, status: :created, location: @homework }
           else
@@ -392,6 +410,15 @@ class HomeworksController < ApplicationController
 			end
 		end
 
+		directory = Dir::pwd + "/public/shared_files/#{@homework.user_id.to_s}"
+		Dir::mkdir(directory) unless File.exists?(directory)
+		directory = Dir::pwd + "/public/shared_files/#{@homework.user_id.to_s}/#{@homework.id.to_s}"
+		Dir::mkdir(directory) unless File.exists?(directory)
+		directory = Dir::pwd + "/public/shared_files/#{@homework.user_id.to_s}/#{@homework.id.to_s}/#{@participation.user_id.to_s}"
+		Dir::mkdir(directory) unless File.exists?(directory)
+		directory = Dir::pwd + "/public/shared_files/#{@homework.user_id.to_s}/#{@homework.id.to_s}/#{@participation.user_id.to_s}/#{@version.to_s}"
+		Dir::mkdir(directory) unless File.exists?(directory)
+		
 		uploaded_count = 0;
 		for i in 0..params[:file_count].to_i
 			@archive = Archive.new
@@ -404,7 +431,7 @@ class HomeworksController < ApplicationController
 			begin
 				uploaded_io = params["file_#{i}"]
 				@archive.name = uploaded_io.original_filename
-				File.open(Rails.root.join('public', "shared_files", uploaded_io.original_filename), 'wb') do |file|
+				File.open(Rails.root.join('public', "shared_files/#{@homework.user_id.to_s}/#{@homework.id.to_s}/#{@participation.user_id.to_s}/#{@version.to_s}", uploaded_io.original_filename), 'wb') do |file|
 					file.write(uploaded_io.read)
 				end
 				@archive.save
