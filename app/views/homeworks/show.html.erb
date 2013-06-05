@@ -7,8 +7,9 @@
        	</a>
 	</div>
 	<h2><%= @homework.name %></h2>
-	<%= link_to 'Editar', edit_homework_path(@homework) %> |
-	<%= link_to 'Invitar gente', "/homework/invite/#{@homework.id}" %>
+	<i class="icon-pencil"></i> <%= link_to 'Editar', edit_homework_path(@homework) %> |
+	<i class="icon-share"></i> <%= link_to 'Invitar gente', "/homework/invite/#{@homework.id}" %> |
+	<i class="icon-ban-circle"></i> <%= link_to 'Eliminar Invitados', "/homeworks/manageinvites/#{@homework.id}" %>
 
 	<hr>
 	

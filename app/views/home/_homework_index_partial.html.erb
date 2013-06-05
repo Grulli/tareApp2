@@ -1,4 +1,4 @@
-<h3>Mis Tareas <%= link_to 'Crear Tarea', new_homework_path, :name => "commit", :class => "btn btn-primary"  %></h3>
+<h3>Mis Buzones <%= link_to 'Crear Buzón', new_homework_path, :name => "commit", :class => "btn btn-primary"  %></h3>
 <% if @my_homeworks.count > 0 %>
 
 
@@ -63,7 +63,7 @@ Usted no tiene buzones.
 <% end %>
 
 <br />
-<h3>Tareas en las que participo</h3>
+<h3>Buzones en las que participo</h3>
 <% if @other_homeworks.count > 0 %>
 
 	<table class="footable">
