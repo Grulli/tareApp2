@@ -1,8 +1,13 @@
+<div style="clear:both;">
 <h2>Perfil de <%= @user.name + ' ' + @user.lastname %> </h2>
+<% if session[:user_id] == @user.id %>
+	<div>
+		<%= link_to "Editar datos personales", edit_user_path(@user) %> | 
+		<%= link_to "Editar mi perfil", edit_profile_path %> | 
+		<%= link_to "Cambiar contraseña", change_password_path %>
+	</div>
+<% end %>
+</div>
 <hr/>
 <%= raw @user.profile %>
 <hr/>
-<% if session[:user_id] == @user.id %>
-	<%= link_to "Editar mi perfil", edit_profile_path %> | 
-	<%= link_to "Cambiar contraseña", change_password_path %>
-<% end %>
