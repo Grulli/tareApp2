@@ -7,12 +7,15 @@
        	</a>
 	</div>
 	<h2><%= @homework.name %></h2>
-	<i class="icon-pencil"></i> <%= link_to 'Editar', edit_homework_path(@homework) %> | 
-	<i class="icon-eye"></i> <%= link_to 'Ver mis archivos', "/homeworks/#{@homework.id}/viewfiles" %>
-	<% if @homework.active %> |
-	<i class="icon-share"></i> <%= link_to 'Invitar gente', "/homework/invite/#{@homework.id}" %> |
-	<i class="icon-ban-circle"></i> <%= link_to 'Eliminar Invitados', "/homeworks/manageinvites/#{@homework.id}" %>
-	<% end %>
+		<% if (session[:user_id] == @homework.user_id) || (User.find(session[:user_id]).admin) %>
+			<i class="icon-pencil"></i> <%= link_to 'Editar', edit_homework_path(@homework) %>
+			<% if @homework.active %> |
+			<i class="icon-share"></i> <%= link_to 'Invitar gente', "/homework/invite/#{@homework.id}" %> |
+			<i class="icon-ban-circle"></i> <%= link_to 'Eliminar Invitados', "/homeworks/manageinvites/#{@homework.id}" %>
+			<% end %>
+		<% else %>
+			<i class="icon-briefcase"></i> <%= link_to 'Ver mis archivos', "/homeworks/#{@homework.id}/viewfiles" %>
+		<% end %>
 	<hr>
 	
 	<%= @homework.description %>
@@ -45,28 +48,60 @@
 	</table>
 
 	<br />
-	<!-- Subir archivos -->
-	<h3>Subir Archivos <%= button_tag "Agregar archivo adicional", :id => "add", :class => "btn btn-primary" %></h3>
+	<% if (session[:user_id] == @homework.user_id) || (User.find(session[:user_id]).admin) %>
+		<!-- Mostrar todos los invitados -->
+		<% if @invitations.count > 0%>
+		<table class="footable">
+			<thead>
+				<tr>
+					<th data-class="expand">Correo Electronico</th>
+				    <th data-hide="phone">Nombre</th>
+				    <th data-hide="phone">Apellido</th>
+				    <th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @invitations.each do |invite| %>
+				<% user = User.find(invite.user_id)%>
+			  		<tr>
+					    <td><%= user.email %></td>
+					    <td><%= user.name %></td>
+					    <td><%= user.lastname %></td>
+					    <td>
+							<%= link_to "Ver Archivos", "#{@homework.id}/viewfiles/#{user.id}" %>
+						</td>
+			  		</tr>
+				<% end %>
+			</tbody>
+		</table>
+		<% else %>
+			No hay invitados a esta tarea. Puede invitar <%= link_to 'aquí', "/homework/invite/#{@homework.id}" %>.
+		<% end %>
 
-	<%= form_tag("/homeworks/#{params[:id]}/upload", :multipart => true, :id => "form") do %>
-		<div id = "extra_files">
-			<%= file_field_tag 'file_1' %>
-			<br/>
-		</div>
-		<%= hidden_field_tag "file_count", 1 %>
-		<div class="field">
-			<br />
-			<%= image_tag("http://captchator.com/captcha/image/#{@random}") %>
-			<%= text_field_tag(:captcha, nil, :required => true, :placeholder => "Captcha")  %>
-			<%= hidden_field_tag(:captcha_random, @random) %>
-			<%= hidden_field_tag(:captcha_random_hash, @random_hash) %>
-			<br />
-			<br />
-		</div>
-		<%= submit_tag "Subir archivo(s)", :class => "btn btn-inverse" %>
+	<% else %>
+		<!-- Subir archivos -->
+		<h3>Subir Archivos <%= button_tag "Agregar archivo adicional", :id => "add", :class => "btn btn-primary" %></h3>
+
+		<%= form_tag("/homeworks/#{params[:id]}/upload", :multipart => true, :id => "form") do %>
+			<div id = "extra_files">
+				<%= file_field_tag 'file_1' %>
+				<br/>
+			</div>
+			<%= hidden_field_tag "file_count", 1 %>
+			<div class="field">
+				<br />
+				<%= image_tag("http://captchator.com/captcha/image/#{@random}") %>
+				<%= text_field_tag(:captcha, nil, :required => true, :placeholder => "Captcha")  %>
+				<%= hidden_field_tag(:captcha_random, @random) %>
+				<%= hidden_field_tag(:captcha_random_hash, @random_hash) %>
+				<br />
+				<br />
+			</div>
+			<%= submit_tag "Subir archivo(s)", :class => "btn btn-inverse" %>
+		<% end %>
+		<!-- Fin subir archivos -->
 	<% end %>
-	<!-- Fin subir archivos -->
-	<!-- Mis archivos -->
+
 	<hr>
 
 </div>

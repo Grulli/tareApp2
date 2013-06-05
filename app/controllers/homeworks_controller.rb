@@ -42,7 +42,7 @@ class HomeworksController < ApplicationController
       @homework = Homework.find(params[:id])
       @random = rand(10000)
       @random_hash = Digest::SHA1.hexdigest(@random.to_s)
-        
+      @invitations = Participation.find_all_by_homework_id(@homework.id)
       respond_to do |format|
           format.html # show.html.erb
           format.json { render json: @homework }
@@ -508,10 +508,28 @@ class HomeworksController < ApplicationController
   end
 
   def viewfiles
+     if(filters)
+    #Revisamos si incio sesion
+      if(!session[:user_id])
+        flash[:error] = "Acceso denegado"
+        redirect_to home_path
+        return
+      end
+      if(!Homework.exists?(:id=>params[:homework_id]))
+        flash[:error] = "Tarea inexistente"
+        redirect_to home_path
+        return
+      end
+    end
+
     #Revisamos nivel de acceso
     #Si es administrador, el usuario que está viendo es el entregado
     @user = User.find(session[:user_id])
+    if(@user.admin)
+        @user = User.find(params[:user_id])
+    end
     @homework = Homework.find(params[:homework_id])
+    
     #Obtenemos todos los archivos
     @archives = Array.new
     participations = Participation.find_all_by_user_id_and_homework_id(@user.id, @homework.id)

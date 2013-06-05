@@ -35,5 +35,5 @@ TareApp2::Application.routes.draw do
 	match 'activate_first/:activation_id/:token'  => 'users#activate_first', :via => :get
 	match 'activate_first/:activation_id/:token'  => 'users#activate_first_post', :via => :post
 	match 'homeworks/:homework_id/viewfiles' => 'homeworks#viewfiles'
-	
+	match 'homeworks/:homework_id/viewfiles/:user_id' => 'homeworks#viewfiles'
 end

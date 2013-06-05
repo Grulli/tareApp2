@@ -1,4 +1,4 @@
-<h2>Viendo los archivos del usuario <%= @user.name%> <%= @user.lastname %> para la tarea "<%= Homework.find(params[:homework_id]).name %>"</h2>
+<h2>Viendo los archivos del usuario <%= @user.name%> <%= @user.lastname %> para la tarea "<%= @homework.name %>"</h2>
 <!-- Mostrar todos los archivos -->
 <% if @archives.count > 0%>
 <div class="accordion" id="accordion2">
@@ -6,7 +6,7 @@
 	<% @archives.each do |a| %>
 		<% if a.version > current %>
 			<% if current != 0 %>
-			</div>
+			</div></div>
 			<% end %>
 		<div class="accordion-group">
 			<div class="accordion-heading">
@@ -16,12 +16,12 @@
 		    </div>
 		    <div id="collapse<%= a.version%>" class="accordion-body collapse">
 		    	<div class="accordion-inner">
-			        <%= a.name %>
+			        <a href="/shared_files/<%= @homework.user_id %>/<%= @homework.id %>/<%= @user.id %>/<%= a.version %>/<%= a.name %>"><%= a.name %></a>
 			      </div>
 			<% current = a.version%>
 		<% else %>
 			<div class="accordion-inner">
-		       <%= a.name %>
+		        <a href="/shared_files/<%= @homework.user_id %>/<%= @homework.id %>/<%= @user.id %>/<%= a.version %>/<%= a.name %>"><%= a.name %></a>
 		      </div>
 		<% end %>
 	<% end %>
