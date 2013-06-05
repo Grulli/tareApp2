@@ -1,14 +1,18 @@
-<%= form_tag(login_path, :method=>'post') do %>
-	<%= label_tag(:form_name, "Por favor identifiquese") %>
-	<br>
-	<br>
-	<div class="field">
-		<%= label_tag(:email_label, "Correo electronico:") %>
-		<%= text_field_tag(:email, nil, :required => true) %>
-	</div>
-	<div class="field">
-		<%= label_tag(:password, "Contraseña:") %>
-		<%= password_field_tag(:password, nil, :required => true) %>
-	</div>
-	<%= submit_tag("Iniciar sesión") %>
-<% end %>
+<div class="form_centered">
+	<%= form_tag(login_path, :method=>'post') do %>
+		<h2>Por favor identifiquese</h2>
+		<br>
+		<div class="field">
+			<%= label_tag(:email_label, "Correo electronico:") %>
+			<%= text_field_tag(:email, nil, :required => true) %>
+		</div>
+		<br>
+		<div class="field">
+			<%= label_tag(:password, "Contraseña:") %>
+			<%= password_field_tag(:password, nil, :required => true) %>
+		</div>
+		<%= submit_tag("Iniciar sesión", :class => "btn btn-primary") %>
+	<% end %>
+	<br />
+	<%= link_to "Registrarse", new_user_path, :class => "btn btn-inverse" %>
+</div>

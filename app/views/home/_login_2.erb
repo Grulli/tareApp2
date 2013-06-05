@@ -1,21 +1,28 @@
-<%= form_tag(login_2_path, :method=>'post') do %>
-	<%= label_tag(:form_name, "Por favor identifiquese") %>
-	<br>
-	<br>
-	<div class="field">
-		<%= label_tag(:email_label, "Correo electronico:") %>
-		<%= text_field_tag(:email, nil, :required => true) %>
-	</div>
-	<div class="field">
-		<%= label_tag(:password, "Contraseña:") %>
-		<%= password_field_tag(:password, nil, :required => true) %>
-	</div>
-	<div class="field">
-		<%= image_tag("http://captchator.com/captcha/image/#{@random}") %>
-		<%= text_field_tag(:captcha, nil, :required => true)  %>
-		<%= hidden_field_tag(:captcha_random, @random) %>
-		<%= hidden_field_tag(:captcha_random_hash, @random_hash) %>
+<div class="form_centered">
+	<%= form_tag(login_2_path, :method=>'post') do %>
+		<h2>Por favor identifiquese</h2>
 		<br>
-	</div>
-	<%= submit_tag("Iniciar sesión") %>
-<% end %>
+		<div class="field">
+			<%= label_tag(:email_label, "Correo electronico:") %>
+			<%= text_field_tag(:email, nil, :required => true) %>
+		</div>
+		<br>
+		<div class="field">
+			<%= label_tag(:password, "Contraseña:") %>
+			<%= password_field_tag(:password, nil, :required => true) %>
+		</div>
+		<br>
+		<div class="field">
+			<%= image_tag("http://captchator.com/captcha/image/#{@random}") %>
+			<%= text_field_tag(:captcha, nil, :required => true)  %>
+			<%= hidden_field_tag(:captcha_random, @random) %>
+			<%= hidden_field_tag(:captcha_random_hash, @random_hash) %>
+			<br>
+		</div>
+		<%= submit_tag("Iniciar sesión", :class => "btn btn-primary")%>
+		<br />
+		<br />
+		<br />
+		<%= link_to "Registrarse", new_user_path, :class => "btn btn-inverse" %>
+	<% end %>
+</div>

@@ -47,31 +47,40 @@
 							</li>
 
 		        			<% if session[:user_id] %>
-								<% if flash[:active_tab] == "profile" %>
-									<li class="active">
+		        				<% if flash[:active_tab] == "profile" || flash[:active_tab] == "admin" || flash[:active_tab] == "homeworks"%>
+									<li class="dropdown active" id="preview-menu">
 								<% else %>
-									<li>
+									<li class="dropdown" id="preview-menu">
 								<% end %>
-									<%= link_to "Mi Perfil", "/profile/#{session[:user_id]}" %>
-								</li>
-								
-								<% if User.find(session[:user_id]).admin %>
-									<% if flash[:active_tab] == "admin" %>
-										<li class="active">
-									<% else %>
-										<li>
-									<% end %>
-										<%= link_to "Administración", admin_path %>
-									</li>
-									<% if flash[:active_tab] == "homeworks_admin" %>
-										<li class="active">
-									<% else %>
-										<li>
-									<% end %>
-										<%= link_to "Ver Todos los Buzones", homeworks_path %>
-									</li>
-								<% end %>
-		        				<li><%= link_to "Cerrar Sesión", logout_path %></li>
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= User.find(session[:user_id]).name + ' ' + User.find(session[:user_id]).lastname %><b class="caret"></b></a>
+						            <ul class="dropdown-menu">
+						              	<% if flash[:active_tab] == "profile" %>
+											<li class="active">
+										<% else %>
+											<li>
+										<% end %>
+											<%= link_to "Mi Perfil", "/profile/#{session[:user_id]}" %></li>
+
+										<% if User.find(session[:user_id]).admin %>
+											<% if flash[:active_tab] == "admin" %>
+												<li class="active">
+											<% else %>
+												<li>
+											<% end %>
+												<%= link_to "Administración", admin_path %>
+											</li>
+											<% if flash[:active_tab] == "homeworks" %>
+												<li class="active">
+											<% else %>
+												<li>
+											<% end %>
+												<%= link_to "Ver Todos los Buzones", homeworks_path %>
+											</li>
+										<% end %>
+
+										<li><%= link_to "Cerrar Sesión", logout_path %></li>
+						            </ul>
+						        </li>	
 		        			<% end %>
 		        		</ul>
 		       		</div>
