@@ -184,22 +184,24 @@ class HomeworksController < ApplicationController
   end
 
   def saveinvites
-    if(!Homework.exists?(:id=>params[:id]))
+   if(!Homework.exists?(:id=>params[:id]))
       flash[:error] = "Tarea inexistente"
       redirect_to home_path
       return
     end
 
-    if(params[:invitados].nil? || params[:invitados].empty?)
-
+    if(params[:email].nil? || params[:email].empty?)
+      @homework = Homework.find(params[:id])
+      flash[:error] = "Debe ingresar al menos un invitado"
+     render "invite.html.erb"
     else
       counter = 0
       existed = false
       @homework = Homework.find(params[:id])
-      params[:invitados].split(';').each do |g|
-          if(!User.exists?(:email => g.delete(' '), :deleted => 0))
+      params[:email].each do |g|
+          if(!User.exists?(:email => g[1].delete(' '), :deleted => 0))
             @user = User.new
-            @user.email = g.delete(' ')
+            @user.email = g[1].delete(' ')
             @user.name = "Firstname"
             @user.lastname = "Lastname"
             @user.admin = false
@@ -214,7 +216,7 @@ class HomeworksController < ApplicationController
 
             #Seteamos los valores por defecto
             @user.session_token = ""
-            @user.last_login_date = Time.new.advance(:hours => -4)
+            @user.last_login_date = Time.new
             @user.last_login_server = "desaweb1.ing.puc.cl"
 
             @user.deleted = 0
