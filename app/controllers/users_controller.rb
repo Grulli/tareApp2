@@ -640,12 +640,12 @@ class UsersController < ApplicationController
 	
 	def activate_first
 		if(session[:user_id])
-			flash[:error] = "Error"
+			flash[:error] = "Error 1"
 			redirect_to home_path
 			return
 		end
 		if(!params[:activation_id] or ! params[:token])
-			flash[:error] = "Error"
+			flash[:error] = "Error 2"
 			redirect_to home_path
 			return
 		end
@@ -654,7 +654,7 @@ class UsersController < ApplicationController
 		@user = @activation.user
 		
 		if(params[:token] != @activation.token)
-			flash[:error] = "Error"
+			flash[:error] = "Error 3"
 			redirect_to home_path
 			return
 		end
@@ -677,7 +677,7 @@ class UsersController < ApplicationController
 	end
 	
 	def activate_first_post
-		if(!session[:user_id])
+		if(session[:user_id])
 			flash[:error] = "Acceso denegado"
 			redirect_to home_path
 			return
@@ -695,10 +695,22 @@ class UsersController < ApplicationController
 			return
 		end
 		
+		if(params[:password] != params[:password_confirmation])
+			flash[:error] = "Error"
+			redirect_to home_path
+			return
+		end
+		
 		@user = User.find(params[:user_id])
 		@user.name = params[:name]
 		@user.lastname = params[:lastname]
 		@user.active = true
+		@user.salt = SecureRandom.hex
+		@hashed = params[:password] + @user.salt
+		100.times do
+			@hashed = Digest::SHA1.hexdigest(@hashed)
+		end
+		@user.hashed_password = @hashed
 		@user.save
 		
 		flash[:succes] = "Bienvenido a tareApp"

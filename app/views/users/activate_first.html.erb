@@ -11,11 +11,13 @@
 		<%= label_tag(:lastname, "Apellido:") %>
 		<%= text_field_tag(:lastname, @user.lastname, :required => true) %>
 	</div>
-	<% if (User.find(session[:user_id]).admin and session[:user_id] != @user.id) %>
-		<div class="field">
-			<%= label_tag(:admin, "Administrador:") %>
-			<%= check_box_tag(:admin, "on", @user.admin) %>
-		</div>
-	<% end %>
+	<div class="field">
+		<%= label_tag(:password, "Contraseña:") %>
+		<%= password_field_tag(:password, nil, :required => true) %>
+	</div>
+	<div class="field">
+		<%= label_tag(:password_confirmation, "Confirmacion contraseña:") %>
+		<%= password_field_tag(:password_confirmation, nil, :required => true) %>
+	</div>
 	<%= submit_tag("Actualizar datos") %>
 <% end %>

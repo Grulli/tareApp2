@@ -32,8 +32,8 @@ TareApp2::Application.routes.draw do
 	match 'recover' => 'users#recover', :via => :get, :as => :recover
 	match 'recover' => 'users#recover_post', :via => :post, :as => :recover_post
 	match 'recover_password' => 'users#recover_password_post', :via => :post, :as => :recover_password_post
-	match 'activate_first/:activation_id/:activation_token'  => 'users#activate_first', :via => :get
-	match 'activate_first/:activation_id/:activation_token'  => 'users#activate_first_post', :via => :post
+	match 'activate_first/:activation_id/:token'  => 'users#activate_first', :via => :get
+	match 'activate_first/:activation_id/:token'  => 'users#activate_first_post', :via => :post
 	
 	
 end
