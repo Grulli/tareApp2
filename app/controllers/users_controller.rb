@@ -462,9 +462,8 @@ class UsersController < ApplicationController
 		user.deleted = 0
 		
 		#TODO: activar con mail
-		user.active = true
+		user.active = false
 
-		
 		user.salt = SecureRandom.hex
 		hashed = params[:password] + user.salt
 		100.times do
@@ -479,6 +478,13 @@ class UsersController < ApplicationController
 		end
 		
 		user.save
+		
+		@activation = EmailActivation.new
+		@activation.user_id = @user.id
+		@activation.token = SecureRandom.hex
+		@activation.expires_at = DateTime.now + 2.days
+		@activation.save
+		UserMailer.welcome_email(@user,@activation).deliver
 		
 		flash[:succes] = "Usuario creado exitosamente"
 		redirect_to users_path
@@ -499,8 +505,106 @@ class UsersController < ApplicationController
 		end
 		
 		@activation = EmailActivation.find(params[:activation_id]);
-		@user = 
+		@user = @activation.user
 		
+		if(params[:token] != @activation.token)
+			flash[:error] = "Error"
+			redirect_to home_path
+			return
+		end
+		
+		if(DateTime.now > @activation.expires_at)
+			flash[:error] = "Esta activacion ya vencio, se le ha enviado un nuevo mail"
+			
+			@activation = EmailActivation.new
+			@activation.user_id = @user.id
+			@activation.token = SecureRandom.hex
+			@activation.expires_at = DateTime.now + 2.days
+			@activation.save
+			UserMailer.welcome_email(@user,@activation).deliver
+			
+			redirect_to home_path
+			return
+		end
+		
+		@user.active = true
+		@user.save
+		session[:user_id] = @user.id
+		flash[:succes] = "Gracias por activar su cuenta"
+		redirect_to home_path
+	end
+	
+	def recover
+		if(session[:user_id])
+			flash[:error] = "Acceso denegado"
+			redirect_to home_path
+			return
+		end
+	end
+	
+	def recover_post
+		if(session[:user_id])
+			flash[:error] = "Acceso denegado"
+			redirect_to home_path
+			return
+		end
+		
+		if(!params[:email])
+			flash[:error] = "Error"
+			redirect_to home_path
+			return
+		end
+		
+		if(!User.exists?(:email => params[:email], :deleted => 0, :active => true))
+			flash[:error] = "No existe esta cuenta"
+			redirect_to home_path
+			return
+		end
+		
+		@user = User.find_by_email_and_deleted(params[:email], 0)
+		@recovery = PasswordRecovery.new
+		@recovery.user_id = @user.id
+		@recovery.token = SecureRandom.hex
+		@recovery.expires_at = DateTime.now + 2.days
+		@recovery.save
+		
+		UserMailer.password_recovery_email(@user,@recovery).deliver
+		
+		flash[:succes] = "Se le ha enviado un mail con instrucciones para recuperar su cuenta"
+		redirect_to home_path
+		return
+	end
+	
+	def recover_password
+		if(session[:user_id])
+			flash[:error] = "Acceso denegado"
+			redirect_to home_path
+			return
+		end
+		@recovery = PasswordRecovery.find(params[:recover_id])
+		
+		if(DateTime.now > @recovery.expires_at)
+			flash[:error] = "Este token vencio, solicite otro"
+			redirect_to home_path
+			return
+		end
+		
+		if(@recovery.token != params[:token])
+			flash[:error] = "Error"
+			redirect_to home_path
+			return
+		end
+		user = @recovery.user
+		@user_id = user.id
+		@hashed_user_id = Digest::SHA1.hexdigest(@user_id)
+	end
+	
+	def recover_password
+		if(session[:user_id])
+			flash[:error] = "Acceso denegado"
+			redirect_to home_path
+			return
+		end
 	end
 	
 end

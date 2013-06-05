@@ -1,0 +1,13 @@
+<div class="form_centered">
+	<%= form_tag(recover_path, :method=>'post') do %>
+		<h2>Por favor identifiquese</h2>
+		<br>
+		<div class="field">
+			<%= label_tag(:email_label, "Correo electronico:") %>
+			<%= text_field_tag(:email, nil, :required => true) %>
+		</div>
+		<br>
+		<%= submit_tag("Recuperar cuenta", :class => "btn btn-primary") %>
+	<% end %>
+	<br />
+</div>

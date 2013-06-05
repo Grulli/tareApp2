@@ -28,5 +28,10 @@ TareApp2::Application.routes.draw do
 	match 'activate/:activation_id/:token' => 'users#activate'
 	match 'homeworks/manageinvites/:id' => 'homeworks#manageinvites'
 	match 'uninvite/:homework_id/:user_id' => 'homeworks#uninvite'
+	match 'recover/:recover_id/:token' => 'users#recover_password'
+	match 'recover' => 'users#recover', :via => :get, :as => :recover
+	match 'recover' => 'users#recover_post', :via => :post, :as => :recover_post
+	match 'recover_password' => 'users#recover_password_post', :via => :post, :as => :recover_password_post
+	
 	
 end
