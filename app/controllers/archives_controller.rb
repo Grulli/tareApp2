@@ -2,6 +2,12 @@ class ArchivesController < ApplicationController
   # GET /archives
   # GET /archives.json
   def index
+    if(filters)
+      flash[:error] = "Acceso denegado"
+      redirect_to home_path
+      return
+    end
+
     @archives = Archive.all
 
     respond_to do |format|
@@ -13,6 +19,12 @@ class ArchivesController < ApplicationController
   # GET /archives/1
   # GET /archives/1.json
   def show
+    if(filters)
+      flash[:error] = "Acceso denegado"
+      redirect_to home_path
+      return
+    end
+
     @archive = Archive.find(params[:id])
 
     respond_to do |format|
@@ -24,6 +36,12 @@ class ArchivesController < ApplicationController
   # GET /archives/new
   # GET /archives/new.json
   def new
+    if(filters)
+      flash[:error] = "Acceso denegado"
+      redirect_to home_path
+      return
+    end
+
     @archive = Archive.new
 
     respond_to do |format|
@@ -34,12 +52,24 @@ class ArchivesController < ApplicationController
 
   # GET /archives/1/edit
   def edit
+    if(filters)
+      flash[:error] = "Acceso denegado"
+      redirect_to home_path
+      return
+    end
+
     @archive = Archive.find(params[:id])
   end
 
   # POST /archives
   # POST /archives.json
   def create
+    if(filters)
+      flash[:error] = "Acceso denegado"
+      redirect_to home_path
+      return
+    end
+
     @archive = Archive.new(params[:archive])
 
     respond_to do |format|
@@ -56,6 +86,12 @@ class ArchivesController < ApplicationController
   # PUT /archives/1
   # PUT /archives/1.json
   def update
+    if(filters)
+      flash[:error] = "Acceso denegado"
+      redirect_to home_path
+      return
+    end
+
     @archive = Archive.find(params[:id])
 
     respond_to do |format|
@@ -72,6 +108,12 @@ class ArchivesController < ApplicationController
   # DELETE /archives/1
   # DELETE /archives/1.json
   def destroy
+    if(filters)
+      flash[:error] = "Acceso denegado"
+      redirect_to home_path
+      return
+    end
+    
     @archive = Archive.find(params[:id])
     @archive.destroy
 
