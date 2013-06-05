@@ -6,7 +6,7 @@
   <body>
     <h1>Bienvenido a tareApp 2.0, <%= @user.name %></h1>
     <p>
-      Para activar tu cuenta visita http://desaweb1.ing.puc.cl/activate/<%= @activation.token %><br/>
+      Para activar tu cuenta visita http://desaweb1.ing.puc.cl/activate/<%= @activation.id %>/<%= @activation.token %><br/>
 	  Antes del <%= @activation.expires_at.to_s %>
     </p>
     <p>

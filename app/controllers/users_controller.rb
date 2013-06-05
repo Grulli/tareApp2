@@ -193,7 +193,7 @@ class UsersController < ApplicationController
 	@user.last_login_server = "desaweb1.ing.puc.cl"
 	
 	#TODO: Aca enviar mail y setear active en false
-	@user.active = true
+	@user.active = false
 	
 	#if(request.env["HTTP_X_FORWARDED_FOR"])
 	#	@user.last_login_server = request.env["HTTP_X_FORWARDED_FOR"]
@@ -214,8 +214,7 @@ class UsersController < ApplicationController
 		@activation.save
 		UserMailer.welcome_email(@user,@activation).deliver
 		
-		flash[:succes] = "Bienvenido a tareApp2 #{@user.name + " " + @user.lastname}"
-		session[:user_id] = @user.id
+		flash[:succes] = "Bienvenido a tareApp2 #{@user.name + " " + @user.lastname} revise su email para activar su cuenta"
         format.html { redirect_to home_path }
       else
         format.html { render action: "new" }
@@ -484,6 +483,23 @@ class UsersController < ApplicationController
 		flash[:succes] = "Usuario creado exitosamente"
 		redirect_to users_path
 		return
+		
+	end
+	
+	def activate
+		if(session[:user_id])
+			flash[:error] = "Error"
+			redirect_to home_path
+			return
+		end
+		if(!params[:activation_id] or ! params[:token])
+			flash[:error] = "Error"
+			redirect_to home_path
+			return
+		end
+		
+		@activation = EmailActivation.find(params[:activation_id]);
+		@user = 
 		
 	end
 	

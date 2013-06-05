@@ -36,7 +36,7 @@ class HomeController < ApplicationController
 		end
 		
 		#Revisamos si existe el mail y no este eliminado
-		if(!User.exists?(:email => params[:email], :deleted => 0, :active => true))
+		if(!User.exists?(:email => params[:email], :deleted => 0))
 			flash[:error] = "Error al iniciar sesion"
 			if(!session[:login_error_count])
 				session[:login_error_count] = 1
@@ -49,6 +49,13 @@ class HomeController < ApplicationController
 		
 		#Revisamos si la clave corresponde
 		user = User.find_by_email_and_deleted(params[:email], 0)
+		
+		if(!user.active)
+			flash[:error] = "No ha activado su cuenta, revise su correo"
+			redirect_to home_path
+			return
+		end
+		
 		hashed = params[:password] + user.salt
 		100.times do
 			hashed = Digest::SHA1.hexdigest(hashed)
