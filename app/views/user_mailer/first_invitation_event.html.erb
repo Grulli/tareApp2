@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>Bienvenido a tareApp 2.0, <%= @user.name %></h1>
+    <p>
+      Para activar tu cuenta visita http://desaweb1.ing.puc.cl/activate_first/<%= @activation.id %>/<%= @activation.token %><br/>
+	  Antes del <%= @activation.expires_at.to_s %>
+    </p>
+    <p>
+    </p>
+  </body>
+</html>

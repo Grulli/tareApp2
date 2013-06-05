@@ -18,4 +18,11 @@ class UserMailer < ActionMailer::Base
 		@event = event
 		mail(:to => user.email, :subject => "Te han invitado a #{@event.name}")
 	end
+	
+	def first_invitation_event(user, activation)
+		@user = user
+		@activation = activation
+		mail(:to => user.email, :subject => "Te han invitado a un evento y una cuenta a sido creada para ti")
+	end
+	
 end

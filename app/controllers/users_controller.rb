@@ -188,9 +188,9 @@ class UsersController < ApplicationController
 	@user.deleted = 0
 	@user.admin = false
 	@user.session_token = ""
-	@user.last_login_date = Time.new.advance(:hours => -4)
+	#@user.last_login_date = Time.new.advance(:hours => -4)
 	#@user.last_login_server = request.remote_ip
-	@user.last_login_server = "desaweb1.ing.puc.cl"
+	#@user.last_login_server = "desaweb1.ing.puc.cl"
 	
 	#TODO: Aca enviar mail y setear active en false
 	@user.active = false
@@ -528,6 +528,8 @@ class UsersController < ApplicationController
 		end
 		
 		@user.active = true
+		@user.last_login_date = DateTime.now
+		@user.last_login_server = "desaweb1.ing.puc.cl"
 		@user.save
 		session[:user_id] = @user.id
 		flash[:succes] = "Gracias por activar su cuenta"
@@ -626,12 +628,81 @@ class UsersController < ApplicationController
 			@hashed = Digest::SHA1.hexdigest(@hashed)
 		end
 		@user.hashed_password = @hashed
+		@user.last_login_date = DateTime.now
+		@user.last_login_server = "desaweb1.ing.puc.cl"
 		@user.save
 		
 		session[:user_id] = @user.id
 		flash[:succes] = "Cambiada la contrasena"
 		redirect_to home_path
 
+	end
+	
+	def activate_first
+		if(session[:user_id])
+			flash[:error] = "Error"
+			redirect_to home_path
+			return
+		end
+		if(!params[:activation_id] or ! params[:token])
+			flash[:error] = "Error"
+			redirect_to home_path
+			return
+		end
+		
+		@activation = EmailActivation.find(params[:activation_id]);
+		@user = @activation.user
+		
+		if(params[:token] != @activation.token)
+			flash[:error] = "Error"
+			redirect_to home_path
+			return
+		end
+		
+		if(DateTime.now > @activation.expires_at)
+			flash[:error] = "Esta activacion ya vencio, se le ha enviado un nuevo mail"
+			
+			@activation = EmailActivation.new
+			@activation.user_id = @user.id
+			@activation.token = SecureRandom.hex
+			@activation.expires_at = DateTime.now + 2.days
+			@activation.save
+			UserMailer.first_invitation_email(@user,@activation).deliver
+			
+			redirect_to home_path
+			return
+		end
+		@user_id = @user.id
+		@hashed_id = Digest::SHA1.hexdigest(@user_id.to_s)
+	end
+	
+	def activate_first_post
+		if(!session[:user_id])
+			flash[:error] = "Acceso denegado"
+			redirect_to home_path
+			return
+		end
+  
+		if(!params[:user_id] or !params[:hashed_id] or !params[:name] or !params[:lastname])
+			flash[:error] = "Error"
+			redirect_to home_path
+			return
+		end
+	
+		if(Digest::SHA1.hexdigest(params[:user_id].to_s) != params[:hashed_id])
+			flash[:error] = "Error"
+			redirect_to home_path
+			return
+		end
+		
+		@user = User.find(params[:user_id])
+		@user.name = params[:name]
+		@user.lastname = params[:lastname]
+		@user.active = true
+		@user.save
+		
+		flash[:succes] = "Bienvenido a tareApp"
+		redirect_to home_path
 	end
 	
 end

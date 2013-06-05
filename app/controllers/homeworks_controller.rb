@@ -285,7 +285,15 @@ class HomeworksController < ApplicationController
             @hu.user_id = @user.id
             @hu.homework_id = @homework.id
             @hu.save
+			
+			@activation = EmailActivation.new
+			@activation.user_id = @user.id
+			@activation.token = SecureRandom.hex
+			@activation.expires_at = DateTime.now + 2.days
+			@activation.save
             
+			UserMailer.first_invitation_event(@user, @activation).deliver
+			
             #begin
              # UserMailer.first_invitation_email(@homework, @user).deliver
             #rescue
@@ -299,7 +307,7 @@ class HomeworksController < ApplicationController
                 @hu.homework_id = @homework.id
                 @hu.save
                 #begin
-                 # UserMailer.invitation_email(@homework, @user).deliver
+                UserMailer.invitation_event(@user, @homework).deliver
                 #rescue
                 #end
             else

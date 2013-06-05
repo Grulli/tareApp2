@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>Te han invitado a <%= @event.name %></h1>
+    <p>
+		Para subir tu archivo visita http://desaweb1.ing.puc.cl/homeworks/<%= @event.id %>.
+		La fecha de termino es <%= @event.expires_at.to_s %>
+    </p>
+    <p>
+    </p>
+  </body>
+</html>

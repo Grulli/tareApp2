@@ -1,0 +1,21 @@
+<h1>Ingresa tus datos</h1>
+
+<%= form_tag("", :method=>'post') do %>
+	<%= hidden_field_tag(:user_id, @user.id) %>
+	<%= hidden_field_tag(:hashed_id, @hashed_id) %>
+	<div class="field">
+		<%= label_tag(:name, "Nombre:") %>
+		<%= text_field_tag(:name, @user.name, :required => true) %>
+	</div>
+	<div class="field">
+		<%= label_tag(:lastname, "Apellido:") %>
+		<%= text_field_tag(:lastname, @user.lastname, :required => true) %>
+	</div>
+	<% if (User.find(session[:user_id]).admin and session[:user_id] != @user.id) %>
+		<div class="field">
+			<%= label_tag(:admin, "Administrador:") %>
+			<%= check_box_tag(:admin, "on", @user.admin) %>
+		</div>
+	<% end %>
+	<%= submit_tag("Actualizar datos") %>
+<% end %>
