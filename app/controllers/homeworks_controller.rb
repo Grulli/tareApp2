@@ -239,7 +239,12 @@ class HomeworksController < ApplicationController
 
         
         if(existed)
-          message += " (Algunos usuarios ya fueron invitados, por lo que fueron omitidos)"
+          if(counter == 1)
+            message += " (El usuario ya fue invitado, por lo que fue omitido)"
+          else
+           message += " (Algunos usuarios ya fueron invitados, por lo que fueron omitidos)"
+          end
+          
         end
          respond_to do |format|
             format.html { redirect_to @homework, notice: message }
