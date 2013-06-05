@@ -1,10 +1,10 @@
-<h2>Editando tu perfil publico</h2>
+<h2>Editando tu perfil público</h2>
 
 <textarea rows="10" cols="1000" id = "text_area" name="profile"><%= @user.profile %></textarea>
 <br>
 <%= form_tag(edit_profile_post_path, :method => "post", :id => "form") do %>
-	<button type="button" id="preview">Vista previa</button>
-	<input type="submit" value="Guardar cambios" />
+	<button class="btn btn-warning"type="button" id="preview">Vista previa</button>
+	<input class="btn btn-inverse" type="submit" value="Guardar cambios" />
 <% end %>
 <hr>
 <h4> Vista Previa </h4>

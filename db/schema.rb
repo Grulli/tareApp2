@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130605013248) do
+ActiveRecord::Schema.define(:version => 20130605015933) do
 
   create_table "archives", :force => true do |t|
     t.string   "name"
@@ -36,9 +36,13 @@ ActiveRecord::Schema.define(:version => 20130605013248) do
     t.string   "description"
     t.boolean  "active"
     t.datetime "expires_at"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
     t.integer  "user_id"
+    t.string   "description_file_name"
+    t.string   "description_content_type"
+    t.integer  "description_file_size"
+    t.datetime "description_updated_at"
   end
 
   create_table "participations", :force => true do |t|

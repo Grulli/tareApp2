@@ -1,41 +1,49 @@
-<%= form_for(@user) do |f| %>
-	<% if @user.errors.any? || flash[:form_error]%>
-		<div class="alert alert-error">
-			<button type="button" class="close" data-dismiss="alert">&times;</button>
-			<ul>
-				<% if @user.errors.any? %>
-					<% @user.errors.full_messages.each do |msg| %>
-						<li><%= msg %></li>
+<div class="form_centered">
+	<h1>Crear cuenta</h1>
+	<%= form_for(@user) do |f| %>
+		<% if @user.errors.any? || flash[:form_error]%>
+			<div class="alert alert-error">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<ul>
+					<% if @user.errors.any? %>
+						<% @user.errors.full_messages.each do |msg| %>
+							<li><%= msg %></li>
+						<% end %>
 					<% end %>
-				<% end %>
-				<% if flash[:form_error] %>
-					<%= flash[:form_error] %>
-				<% end %>
-			</ul>
-		</div>
-	<% end %>
+					<% if flash[:form_error] %>
+						<%= flash[:form_error] %>
+					<% end %>
+				</ul>
+			</div>
+		<% end %>
 
-  <div class="field">
-    <%= f.label :email, "Correo electronico" %>
-    <%= f.text_field :email, :required => true%>
-  </div>
-  <div class="field">
-    <%= f.label :name , "Nombre"%>
-    <%= f.text_field :name, :required => true%>
-  </div>
-  <div class="field">
-    <%= f.label :lastname, "Apellido" %>
-    <%= f.text_field :lastname, :required => true%>
-  </div>
-  <div class="field">
-	<%= label_tag :password, "Contraseña" %>
-	<%= password_field_tag :password, nil, :required => true %>
-  </div>
-  <div class="field">
-	<%= label_tag :password_confirmation, "Confirmación de Contraseña" %>
-	<%= password_field_tag :password_confirmation, nil, :required => true %>
-  </div>
-  <div class="actions">
-    <%= f.submit "Crear cuenta" %>
-  </div>
-<% end %>
+	  <div class="field">
+	    <%= f.label :email, "Correo electronico" %>
+	    <%= f.text_field :email, :required => true%>
+	  </div>
+	  <br />
+	  <div class="field">
+	    <%= f.label :name , "Nombre"%>
+	    <%= f.text_field :name, :required => true%>
+	  </div>
+	  <br />
+	  <div class="field">
+	    <%= f.label :lastname, "Apellido" %>
+	    <%= f.text_field :lastname, :required => true%>
+	  </div>
+	  <br />
+	  <div class="field">
+		<%= label_tag :password, "Contraseña" %>
+		<%= password_field_tag :password, nil, :required => true %>
+	  </div>
+	  <br />
+	  <div class="field">
+		<%= label_tag :password_confirmation, "Confirmación de Contraseña" %>
+		<%= password_field_tag :password_confirmation, nil, :required => true %>
+	  </div>
+	  <br />
+	  <div class="actions">
+	    <%= f.submit "Crear cuenta", :class => "btn btn-inverse" %>
+	  </div>
+	<% end %>
+</div>

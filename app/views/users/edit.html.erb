@@ -1,21 +1,26 @@
-<h1>Editando datos usuario <%= @user.email %></h1>
-
-<%= form_tag(@user, :method=>'put') do %>
-	<%= hidden_field_tag(:user_id, @user.id) %>
-	<%= hidden_field_tag(:hashed_id, @hashed_id) %>
-	<div class="field">
-		<%= label_tag(:name, "Nombre:") %>
-		<%= text_field_tag(:name, @user.name, :required => true) %>
-	</div>
-	<div class="field">
-		<%= label_tag(:lastname, "Apellido:") %>
-		<%= text_field_tag(:lastname, @user.lastname, :required => true) %>
-	</div>
-	<% if (User.find(session[:user_id]).admin and session[:user_id] != @user.id) %>
+<div class="form_centered_mid">
+	<h1>Editando datos usuario <%= @user.email %></h1>
+	<br />
+	<br />
+	<%= form_tag(@user, :method=>'put') do %>
+		<%= hidden_field_tag(:user_id, @user.id) %>
+		<%= hidden_field_tag(:hashed_id, @hashed_id) %>
 		<div class="field">
-			<%= label_tag(:admin, "Administrador:") %>
-			<%= check_box_tag(:admin, "on", @user.admin) %>
+			<%= label_tag(:name, "Nombre:") %>
+			<%= text_field_tag(:name, @user.name, :required => true) %>
 		</div>
+		<br />
+		<div class="field">
+			<%= label_tag(:lastname, "Apellido:") %>
+			<%= text_field_tag(:lastname, @user.lastname, :required => true) %>
+		</div>
+		<br />
+		<% if (User.find(session[:user_id]).admin and session[:user_id] != @user.id) %>
+			<div class="field">
+				<%= label_tag(:admin, "Administrador:") %>
+				<%= check_box_tag(:admin, "on", @user.admin) %>
+			</div>
+		<% end %>
+		<%= submit_tag("Actualizar datos", :class => "btn btn-inverse") %>
 	<% end %>
-	<%= submit_tag("Actualizar datos") %>
-<% end %>
+</div>
