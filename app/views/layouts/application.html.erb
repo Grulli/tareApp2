@@ -66,6 +66,16 @@
 						            </ul>
 						        </li>	
 		        			<% end %>
+
+		        			<% if flash[:active_tab] == "version" %>
+								<li class="active">
+							<% else %>
+								<li>
+							<% end %>
+								<%= link_to "Versión", "changelog.txt" %>
+							</li>
+
+
 		        		</ul>
 		       		</div>
 			   	</div>
