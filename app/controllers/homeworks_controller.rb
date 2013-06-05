@@ -172,10 +172,11 @@ class HomeworksController < ApplicationController
       return
     end
 
-    if(params[:invitados].empty?)
+    if(params[:invitados].nil? || params[:invitados].empty?)
 
     else
       counter = 0
+      existed = false
       @homework = Homework.find(params[:id])
       params[:invitados].split(';').each do |g|
           if(!User.exists?(:email => g.delete(' ')))
@@ -211,21 +212,37 @@ class HomeworksController < ApplicationController
             #rescue
             #end
           else
+            #Revisar que no haya sido invitado
             @user = User.find_by_email(g.delete(' '))
-            @hu = Participation.new
-            @hu.user_id = @user.id
-            @hu.homework_id = @homework.id
-            @hu.save
-            #begin
-             # UserMailer.invitation_email(@homework, @user).deliver
-            #rescue
-            #end
+            if(!Participation.exists?(:user_id => @user.id))
+               @hu = Participation.new
+                @hu.user_id = @user.id
+                @hu.homework_id = @homework.id
+                @hu.save
+                #begin
+                 # UserMailer.invitation_email(@homework, @user).deliver
+                #rescue
+                #end
+            else
+              existed = true
+            end
+            
+           
           end
           counter = counter+1
         end
+        if(counter == 1)
+          message = "#{counter} usuario invitado exitosamente"
+        else
+          message = "#{counter} usuarios invitados exitosamente"
+        end
 
+        
+        if(existed)
+          message += " (Algunos usuarios ya fueron invitados, por lo que fueron omitidos)"
+        end
          respond_to do |format|
-            format.html { redirect_to @homework, notice: '#{@counter} usuarios invitados exitosamente' }
+            format.html { redirect_to @homework, notice: message }
             format.json { render json: @homework, status: :created, location: @homework }
         end
     end

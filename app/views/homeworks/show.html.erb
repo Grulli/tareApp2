@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <b>Nombre del buzón:</b>
   <%= @homework.name %>
@@ -37,4 +35,5 @@
 
 
 <%= link_to 'Editar', edit_homework_path(@homework) %> |
+<%= link_to 'Invitar gente', "/homework/invite/#{@homework.id}" %> |
 <%= link_to 'Volver', homeworks_path %>
