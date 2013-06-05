@@ -179,7 +179,7 @@ class HomeworksController < ApplicationController
       existed = false
       @homework = Homework.find(params[:id])
       params[:invitados].split(';').each do |g|
-          if(!User.exists?(:email => g.delete(' '), :delete => 0))
+          if(!User.exists?(:email => g.delete(' '), :deleted => 0))
             @user = User.new
             @user.email = g.delete(' ')
             @user.name = "Firstname"
