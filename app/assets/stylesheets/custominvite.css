@@ -13,11 +13,13 @@
      width:250px;
      height:24px;
      border:0;
-     margin-bottom:1px;
+     margin-bottom:5px;
 }
  
 .multipleInput-container ul {
      list-style-type:none;
+     margin-left: 5px;
+     margin-top: 6px;
 }
  
 li.multipleInput-email {

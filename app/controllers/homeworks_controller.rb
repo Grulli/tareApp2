@@ -193,8 +193,18 @@ class HomeworksController < ApplicationController
     if(params[:email].nil? || params[:email].empty?)
       @homework = Homework.find(params[:id])
       flash[:error] = "Debe ingresar al menos un invitado"
-     render "invite.html.erb"
+      render "invite.html.erb"
+      return
     else
+      #Revisar mails
+      params[:email].each do |g|
+        if(!g[1].match(/\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+\z/))
+          @homework = Homework.find(params[:id])
+          flash[:error] = "#{g[1]} no es un correo correcto"
+          render "invite.html.erb"
+          return
+        end
+      end
       counter = 0
       existed = false
       @homework = Homework.find(params[:id])
@@ -233,7 +243,7 @@ class HomeworksController < ApplicationController
             #end
           else
             #Revisar que no haya sido invitado
-            @user = User.find_by_email_and_deleted(g.delete(' '), 0)
+            @user = User.find_by_email_and_deleted(g[1].delete(' '), 0)
             if(!Participation.exists?(:user_id => @user.id))
                @hu = Participation.new
                 @hu.user_id = @user.id
@@ -260,7 +270,7 @@ class HomeworksController < ApplicationController
         
         if(existed)
           if(counter == 1)
-            message += " (El usuario ya fue invitado, por lo que fue omitido)"
+            message = "El usuario ya fue invitado, por lo que fue omitido"
           else
            message += " (Algunos usuarios ya fueron invitados, por lo que fueron omitidos)"
           end
