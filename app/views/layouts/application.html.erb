@@ -60,6 +60,13 @@
 											<% end %>
 												<%= link_to "Ver Todos los Buzones", homeworks_path %>
 											</li>
+											<% if flash[:active_tab] == "version" %>
+												<li class="active">
+											<% else %>
+												<li>
+											<% end %>
+												<%= link_to "Versión 1.0", "changelog.txt" %>
+											</li>
 										<% end %>
 
 										<li><%= link_to "Cerrar Sesión", logout_path %></li>
@@ -67,13 +74,7 @@
 						        </li>	
 		        			<% end %>
 
-		        			<% if flash[:active_tab] == "version" %>
-								<li class="active">
-							<% else %>
-								<li>
-							<% end %>
-								<%= link_to "Versión 1.0", "changelog.txt" %>
-							</li>
+		        			
 
 
 		        		</ul>
