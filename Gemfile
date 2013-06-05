@@ -35,3 +35,5 @@ gem 'rubyzip'
 
 # To use debugger
 # gem 'debugger'
+
+gem "actionmailer", "~> 3.2.12"

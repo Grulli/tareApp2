@@ -202,10 +202,18 @@ class UsersController < ApplicationController
 	if(User.all.count < 1)
 		@user.admin = true
 	end
-	
+
 	#Se guarda
     respond_to do |format|
       if @user.save
+		
+		@activation = EmailActivation.new
+		@activation.user_id = @user.id
+		@activation.token = SecureRandom.hex
+		@activation.expires_at = DateTime.now + 2.days
+		@activation.save
+		UserMailer.welcome_email(@user,@activation).deliver
+		
 		flash[:succes] = "Bienvenido a tareApp2 #{@user.name + " " + @user.lastname}"
 		session[:user_id] = @user.id
         format.html { redirect_to home_path }
