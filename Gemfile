@@ -38,4 +38,4 @@ gem 'rubyzip', :require => 'zip/zip'
 # gem 'debugger'
 
 gem "actionmailer", "~> 3.2.12"
-gem "mysql2"
+#gem "mysql2"

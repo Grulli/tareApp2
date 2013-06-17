@@ -19,10 +19,7 @@ test:
   timeout: 5000
 
 production:
-  adapter: mysql2
-  database: homework_db
+  adapter: sqlite3
+  database: db/development.sqlite3
   pool: 5
   timeout: 5000
-  host: desaweb.ing.puc.cl
-  username: g1e
-  password: JpJAtaWXYdkEAyah

@@ -52,8 +52,6 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.23)
     multi_json (1.7.3)
-    mysql2 (0.3.11)
-    mysql2 (0.3.11-x86-mingw32)
     polyglot (0.3.3)
     rack (1.4.5)
     rack-cache (1.2)
@@ -112,7 +110,6 @@ DEPENDENCIES
   actionmailer (~> 3.2.12)
   coffee-rails (~> 3.2.1)
   jquery-rails
-  mysql2
   rails (= 3.2.13)
   rubyzip
   sass-rails (~> 3.2.3)
