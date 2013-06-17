@@ -161,7 +161,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
 
     if !(@user.email.match(/\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+\z/))
-        flash[:form_error] = "El correo electrónico ingresado no es válido"
+        flash[:form_error] = "El correo ingresado no tiene el formato adecuado"
 		respond_to do |format|
 			format.html { render action: "new" }
 		end
@@ -170,7 +170,7 @@ class UsersController < ApplicationController
 	
 	#Revisamos que el mail no este ocupado por una cuenta activa
 	if(User.exists?(:email => @user.email, :deleted => 0))
-		flash[:form_error] = "Correo electronico ya inscrito"
+		flash[:form_error] = "El correo ingresado ya fue inscrito"
 		redirect_to new_user_path
 		return
 	end
@@ -222,7 +222,7 @@ class UsersController < ApplicationController
 		@activation.save
 		UserMailer.welcome_email(@user,@activation).deliver
 		
-		flash[:succes] = "Bienvenido a tareApp2 #{@user.name + " " + @user.lastname} revise su email para activar su cuenta"
+		flash[:succes] = "Bienvenido a tareApp2 #{@user.name + " " + @user.lastname}, revise su email para activar su cuenta"
         format.html { redirect_to home_path }
       else
         format.html { render action: "new" }
@@ -273,7 +273,7 @@ class UsersController < ApplicationController
 	
 	@user.save
 	
-	flash[:succes] = "Datos actualizados"
+	flash[:succes] = "Datos actualizados satisfactoriamente"
 	
 	if(User.find(session[:user_id]).admin)
 		redirect_to admin_path
@@ -305,7 +305,7 @@ class UsersController < ApplicationController
 	
 	#Revisamos que no se este desactivando a si mismo (es otro metodo)
 	if(session[:user_id].to_i == params[:id].to_i)
-		flash[:error] = "No se puede desactivar a si mismo"
+		flash[:error] = "No puede desactivar a su propio usuario"
 		redirect_to users_path
 		return
 	end
@@ -420,7 +420,7 @@ class UsersController < ApplicationController
 		end
 		
 		if(params[:new_password] != params[:new_password_confirmation])
-			flash[:error] = "Nueva contrasena no es igual a la confirmacion"
+			flash[:error] = "Su nueva contrasena no es igual a la confirmacion"
 			redirect_to change_password_path
 			return
 		end
@@ -522,7 +522,7 @@ class UsersController < ApplicationController
 		end
 		
 		if(DateTime.now > @activation.expires_at)
-			flash[:error] = "Esta activacion ya vencio, se le ha enviado un nuevo mail"
+			flash[:error] = "El enlace para activar su cuenta ha expirado, se le ha enviado un nuevo mail"
 			
 			@activation = EmailActivation.new
 			@activation.user_id = @user.id
@@ -580,7 +580,7 @@ class UsersController < ApplicationController
 		
 		UserMailer.password_recovery_email(@user,@recovery).deliver
 		
-		flash[:succes] = "Se le ha enviado un mail con instrucciones para recuperar su cuenta"
+		flash[:succes] = "Se le ha enviado un email con instrucciones para recuperar su cuenta"
 		redirect_to home_path
 		return
 	end
@@ -594,7 +594,7 @@ class UsersController < ApplicationController
 		@recovery = PasswordRecovery.find(params[:recover_id])
 		
 		if(DateTime.now > @recovery.expires_at)
-			flash[:error] = "Este token vencio, solicite otro"
+			flash[:error] = "El enlace para recuperar su contrasena ha vencido, solicite otro"
 			redirect_to home_path
 			return
 		end
@@ -641,7 +641,7 @@ class UsersController < ApplicationController
 		@user.save
 		
 		session[:user_id] = @user.id
-		flash[:succes] = "Cambiada la contrasena"
+		flash[:succes] = "Su contrasena ha sido recuperada satisfactoriamente"
 		redirect_to home_path
 
 	end
@@ -668,7 +668,7 @@ class UsersController < ApplicationController
 		end
 		
 		if(DateTime.now > @activation.expires_at)
-			flash[:error] = "Esta activacion ya vencio, se le ha enviado un nuevo mail"
+			flash[:error] = "El enlace para activar su cuenta ha vencido, se le ha enviado un nuevo mail"
 			
 			@activation = EmailActivation.new
 			@activation.user_id = @user.id
@@ -721,7 +721,7 @@ class UsersController < ApplicationController
 		@user.hashed_password = @hashed
 		@user.save
 		
-		flash[:succes] = "Bienvenido a tareApp"
+		flash[:succes] = "Bienvenido a tareApp 2.0"
 		redirect_to home_path
 	end
 	

@@ -73,3 +73,7 @@ body {
 .downloadImage {
     width: 10%;
 }
+
+.index_title {
+    text-align: center;
+}

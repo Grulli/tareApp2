@@ -110,10 +110,10 @@ class HomeworksController < ApplicationController
 			return
 		end
 	end
-    #Contamos las tareas para asegurarnos de que no tenga más de 20
+    #Contamos las tareas para asegurarnos de que no tenga sobre 20
     userid = session[:user_id]
-    if(User.find(userid).homeworks.count >= 20)
-      flash[:error] = "Usted ya tiene 20 o mas tareas"
+    if(User.find(userid).homeworks.count > 20)
+      flash[:error] = "Lo sentimos, no puede tener una cantidad mayor a 20 buzones"
       redirect_to home_path
     else
       @homework = Homework.new(params[:homework])
@@ -138,7 +138,7 @@ class HomeworksController < ApplicationController
 				file.write(uploaded_io.read)
 			end
 			
-            format.html { redirect_to @homework, notice: 'Tarea creada exitosamente' }
+            format.html { redirect_to @homework, notice: 'Buzon creado exitosamente' }
             format.json { render json: @homework, status: :created, location: @homework }
           else
             format.html { render action: "new" }
@@ -170,7 +170,7 @@ class HomeworksController < ApplicationController
 
     respond_to do |format|
       if @homework.update_attributes(params[:homework])
-        format.html { redirect_to @homework, notice: 'Tarea actualizada exitosamente' }
+        format.html { redirect_to @homework, notice: 'Buzon actualizado exitosamente' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -230,7 +230,7 @@ class HomeworksController < ApplicationController
   end
 
     if(!Homework.exists?(:id=>params[:id]))
-      flash[:error] = "Tarea inexistente"
+      flash[:error] = "Buzon inexistente"
       redirect_to home_path
       return
     end
@@ -255,7 +255,7 @@ class HomeworksController < ApplicationController
   end
 
    if(!Homework.exists?(:id=>params[:id]))
-      flash[:error] = "Tarea inexistente"
+      flash[:error] = "Buzon inexistente"
       redirect_to home_path
       return
     end
@@ -379,7 +379,7 @@ class HomeworksController < ApplicationController
 		@participation = Participation.where(:homework_id => @homework.id, :user_id => @user.id).first
 
 		if(params[:captcha_random_hash] != Digest::SHA1.hexdigest(params[:captcha_random]))
-			flash[:error] = "Error en el Captcha"
+			flash[:error] = "Error en el captcha"
 			redirect_to @homework
 			return
 		end
@@ -409,7 +409,7 @@ class HomeworksController < ApplicationController
 		end
 	
 		if (total_size / 1024000 > 50)
-			flash[:error] = "Archivo demasiado grande"
+			flash[:error] = "Lo sentimos, su entrega no puede superar los 50 MB"
 			redirect_to @homework
 			return
 		end
@@ -481,7 +481,7 @@ class HomeworksController < ApplicationController
       end
     end
      if(!Homework.exists?(:id=>params[:id]))
-      flash[:error] = "Tarea inexistente"
+      flash[:error] = "Buzon inexistente"
       redirect_to home_path
       return
     end
@@ -500,7 +500,7 @@ class HomeworksController < ApplicationController
       return
     end
     if(!Homework.exists?(:id=>params[:homework_id]))
-      flash[:error] = "Tarea inexistente"
+      flash[:error] = "Buzon inexistente"
       redirect_to home_path
       return
     end
@@ -517,7 +517,7 @@ class HomeworksController < ApplicationController
     @homework = Homework.find(params[:homework_id])
 
     if(!Participation.exists?(:homework_id => @homework.id, :user_id => params[:user_id]))
-      flash[:error] = "Ese usuario no pertenece a esa tarea"
+      flash[:error] = "Ese usuario no pertenece a esta tarea"
       redirect_to home_path
       return
     end
@@ -526,7 +526,7 @@ class HomeworksController < ApplicationController
     @invitations = Participation.find_all_by_homework_id(@homework.id)
     participation.destroy
     #Redirigir
-    flash[:succes] = "Usuario desinvitado"
+    flash[:succes] = "El usuario #{user.name + " " + user.lastname} fue eliminado de esta tarea y ya no puede participar en ella."
      redirect_to "/homeworks/manageinvites/#{@homework.id}"
   end
 
@@ -539,7 +539,7 @@ class HomeworksController < ApplicationController
         return
       end
       if(!Homework.exists?(:id=>params[:homework_id]))
-        flash[:error] = "Tarea inexistente"
+        flash[:error] = "Buzon inexistente"
         redirect_to home_path
         return
       end

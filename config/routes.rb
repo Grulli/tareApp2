@@ -12,6 +12,7 @@ TareApp2::Application.routes.draw do
 	
 	match 'login' => 'home#login', :as => :login
 	match 'login_2' => 'home#login_2', :as => :login_2
+	match 'featured_users' => 'home#featured_users', :as => :featured_users
 	match 'logout' => 'home#logout', :as => :logout
 	match 'profile/:user_id' => 'users#profile'
 	match 'edit_profile' => 'users#edit_profile', :via => :get, :as => :edit_profile

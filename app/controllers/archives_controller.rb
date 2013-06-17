@@ -74,7 +74,7 @@ class ArchivesController < ApplicationController
 
     respond_to do |format|
       if @archive.save
-        format.html { redirect_to @archive, notice: 'Archive was successfully created.' }
+        format.html { redirect_to @archive, notice: 'Archivo fue creado satisfactoriamente.' }
         format.json { render json: @archive, status: :created, location: @archive }
       else
         format.html { render action: "new" }
@@ -96,7 +96,7 @@ class ArchivesController < ApplicationController
 
     respond_to do |format|
       if @archive.update_attributes(params[:archive])
-        format.html { redirect_to @archive, notice: 'Archive was successfully updated.' }
+        format.html { redirect_to @archive, notice: 'Archivo fue actualizado satisfactoriamente.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

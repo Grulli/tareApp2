@@ -1,202 +1,212 @@
-<h3>Mis Buzones Activos <%= link_to 'Crear Buzón', new_homework_path, :name => "commit", :class => "btn btn-primary"  %></h3>
-<% if @my_active_homeworks.count > 0 %>
+<h3>Mis Buzones <%= link_to '+ Crear Nuevo Buzón', new_homework_path, :name => "commit", :class => "btn btn-primary"  %></h3>
 
-
-	<table class="footable">
-		<thead>
-			<tr>
-				<th data-class="expand">Nombre</th>
-				<th data-hide="phone,tablet">Descripción</th>
-				<th>¿Abierto?</th>
-				<th data-hide="phone,tablet">Fecha Creación</th>
-	    		<th data-hide="phone">Fecha Límite</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<% @my_active_homeworks.each do |homework| %>
-				<tr>
-					<td><%= homework.name %></td>
-					<td><% if homework.description.length < 15 %>
-				            <%= homework.description %>
-				        <% else %>
-				            <%= homework.description.first(15) %> ...
-				        <% end %>
-				    </td>
-					<td>
-						<% if homework.active%>
-						Si
-						<% else %>
-						No
+<div class="tabbable"> <!-- Only required for left/right tabs -->
+  	<ul class="nav nav-tabs" id="mis_buzones">
+    	<li class="active"><a href="#tab1" data-toggle="tab">Buzones Activos</a></li>
+    	<li><a href="#tab2" data-toggle="tab">Buzones Pendientes</a></li>
+    	<li><a href="#tab3" data-toggle="tab">Buzones Finalizados</a></li>
+  	</ul>
+  	<div class="tab-content">
+    	<div class="tab-pane active" id="tab1">
+      		<% if @my_active_homeworks.count > 0 %>
+				<table class="footable">
+					<thead>
+						<tr>
+							<th data-class="expand">Nombre</th>
+							<th data-hide="phone,tablet">Descripción</th>
+							<th>¿Abierto?</th>
+							<th data-hide="phone,tablet">Fecha Creación</th>
+				    		<th data-hide="phone">Fecha Límite</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @my_active_homeworks.each do |homework| %>
+							<tr>
+								<td><%= homework.name %></td>
+								<td><% if homework.description.length < 15 %>
+							            <%= homework.description %>
+							        <% else %>
+							            <%= homework.description.first(15) %> ...
+							        <% end %>
+							    </td>
+								<td>
+									<% if homework.active%>
+									Si
+									<% else %>
+									No
+									<% end %>
+								</td>
+								<td><%= homework.created_at %></td>
+				    			<td><%= homework.expires_at %></td>
+								<td>
+									<a href = <%= url_for(homework) %> >
+								        <i class="icon-eye-open"></i>
+								    </a>
+								    <% if session[:user_id] == homework.user_id %>
+								        <span>|</span>
+								        <a href = <%= url_for(edit_homework_path(homework)) %> >
+								            <i class="icon-pencil"></i>
+								        </a>
+								        <span>|</span>
+								        <a href = <%= url_for(homework) %> data-method="delete" class="delete_link">
+								            <i class="icon-trash"></i>
+								        </a>
+								    <% end %>
+								</td>
+							</tr>
 						<% end %>
-					</td>
-					<td><%= homework.created_at %></td>
-	    			<td><%= homework.expires_at %></td>
-					<td>
-						<a href = <%= url_for(homework) %> >
-					        <i class="icon-eye-open"></i>
-					    </a>
-					    <% if session[:user_id] == homework.user_id %>
-					        <span>|</span>
-					        <a href = <%= url_for(edit_homework_path(homework)) %> >
-					            <i class="icon-pencil"></i>
-					        </a>
-					        <span>|</span>
-					        <a href = <%= url_for(homework) %> data-method="delete" class="delete_link">
-					            <i class="icon-trash"></i>
-					        </a>
-					    <% end %>
-					</td>
-				</tr>
+					</tbody>
+				</table>
+
+				<br />
+
+				<ul id="pagination" class="footable-nav"><span>Paginas:</span></ul>
+
+				<br />
+
+			<% else %>
+			Usted no tiene buzones activos. <br />
 			<% end %>
-		</tbody>
-	</table>
+    	</div>
 
-	<br />
+    	<div class="tab-pane" id="tab2">
+      		<% if @my_pending_homeworks.count > 0 %>
+				<table class="footable">
+					<thead>
+						<tr>
+							<th data-class="expand">Nombre</th>
+							<th data-hide="phone,tablet">Descripción</th>
+							<th>¿Abierto?</th>
+							<th data-hide="phone,tablet">Fecha Creación</th>
+				    		<th data-hide="phone">Fecha Límite</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @my_pending_homeworks.each do |homework| %>
+							<tr>
+								<td><%= homework.name %></td>
+								<td><% if homework.description.length < 15 %>
+							            <%= homework.description %>
+							        <% else %>
+							            <%= homework.description.first(15) %> ...
+							        <% end %>
+							    </td>
+								<td>
+									<% if homework.active%>
+									Si
+									<% else %>
+									No
+									<% end %>
+								</td>
+								<td><%= homework.created_at %></td>
+				    			<td><%= homework.expires_at %></td>
+								<td>
+									<a href = <%= url_for(homework) %> >
+								        <i class="icon-eye-open"></i>
+								    </a>
+								    <% if session[:user_id] == homework.user_id %>
+								        <span>|</span>
+								        <a href = <%= url_for(edit_homework_path(homework)) %> >
+								            <i class="icon-pencil"></i>
+								        </a>
+								        <span>|</span>
+								        <a href = <%= url_for(homework) %> data-method="delete" class="delete_link">
+								            <i class="icon-trash"></i>
+								        </a>
+								    <% end %>
+								</td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
 
-	<ul id="pagination" class="footable-nav"><span>Paginas:</span></ul>
+				<br />
 
-	<br />
+				<ul id="pagination" class="footable-nav"><span>Paginas:</span></ul>
 
-<% else %>
-Usted no tiene buzones activos. <br />
-<% end %>
+				<br />
+
+			<% else %>
+			Usted no tiene buzones pendientes. <br />
+			<% end %>
+    	</div>
+
+    	<div class="tab-pane" id="tab3">
+      		<% if @my_ended_homeworks.count > 0 %>
+				<table class="footable">
+					<thead>
+						<tr>
+							<th data-class="expand">Nombre</th>
+							<th data-hide="phone,tablet">Descripción</th>
+							<th>¿Abierto?</th>
+							<th data-hide="phone,tablet">Fecha Creación</th>
+				    		<th data-hide="phone">Fecha Límite</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @my_ended_homeworks.each do |homework| %>
+							<tr>
+								<td><%= homework.name %></td>
+								<td><% if homework.description.length < 15 %>
+							            <%= homework.description %>
+							        <% else %>
+							            <%= homework.description.first(15) %> ...
+							        <% end %>
+							    </td>
+								<td>
+									<% if homework.active%>
+									Si
+									<% else %>
+									No
+									<% end %>
+								</td>
+								<td><%= homework.created_at %></td>
+				    			<td><%= homework.expires_at %></td>
+								<td>
+									<a href = <%= url_for(homework) %> >
+								        <i class="icon-eye-open"></i>
+								    </a>
+								    <% if session[:user_id] == homework.user_id %>
+								        <span>|</span>
+								        <a href = <%= url_for(edit_homework_path(homework)) %> >
+								            <i class="icon-pencil"></i>
+								        </a>
+								        <span>|</span>
+								        <a href = <%= url_for(homework) %> data-method="delete" class="delete_link">
+								            <i class="icon-trash"></i>
+								        </a>
+								    <% end %>
+								</td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+
+				<br />
+
+				<ul id="pagination" class="footable-nav"><span>Paginas:</span></ul>
+
+				<br />
+
+			<% else %>
+			Usted no tiene buzones finalizados.	<br />
+			<% end %>
+    	</div>
+  	</div>
+</div>
+
+
+
+
+
+
 
 <br />
 
-<h3>Mis Buzones Pendientes</h3>
-<% if @my_pending_homeworks.count > 0 %>
-
-
-	<table class="footable">
-		<thead>
-			<tr>
-				<th data-class="expand">Nombre</th>
-				<th data-hide="phone,tablet">Descripción</th>
-				<th>¿Abierto?</th>
-				<th data-hide="phone,tablet">Fecha Creación</th>
-	    		<th data-hide="phone">Fecha Límite</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<% @my_pending_homeworks.each do |homework| %>
-				<tr>
-					<td><%= homework.name %></td>
-					<td><% if homework.description.length < 15 %>
-				            <%= homework.description %>
-				        <% else %>
-				            <%= homework.description.first(15) %> ...
-				        <% end %>
-				    </td>
-					<td>
-						<% if homework.active%>
-						Si
-						<% else %>
-						No
-						<% end %>
-					</td>
-					<td><%= homework.created_at %></td>
-	    			<td><%= homework.expires_at %></td>
-					<td>
-						<a href = <%= url_for(homework) %> >
-					        <i class="icon-eye-open"></i>
-					    </a>
-					    <% if session[:user_id] == homework.user_id %>
-					        <span>|</span>
-					        <a href = <%= url_for(edit_homework_path(homework)) %> >
-					            <i class="icon-pencil"></i>
-					        </a>
-					        <span>|</span>
-					        <a href = <%= url_for(homework) %> data-method="delete" class="delete_link">
-					            <i class="icon-trash"></i>
-					        </a>
-					    <% end %>
-					</td>
-				</tr>
-			<% end %>
-		</tbody>
-	</table>
-
-	<br />
-
-	<ul id="pagination" class="footable-nav"><span>Paginas:</span></ul>
-
-	<br />
-
-<% else %>
-Usted no tiene buzones pendientes. <br />
-<% end %>
-
-<br />
-
-<h3>Mis Buzones Finalizados</h3>
-<% if @my_ended_homeworks.count > 0 %>
-
-
-	<table class="footable">
-		<thead>
-			<tr>
-				<th data-class="expand">Nombre</th>
-				<th data-hide="phone,tablet">Descripción</th>
-				<th>¿Abierto?</th>
-				<th data-hide="phone,tablet">Fecha Creación</th>
-	    		<th data-hide="phone">Fecha Límite</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<% @my_ended_homeworks.each do |homework| %>
-				<tr>
-					<td><%= homework.name %></td>
-					<td><% if homework.description.length < 15 %>
-				            <%= homework.description %>
-				        <% else %>
-				            <%= homework.description.first(15) %> ...
-				        <% end %>
-				    </td>
-					<td>
-						<% if homework.active%>
-						Si
-						<% else %>
-						No
-						<% end %>
-					</td>
-					<td><%= homework.created_at %></td>
-	    			<td><%= homework.expires_at %></td>
-					<td>
-						<a href = <%= url_for(homework) %> >
-					        <i class="icon-eye-open"></i>
-					    </a>
-					    <% if session[:user_id] == homework.user_id %>
-					        <span>|</span>
-					        <a href = <%= url_for(edit_homework_path(homework)) %> >
-					            <i class="icon-pencil"></i>
-					        </a>
-					        <span>|</span>
-					        <a href = <%= url_for(homework) %> data-method="delete" class="delete_link">
-					            <i class="icon-trash"></i>
-					        </a>
-					    <% end %>
-					</td>
-				</tr>
-			<% end %>
-		</tbody>
-	</table>
-
-	<br />
-
-	<ul id="pagination" class="footable-nav"><span>Paginas:</span></ul>
-
-	<br />
-
-<% else %>
-Usted no tiene buzones finalizados.	<br />
-<% end %>
-
-<br />
-
-<h3>Buzones en las que participo</h3>
+<h3>Buzones en los que participo</h3>
 <% if @other_homeworks.count > 0 %>
 
 	<table class="footable">
@@ -246,13 +256,13 @@ Usted no tiene buzones finalizados.	<br />
 	<br />
 	
 <% else %>
-No lo han invitado a ningún buzón de tareas.
+No ha sido invitado a ningún buzón de tareas.
 <% end %>
 <br />
 
 <script type="text/javascript">
-	$(function() {
-		$('.footable').footable();
+	$(document).ready(function() {
+	    $('.footable').footable();
 	});
   
 	$(".delete_link").click(function(e){

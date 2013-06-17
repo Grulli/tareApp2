@@ -20,7 +20,8 @@ end
 
 gem 'jquery-rails'
 
-gem 'rubyzip'
+gem 'zip'
+gem 'rubyzip', :require => 'zip/zip'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -37,3 +38,4 @@ gem 'rubyzip'
 # gem 'debugger'
 
 gem "actionmailer", "~> 3.2.12"
+gem "mysql2"
