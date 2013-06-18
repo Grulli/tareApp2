@@ -276,7 +276,7 @@ class UsersController < ApplicationController
 	flash[:succes] = "Datos actualizados satisfactoriamente"
 	
 	if(User.find(session[:user_id]).admin)
-		redirect_to admin_path
+		redirect_to users_path
 		return
 	end
 	
