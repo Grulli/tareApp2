@@ -46,11 +46,11 @@ class OauthController < ApplicationController
 			@result = JSON.parse(@resp)
 		
 			if @result['email']
-				if User.exists?(:mail => @result['email'], :deleted => 0)
-					user = User.find_by_mail_and_deleted(@result['email'],0)
+				if User.exists?(:email => @result['email'], :deleted => 0)
+					user = User.find_by_email_and_deleted(@result['email'],0)
 					if user.active
 						session[:user_id] = user.id
-						@user = User.find_by_mail(@result['email'])
+						@user = User.find_by_email(@result['email'])
 						flash[:succes] = "Sesion iniciada exitosamente"
 						return redirect_to home_path
 					else
@@ -59,7 +59,7 @@ class OauthController < ApplicationController
 					end
 				else
 					@user = User.new
-					@user.mail = @result['email']
+					@user.email = @result['email']
 					@user.salt = SecureRandom.hex
 					@user.hashed_password = SecureRandom.hex
 					@user.active = false
