@@ -47,7 +47,7 @@
 									<a href = <%= url_for(homework) %> >
 								        <i class="icon-eye-open"></i>
 								    </a>
-								    <% if session[:user_id] == homework.user_id %>
+								    <% if (session[:user_id] == homework.user_id) || (User.find(session[:user_id]).admin) %>
 								        <span>|</span>
 								        <a href = <%= url_for(edit_homework_path(homework)) %> >
 								            <i class="icon-pencil"></i>
