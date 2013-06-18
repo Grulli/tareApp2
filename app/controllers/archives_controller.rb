@@ -2,11 +2,11 @@ class ArchivesController < ApplicationController
   # GET /archives
   # GET /archives.json
   def index
-    if(filters)
-      flash[:error] = "Acceso denegado"
-      redirect_to home_path
-      return
-    end
+    #if(filters)
+	#	flash[:error] = "Acceso denegado"
+	#	redirect_to home_path
+	#	return
+    #end
 
     @archives = Archive.all
 

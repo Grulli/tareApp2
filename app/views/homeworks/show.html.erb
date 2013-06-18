@@ -16,7 +16,8 @@
 			<i class="icon-pencil"></i> <%= link_to 'Editar', edit_homework_path(@homework) %>
 			<% if @homework.active && (@homework.expires_at > DateTime.now) %> |
 			<i class="icon-share"></i> <%= link_to 'Invitar gente', "/homework/invite/#{@homework.id}" %> |
-			<i class="icon-ban-circle"></i> <%= link_to 'Eliminar Invitados', "/homeworks/manageinvites/#{@homework.id}" %>
+			<i class="icon-ban-circle"></i> <%= link_to 'Eliminar Invitados', "/homeworks/manageinvites/#{@homework.id}" %> |
+			<i class="icon-arrow-down"></i> <%= link_to 'Bajar versiones actuales de archivos', "/latest/#{@homework.id}" %>
 			<% end %>
 		<% else %>
 			<i class="icon-briefcase"></i> <%= link_to 'Ver mis archivos', "/homeworks/#{@homework.id}/viewfiles" %>

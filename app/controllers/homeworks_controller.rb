@@ -131,12 +131,12 @@ class HomeworksController < ApplicationController
           if @homework.save
 			
       begin
-			 directory = Dir::pwd + "/public/shared_files/#{userid.to_s}"
+			 directory = Dir::pwd + "/shared_files/#{userid.to_s}"
 			 Dir::mkdir(directory) unless File.exists?(directory)
-			 directory = Dir::pwd + "/public/shared_files/#{userid.to_s}/#{@homework.id.to_s}"
+			 directory = Dir::pwd + "/shared_files/#{userid.to_s}/#{@homework.id.to_s}"
 			 Dir::mkdir(directory) unless File.exists?(directory)
 
-        File.open(Rails.root.join('public', "shared_files/#{userid.to_s}/#{@homework.id.to_s}", @homework.filename), 'wb') do |file|
+        File.open(Rails.root.join('shared_files', "#{userid.to_s}/#{@homework.id.to_s}", @homework.filename), 'wb') do |file|
           file.write(uploaded_io.read)
         end
 			rescue
@@ -428,18 +428,18 @@ class HomeworksController < ApplicationController
 			end
 		end
 
-		directory = Dir::pwd + "/public/shared_files/#{@homework.user_id.to_s}"
+		directory = Dir::pwd + "/shared_files/#{@homework.user_id.to_s}"
 		Dir::mkdir(directory) unless File.exists?(directory)
-		directory = Dir::pwd + "/public/shared_files/#{@homework.user_id.to_s}/#{@homework.id.to_s}"
+		directory = Dir::pwd + "/shared_files/#{@homework.user_id.to_s}/#{@homework.id.to_s}"
 		Dir::mkdir(directory) unless File.exists?(directory)
-		directory = Dir::pwd + "/public/shared_files/#{@homework.user_id.to_s}/#{@homework.id.to_s}/#{@participation.user_id.to_s}"
+		directory = Dir::pwd + "/shared_files/#{@homework.user_id.to_s}/#{@homework.id.to_s}/#{@participation.user_id.to_s}"
 		Dir::mkdir(directory) unless File.exists?(directory)
-		directory = Dir::pwd + "/public/shared_files/#{@homework.user_id.to_s}/#{@homework.id.to_s}/#{@participation.user_id.to_s}/#{@version.to_s}"
+		directory = Dir::pwd + "/shared_files/#{@homework.user_id.to_s}/#{@homework.id.to_s}/#{@participation.user_id.to_s}/#{@version.to_s}"
 		Dir::mkdir(directory) unless File.exists?(directory)
 		
 		uploaded_count = 0;
-		file_path = Dir::pwd + "/public/shared_files/#{@homework.user_id.to_s}/#{@homework.id.to_s}/#{@participation.user_id.to_s}/#{@version.to_s}"
-		zipfile_name = Dir::pwd + "/public/shared_files/#{@homework.user_id.to_s}/#{@homework.id.to_s}/#{@participation.user_id.to_s}/#{@version.to_s}//#{@version.to_s}.zip"
+		file_path = Dir::pwd + "/shared_files/#{@homework.user_id.to_s}/#{@homework.id.to_s}/#{@participation.user_id.to_s}"
+		zipfile_name = Dir::pwd + "/shared_files/#{@homework.user_id.to_s}/#{@homework.id.to_s}/#{@participation.user_id.to_s}/#{@version.to_s}.zip"
 		
 		for i in 0..params[:file_count].to_i
 			@archive = Archive.new
@@ -452,7 +452,7 @@ class HomeworksController < ApplicationController
 			begin
 				uploaded_io = params["file_#{i}"]
 				@archive.name = uploaded_io.original_filename
-				File.open(Rails.root.join('public', "shared_files/#{@homework.user_id.to_s}/#{@homework.id.to_s}/#{@participation.user_id.to_s}/#{@version.to_s}", uploaded_io.original_filename), 'wb') do |file|
+				File.open(Rails.root.join('shared_files', "#{@homework.user_id.to_s}/#{@homework.id.to_s}/#{@participation.user_id.to_s}/#{@version.to_s}", uploaded_io.original_filename), 'wb') do |file|
 					file.write(uploaded_io.read)
 				end
 				@archive.save

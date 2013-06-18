@@ -4,7 +4,7 @@
   <li class="active">Viendo los archivos del usuario <%= @user.name%> <%= @user.lastname %> para el buzón "<%= @homework.name %></li>
 </ul>
 
-<h2>Viendo los archivos del usuario <%= @user.name%> <%= @user.lastname %> para el buzón "<%= @homework.name %></h2>
+<h2>Viendo los archivos del usuario <%= @user.name%> <%= @user.lastname %> para el buzón <%= @homework.name %></h2>
 <!-- Mostrar todos los archivos -->
 <% if @archives.count > 0%>
 <div class="accordion" id="accordion2">
@@ -19,17 +19,17 @@
 		    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion<%= a.version%>" href="#collapse<%= a.version%>">
 		        Versión <%= a.version%>
 				|
-			<a href = "<%= "/shared_files/#{@homework.user_id}/#{@homework.id}/#{@user.id}/#{a.version}/#{a.version}.zip" %>">Descargar zip </a>
+			<a href = "<%= "/shared_files/#{@homework.user_id}/#{@homework.id}/#{@user.id}/#{a.version}/zip" %>">Descargar zip </a>
 		    </a>
 		    </div>
 		    <div id="collapse<%= a.version%>" class="accordion-body collapse">
 		    	<div class="accordion-inner">
-			        <a href="/shared_files/<%= @homework.user_id %>/<%= @homework.id %>/<%= @user.id %>/<%= a.version %>/<%= a.name %>"><%= a.name %></a>
+			        <a href="/shared_files/<%= @homework.user_id %>/<%= @homework.id %>/<%= @user.id %>/<%= a.version %>/<%= a.id %>"><%= a.name %></a>
 			    </div>
 			<% current = a.version%>
 			<% else %>
 			<div class="accordion-inner">
-		        <a href="/shared_files/<%= @homework.user_id %>/<%= @homework.id %>/<%= @user.id %>/<%= a.version %>/<%= a.name %>"><%= a.name %></a>
+		        <a href="/shared_files/<%= @homework.user_id %>/<%= @homework.id %>/<%= @user.id %>/<%= a.version %>/<%= a.id %>"><%= a.name %></a>
 		      </div>
 			<% end %>
 	<% end %>

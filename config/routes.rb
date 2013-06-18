@@ -43,4 +43,10 @@ TareApp2::Application.routes.draw do
 
 	match 'facebook_login' => 'oauth#facebook_login'
 	
+	match 'shared_files/:owner_id/:homework_id/:enunciado' => 'file#enunciado'
+	match 'shared_files/:owner_id/:homework_id/:user_id/:version/zip' => 'file#version_file'
+	match 'shared_files/:owner_id/:homework_id/:user_id/:version/:file' => 'file#single_file'
+	match 'latest/:homework_id' => 'file#latest'
+	
+	
 end
