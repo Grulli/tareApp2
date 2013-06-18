@@ -99,7 +99,13 @@ class FileController < ApplicationController
 			return redirect_to home_path
 		end
 		
-		zipfile_name = Dir::pwd + "/shared_files/#{homework.user_id.to_s}/#{homework.id.to_s}/#{homework.name}_#{DateTime.now.to_s}.zip"
+		zipfile_name = Dir::pwd + "/shared_files/#{homework.user_id.to_s}/#{homework.id.to_s}/#{homework.name}"
+		count = 1;
+		while(File.exists?("#{zipfile_name}_#{count}.zip"))
+			count = count + 1
+		end
+		
+		zipfile_name = "#{zipfile_name}_#{count}.zip"
 		
 		homework.participations.each do |p|
 			if(p.archives.count > 0)
@@ -110,13 +116,22 @@ class FileController < ApplicationController
 					end
 				end
 				version_zipfile_name = Dir::pwd + "/shared_files/#{homework.user_id.to_s}/#{homework.id.to_s}/#{p.user_id.to_s}/#{version.to_s}.zip"
-				if(File.exists?(version_zipfile_name))
-					Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|
-						zipfile.add("#{p.lastname}_#{p.name}_#{p.id}_version_#{version}.zip", version_zipfile_name)
+				if(!File.exists?(version_zipfile_name))
+					p.archives.find_all_by_version(version).each do |a|
+						file_path = Dir::pwd + "/shared_files/#{homework.user_id.to_s}/#{homework.id.to_s}/#{p.user_id.to_s}/#{version.to_s}"
+						Zip::ZipFile.open(version_zipfile_name, Zip::ZipFile::CREATE) do |zipfile|
+							zipfile.add(a.name, file_path + '/' + a.name)
+						end
 					end
-				else
+				end
+				Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|
+					zipfile.add("#{p.user.lastname}_#{p.user.name}_#{p.homework.name}_#{p.id}_version_#{version}.zip", version_zipfile_name)
 				end
 			end
+		end
+		
+		File.open(zipfile_name, 'rb') do |file|
+			return send_data(file.read, :filename => "#{homework.name}.zip")
 		end
 		
 	end

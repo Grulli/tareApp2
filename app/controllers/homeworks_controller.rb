@@ -457,10 +457,11 @@ class HomeworksController < ApplicationController
 				end
 				@archive.save
 				uploaded_count = uploaded_count + 1
-			
+				'''
 				Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|
 					zipfile.add(@archive.name, file_path + '/' + @archive.name)
 				end
+				'''
 			rescue
 			end
 			
