@@ -14,7 +14,7 @@
 	<h2><%= @homework.name %></h2>
 		<% if (session[:user_id] == @homework.user_id) || (User.find(session[:user_id]).admin) %>
 			<i class="icon-pencil"></i> <%= link_to 'Editar', edit_homework_path(@homework) %>
-			<% if @homework.active %> |
+			<% if @homework.active && (@homework.expires_at > DateTime.now) %> |
 			<i class="icon-share"></i> <%= link_to 'Invitar gente', "/homework/invite/#{@homework.id}" %> |
 			<i class="icon-ban-circle"></i> <%= link_to 'Eliminar Invitados', "/homeworks/manageinvites/#{@homework.id}" %>
 			<% end %>
@@ -80,7 +80,10 @@
 			</tbody>
 		</table>
 		<% else %>
-			No hay invitados a esta tarea. Puede invitar <%= link_to 'aquí', "/homework/invite/#{@homework.id}" %>.
+			No hay invitados a esta tarea. 
+			<% if @homework.active && (@homework.expires_at > DateTime.now) %>
+			Puede invitar <%= link_to 'aquí', "/homework/invite/#{@homework.id}" %>.
+			<% end %>
 		<% end %>
 
 	<% else %>
