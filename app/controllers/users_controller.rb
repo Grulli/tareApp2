@@ -332,6 +332,7 @@ class UsersController < ApplicationController
   end
 
 	def profile #El perfil personalizado de cada usuario
+		'''
 		if(filters)
 			if(!session[:user_id])
 				flash[:error] = "Acceso denegado"
@@ -344,6 +345,7 @@ class UsersController < ApplicationController
 				return
 			end
 		end
+		'''
 		flash[:active_tab] = "profile"
 		@user = User.find(params[:user_id])
 	end

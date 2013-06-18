@@ -12,6 +12,8 @@ class HomeController < ApplicationController
 					@random_hash = Digest::SHA1.hexdigest(@random.to_s)
 				end
 			end
+			@top_users = User.all
+			@top_users.sort!{ |a,b| -a.homeworks.count <=> -b.homeworks.count }
 		else
 			@user = User.find(session[:user_id])
 			@my_homeworks = @user.homeworks

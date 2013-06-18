@@ -1,1 +1,10 @@
-Perfiles destacados...
+<% @count = [3, @top_users.count].min %>
+<% for i in 0..(@count - 1) %>
+	<% u = @top_users[i] %>
+	<div class="content_centered">
+		<%= link_to "Ver perfil completo", "/profile/#{u.id}" %>
+		<hr>
+		<%= raw u.profile %>
+	</div>
+	<br/>
+<% end %>
