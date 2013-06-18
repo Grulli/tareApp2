@@ -5,16 +5,29 @@
 </ul>
 
 <h1>Invitar a <%= @homework.name %></h1>
+Puede invitar usuarios haciendo uso de la Carga Manual o la Carga Masiva de Usuarios
+<br />
+<br />
+<h3>Carga Manual de Usuarios</h3>
+Puede ingresar el correo electrónico de los invitados separados por espacios:
 <%= form_tag("/save_homework_invites/#{@homework.id}", :method => "post", :multipart => true) do %>
 <input type="textarea" id="invitados">
+
 <br>
-<center>
+<br>
+
 <div class="field">
-    <label for="homework_filename">Carga rapida</label>
-	<%= link_to "Ejemplo", example_file_path %>
+	<h3>Carga Masiva de Usuarios</h3>
+    <label for="homework_filename">Para utilizar la carga masiva de usuarios le recomendamos descargar el <%= link_to "archivo de ejemplo", example_file_path %> y subirlo una vez completado</label>
+	<br />
+	<h4>Archivo de carga masiva de usuarios:</h4>
     <%= file_field_tag 'file' %>
 </div>
-<%= submit_tag "Invitar", :class => 'btn btn-primary' %></center>
+
+<br>
+<br>
+
+<%= submit_tag "Invitar", :class => 'btn btn-primary' %>
 <% end %>
 <script>
 $('#invitados').multipleInput();
