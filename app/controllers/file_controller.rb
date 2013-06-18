@@ -92,15 +92,31 @@ class FileController < ApplicationController
 			return redirect_to home_path
 		end
 		
-		homework = Homework.find(:params[:homework_id])
+		homework = Homework.find(params[:homework_id])
 		
 		if(session[:user_id] != homework.user.id)
 			flash[:error] = "Acceso denegado"
 			return redirect_to home_path
 		end
 		
-		homework.participations.each do |p|
+		zipfile_name = Dir::pwd + "/shared_files/#{homework.user_id.to_s}/#{homework.id.to_s}/#{homework.name}_#{DateTime.now.to_s}.zip"
 		
+		homework.participations.each do |p|
+			if(p.archives.count > 0)
+				version = 1
+				p.archives.each do |a|
+					if(a.version > version)
+						version = a.version
+					end
+				end
+				version_zipfile_name = Dir::pwd + "/shared_files/#{homework.user_id.to_s}/#{homework.id.to_s}/#{p.user_id.to_s}/#{version.to_s}.zip"
+				if(File.exists?(version_zipfile_name))
+					Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|
+						zipfile.add("#{p.lastname}_#{p.name}_#{p.id}_version_#{version}.zip", version_zipfile_name)
+					end
+				else
+				end
+			end
 		end
 		
 	end

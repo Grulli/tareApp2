@@ -337,7 +337,7 @@ class HomeworksController < ApplicationController
           else
             #Revisar que no haya sido invitado
             @user = User.find_by_email_and_deleted(g[1].delete(' '), 0)
-            if(!Participation.exists?(:user_id => @user.id))
+            if(!Participation.exists?(:user_id => @user.id, :homework_id => @homework.id))
                @hu = Participation.new
                 @hu.user_id = @user.id
                 @hu.homework_id = @homework.id
