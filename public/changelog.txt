@@ -1,19 +1,33 @@
---- Versión 1.0 ---
--Versión estable con todos los bugs detectados solucionados
+*** Versión 2.0 - 18 de Junio de 2013 ***
+- Mis buzones unificados para mejorar la presentación
+- Index muestra perfiles de usuarios con más buzones
+- Permisos de acceso y funciones de acuerdo a situación de un buzón dado
+- Responsividad para tablets y smartphones
+- Diseño optimizado para móviles, limitando algunas funciones
+- Arcivos comprimidos de las entregas
+- Login con Facebook
+- Descargar las últimas versiones de todos los estudiantes
+- Mayor uso y acceso a perfiles públicos
+- Favicon agregado
+- Diseño de interfaces que faltaban
+- Corrección de bugs
 
---- Versión 0.4 ---
--Casi todo lo de archivos listos
--Cambios gráficos listos
--Lugares sin traducir traducidos
+*** Versión 1.0 - 5 de Junio de 2013 ***
+- Versión estable con todos los bugs detectados solucionados
 
---- Versión 0.3 ---
--Listo todo lo de tareas
--Inicio manejo de archivos
--Cambios gráficos fuertes
+*** Versión 0.4 - 5 de Junio de 2013 ***
+- Casi todo lo de archivos listos
+- Cambios gráficos listos
+- Lugares sin traducir traducidos
 
---- Versión 0.2 ---
--Funcionalidades de usuarios listas
--Funcionalidades de manejo de tareas listas
+*** Versión 0.3 - 8 de Mayo de 2013 ***
+- Listo todo lo de tareas
+- Inicio manejo de archivos
+- Cambios gráficos fuertes
 
---- Versión 0.1 ---
--Funcionalidades básicas del manejo de usuarios
+*** Versión 0.2 - 9 de Abril de 2013 ***
+- Funcionalidades de usuarios listas
+- Funcionalidades de manejo de tareas listas
+
+*** Versión 0.1 - 9 de Abril de 2013 ***
+- Funcionalidades básicas del manejo de usuarios

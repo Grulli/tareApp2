@@ -3,29 +3,36 @@
   <li class="active">Ingresa tus datos</li>
 </ul>
 
-<h1>Ingresa tus datos</h1>
+<div class="form_centered_mid">
+	<div class="row-fluid">
+		<h1 class="span12">Bienvenido <%= @user.email %>. Por favor completa tus datos:</h1>
 
-<%= form_tag("", :method=>'post') do %>
-	<%= hidden_field_tag(:user_id, @user.id) %>
-	<%= hidden_field_tag(:hashed_id, @hashed_id) %>
-	<div class="field">
-		<%= label_tag(:email, "Correo electronico: #{@user.email}") %>
+		<%= form_tag("", :method=>'post') do %>
+			<%= hidden_field_tag(:user_id, @user.id) %>
+			<%= hidden_field_tag(:hashed_id, @hashed_id) %>
+
+			<br />
+			<div class="field">
+				<%= label_tag(:name, "Nombre:", :class => "bold") %>
+				<%= text_field_tag(:name, @user.name, :required => true,:class => "span8") %>
+			</div>
+			<br />
+			<div class="field">
+				<%= label_tag(:lastname, "Apellido:", :class => "bold") %>
+				<%= text_field_tag(:lastname, @user.lastname, :required => true, :class => "span8") %>
+			</div>
+			<br />
+			<div class="field">
+				<%= label_tag(:password, "Contraseña:", :class => "bold") %>
+				<%= password_field_tag(:password, nil, :required => true, :class => "span8") %>
+			</div>
+			<br />
+			<div class="field">
+				<%= label_tag(:password_confirmation, "Confirmacion contraseña:", :class => "bold") %>
+				<%= password_field_tag(:password_confirmation, nil, :required => true, :class => "span8") %>
+			</div>
+			<br />
+			<%= submit_tag("Guardar datos", :class => "btn btn-large btn-inverse") %>
+		<% end %>
 	</div>
-	<div class="field">
-		<%= label_tag(:name, "Nombre:") %>
-		<%= text_field_tag(:name, @user.name, :required => true) %>
-	</div>
-	<div class="field">
-		<%= label_tag(:lastname, "Apellido:") %>
-		<%= text_field_tag(:lastname, @user.lastname, :required => true) %>
-	</div>
-	<div class="field">
-		<%= label_tag(:password, "Contraseña:") %>
-		<%= password_field_tag(:password, nil, :required => true) %>
-	</div>
-	<div class="field">
-		<%= label_tag(:password_confirmation, "Confirmacion contraseña:") %>
-		<%= password_field_tag(:password_confirmation, nil, :required => true) %>
-	</div>
-	<%= submit_tag("Actualizar datos") %>
-<% end %>
+</div>
