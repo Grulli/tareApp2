@@ -1,3 +1,4 @@
+#encoding: utf-8
 require 'digest/sha1'
 require 'open-uri'
 require 'rubygems'
@@ -143,7 +144,7 @@ class HomeworksController < ApplicationController
       end
 			
 			
-            format.html { redirect_to @homework, notice: 'Buzon creado exitosamente' }
+            format.html { redirect_to @homework, notice: 'Buzón creado exitosamente' }
             format.json { render json: @homework, status: :created, location: @homework }
           else
             format.html { render action: "new" }
@@ -175,7 +176,7 @@ class HomeworksController < ApplicationController
 
     respond_to do |format|
       if @homework.update_attributes(params[:homework])
-        format.html { redirect_to @homework, notice: 'Buzon actualizado exitosamente' }
+        format.html { redirect_to @homework, notice: 'Elemento actualizado exitosamente' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -204,17 +205,14 @@ class HomeworksController < ApplicationController
     @homework = Homework.find(params[:id])
     #Antes de borrar eliminamos todo lo asociado
     participations = Participation.find_all_by_homework_id(params[:id])
-    participation.each do |p|
+    participations.each do |p|
       #Borrar achivos subidos
       p.destroy
     end
     
     @homework.destroy
-
-    respond_to do |format|
-      format.html { redirect_to homeworks_url }
-      format.json { head :no_content }
-    end
+    flash[:error] = "El buzón fue eliminado con éxito"
+    redirect_to home_path
   end
 
   #Invite people to this homework
@@ -235,7 +233,7 @@ class HomeworksController < ApplicationController
   end
 
     if(!Homework.exists?(:id=>params[:id]))
-      flash[:error] = "Buzon inexistente"
+      flash[:error] = "Buzón inexistente"
       redirect_to home_path
       return
     end
@@ -260,7 +258,7 @@ class HomeworksController < ApplicationController
   end
 
    if(!Homework.exists?(:id=>params[:id]))
-      flash[:error] = "Buzon inexistente"
+      flash[:error] = "Buzón inexistente"
       redirect_to home_path
       return
     end
@@ -467,7 +465,7 @@ class HomeworksController < ApplicationController
 			end
 			
 		end
-		flash[:succes] = "Subidos #{uploaded_count} archivos exitosamente como version #{@version}"
+		flash[:succes] = "Subidos #{uploaded_count} archivos exitosamente como v #{@version}"
 		redirect_to @homework
 	end
   def manageinvites
@@ -486,7 +484,7 @@ class HomeworksController < ApplicationController
       end
     end
      if(!Homework.exists?(:id=>params[:id]))
-      flash[:error] = "Buzon inexistente"
+      flash[:error] = "Buzón inexistente"
       redirect_to home_path
       return
     end
@@ -505,7 +503,7 @@ class HomeworksController < ApplicationController
       return
     end
     if(!Homework.exists?(:id=>params[:homework_id]))
-      flash[:error] = "Buzon inexistente"
+      flash[:error] = "Buzón inexistente"
       redirect_to home_path
       return
     end
@@ -544,7 +542,7 @@ class HomeworksController < ApplicationController
         return
       end
       if(!Homework.exists?(:id=>params[:homework_id]))
-        flash[:error] = "Buzon inexistente"
+        flash[:error] = "Buzón inexistente"
         redirect_to home_path
         return
       end
