@@ -1,4 +1,8 @@
-<h3>Mis Buzones <%= link_to '+ Crear Nuevo Buzón', new_homework_path, :name => "commit", :class => "btn btn-primary"  %></h3>
+<% if (@my_pending_homeworks.count + @my_active_homeworks.count) > 20 %>
+	<h3>Mis Buzones</h3>
+<% else %>
+	<h3>Mis Buzones <%= link_to '+ Crear Nuevo Buzón', new_homework_path, :name => "commit", :class => "btn btn-primary"  %></h3>
+<% end %>
 
 <div class="tabbable" id="mis_buzones"> <!-- Only required for left/right tabs -->
   	<ul class="nav nav-tabs">
