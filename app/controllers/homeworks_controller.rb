@@ -239,7 +239,7 @@ class HomeworksController < ApplicationController
     end
     
     @homework.destroy
-    flash[:error] = "El buzón fue eliminado con éxito"
+    flash[:succes] = "El buzón fue eliminado con éxito"
     redirect_to home_path
   end
 
