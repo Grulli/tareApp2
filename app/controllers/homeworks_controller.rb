@@ -139,7 +139,7 @@ class HomeworksController < ApplicationController
         File.open(Rails.root.join('shared_files', "#{userid.to_s}/#{@homework.id.to_s}", @homework.filename), 'wb') do |file|
           file.write(uploaded_io.read)
         end
-			rescue
+		rescue
         #Este rescue existe para capturar el error de permisos, el cual no afecta el flujo del programa (pues los buzones se crean igual).
       end
 			
@@ -174,9 +174,37 @@ class HomeworksController < ApplicationController
 	end
     @homework = Homework.find(params[:id])
 
+	if(params["file"])
+		uploaded_io = params["file"]
+		begin
+			@homework.filename = uploaded_io.original_filename
+		rescue
+			@homework.filename = params["file"].to_s
+		end
+	end
+	
+	userid = session[:user_id]
+	
     respond_to do |format|
       if @homework.update_attributes(params[:homework])
-        format.html { redirect_to @homework, notice: 'Elemento actualizado exitosamente' }
+	  
+		if(params["file"])
+			uploaded_io = params["file"]
+	  
+			begin
+				directory = Dir::pwd + "/shared_files/#{userid.to_s}"
+				Dir::mkdir(directory) unless File.exists?(directory)
+				directory = Dir::pwd + "/shared_files/#{userid.to_s}/#{@homework.id.to_s}"
+				Dir::mkdir(directory) unless File.exists?(directory)
+
+				File.open(Rails.root.join('shared_files', "#{userid.to_s}/#{@homework.id.to_s}", @homework.filename), 'wb') do |file|
+					file.write(uploaded_io.read)
+				end
+			rescue
+			#Este rescue existe para capturar el error de permisos, el cual no afecta el flujo del programa (pues los buzones se crean igual).
+			end
+		end
+        format.html { redirect_to @homework, notice: 'Buzón actualizado exitosamente' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
