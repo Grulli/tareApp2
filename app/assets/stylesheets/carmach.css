@@ -106,3 +106,13 @@ body {
 .bold {
     font-weight: bold;
 }
+
+.facebook_button {
+    background: transparent url("/facebook.png");
+    background-size: cover;
+    display: block;
+    border: none;
+    width: 231px;
+    height: 50px;
+    margin: 0 auto;
+}

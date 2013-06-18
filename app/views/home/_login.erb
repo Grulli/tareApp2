@@ -2,6 +2,8 @@
 	<%= form_tag(login_path, :method=>'post') do %>
 		<h2>Por favor identifíquese</h2>
 		<br>
+		<%= link_to "", facebook_login_path, :class=>"facebook_button" %>
+		<hr>
 		<div class="field">
 			<%= label_tag(:email_label, "Correo electrónico:") %>
 			<%= text_field_tag(:email, nil, :required => true) %>
@@ -18,7 +20,4 @@
 	<br/>
 	<br/>
 	<%= link_to 'Recuperar contraseña', recover_path %>
-	<br/>
-	<br/>
-	<%= link_to 'Incia sesion con Facebook', facebook_login_path %>
 </div>
