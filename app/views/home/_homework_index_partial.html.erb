@@ -1,7 +1,7 @@
 <h3>Mis Buzones <%= link_to '+ Crear Nuevo Buzón', new_homework_path, :name => "commit", :class => "btn btn-primary"  %></h3>
 
-<div class="tabbable"> <!-- Only required for left/right tabs -->
-  	<ul class="nav nav-tabs" id="mis_buzones">
+<div class="tabbable" id="mis_buzones"> <!-- Only required for left/right tabs -->
+  	<ul class="nav nav-tabs">
     	<li class="active"><a href="#tab1" data-toggle="tab">Buzones Activos</a></li>
     	<li><a href="#tab2" data-toggle="tab">Buzones Pendientes</a></li>
     	<li><a href="#tab3" data-toggle="tab">Buzones Finalizados</a></li>
@@ -13,10 +13,10 @@
 					<thead>
 						<tr>
 							<th data-class="expand">Nombre</th>
-							<th data-hide="phone,tablet">Descripción</th>
-							<th>¿Abierto?</th>
+							<th data-hide="phone">Descripción</th>
+							<th data-hide="phone,tablet">¿Abierto?</th>
 							<th data-hide="phone,tablet">Fecha Creación</th>
-				    		<th data-hide="phone">Fecha Límite</th>
+				    		<th>Fecha Límite</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -76,10 +76,10 @@
 					<thead>
 						<tr>
 							<th data-class="expand">Nombre</th>
-							<th data-hide="phone,tablet">Descripción</th>
-							<th>¿Abierto?</th>
+							<th data-hide="phone">Descripción</th>
+							<th data-hide="phone,tablet">¿Abierto?</th>
 							<th data-hide="phone,tablet">Fecha Creación</th>
-				    		<th data-hide="phone">Fecha Límite</th>
+				    		<th>Fecha Límite</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -139,10 +139,10 @@
 					<thead>
 						<tr>
 							<th data-class="expand">Nombre</th>
-							<th data-hide="phone,tablet">Descripción</th>
-							<th>¿Abierto?</th>
+							<th data-hide="phone">Descripción</th>
+							<th data-hide="phone,tablet">¿Abierto?</th>
 							<th data-hide="phone,tablet">Fecha Creación</th>
-				    		<th data-hide="phone">Fecha Límite</th>
+				    		<th>Fecha Límite</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -263,6 +263,7 @@ No ha sido invitado a ningún buzón de tareas.
 <script type="text/javascript">
 	$(document).ready(function() {
 	    $('.footable').footable();
+
 	});
   
 	$(".delete_link").click(function(e){
@@ -272,5 +273,4 @@ No ha sido invitado a ningún buzón de tareas.
 			return false;
 		}
 	});
-  
 </script>
