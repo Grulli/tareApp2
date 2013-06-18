@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 		end
 	end
 
-	flash[:active_tab] = "admin"
+	flash[:active_tab] = "users"
 	
 	#if(params[:email] or params[:name] or params[:lastname] or params[:admin] or params[:sufijo] or params[:date] or params[:date_1] or params[:date_2])
 	if(params[:commit] == "Buscar usuario")

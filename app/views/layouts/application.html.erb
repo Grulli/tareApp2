@@ -53,6 +53,13 @@
 											<% end %>
 												<%= link_to "Administración", admin_path %>
 											</li>
+											<% if flash[:active_tab] == "users" %>
+												<li class="active">
+											<% else %>
+												<li>
+											<% end %>
+												<%= link_to "Ver Todos los Usuarios", users_path %>
+											</li>
 											<% if flash[:active_tab] == "homeworks" %>
 												<li class="active">
 											<% else %>
