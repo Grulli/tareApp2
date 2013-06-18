@@ -14,22 +14,22 @@
             
             <div class="field">
                 <label for="homework_name">Nombre del buzón:</label>
-                <%= f.text_field :name, :class => "span12" %>
+                <%= f.text_field :name, :class => "span12", :id => "tooltip1", "data-placement" => "bottom", :title => "Este nombre será mostrado a todos los invitados al buzón" %>
             </div>
             <br />
             <div class="field">
                 <label for="homework_description">Descripción:</label>
-                <%= f.text_area :description, :class => "span12" %>
+                <%= f.text_area :description, :class => "span12", :id => "tooltip2", "data-placement" => "top", :title => "Si lo desea, puede incluir una descripción o enunciado para este buzón. Será mostrado a todos los invitados" %>
             </div>
             <br />
             <div class="field">
                 <label for="homework_filename">Subir un archivo de Enunciado:</label>
-                <%= file_field_tag 'file' %>
+                <%= file_field_tag 'file', :id => "tooltip3", "data-placement" => "right", :title => "Si lo prefiere, puede agregar un archivo de enunciado a este buzón" %>
             </div>
             <br />
             <div class="field">
                 <label for="homework_active">¿Activo?</label>
-                <%= f.check_box :active%>
+                <%= f.check_box :active, :id => "tooltip4", "data-placement" => "right", :title => "Este campo indica si el buzón comenzará abierto a los invitados o no."%>
             </div>
             <br />
             <div class="field">
@@ -52,10 +52,10 @@
                     <% end %>
             
                     <% @date_value = @date_value + @homework.expires_at.sec.to_s %>
-                    <input type="datetime-local" name="homework[expires_at]" value = "<%= @date_value.to_s %>" required>
+                    <input type="datetime-local" name="homework[expires_at]" value = "<%= @date_value.to_s %>" required id = "tooltip5" data-placement = "right" title = "Seleccione una fecha y hora de entrega para este buzón. La hora está en formato AM/PM.">
                 
                 <% else %>
-                    <input type="datetime-local" name="homework[expires_at]" required>
+                    <input type="datetime-local" name="homework[expires_at]" required id = "tooltip5" data-placement = "right" title = "Seleccione una fecha y hora de entrega para este buzón. La hora está en formato AM/PM.">
                 
                 <% end%>
             </div>
@@ -67,3 +67,13 @@
         <% end %>
     </div>
 </div>
+
+<script>
+    $(function () {
+        $('#tooltip1').tooltip();
+        $('#tooltip2').tooltip();
+        $('#tooltip3').tooltip();
+        $('#tooltip4').tooltip();
+        $('#tooltip5').tooltip();
+    });
+</script>

@@ -24,12 +24,12 @@
 
 	  <div class="field">
 	    <%= f.label :email, "Correo electronico" %>
-	    <%= f.text_field :email, :required => true%>
+	    <%= f.text_field :email, :required => true, :id => "tooltip1", "data-placement" => "right", :title => "Debe ser un correo electrónico válido" %>
 	  </div>
 	  <br />
 	  <div class="field">
 	    <%= f.label :name , "Nombre"%>
-	    <%= f.text_field :name, :required => true%>
+	    <%= f.text_field :name, :required => true %>
 	  </div>
 	  <br />
 	  <div class="field">
@@ -39,12 +39,12 @@
 	  <br />
 	  <div class="field">
 		<%= label_tag :password, "Contraseña" %>
-		<%= password_field_tag :password, nil, :required => true %>
+		<%= password_field_tag :password, nil, :required => true, :id => "tooltip2", "data-placement" => "right", :title => "Su contraseña debe tener un largo mínimo de 6 caracteres" %>
 	  </div>
 	  <br />
 	  <div class="field">
 		<%= label_tag :password_confirmation, "Confirmación de Contraseña" %>
-		<%= password_field_tag :password_confirmation, nil, :required => true %>
+		<%= password_field_tag :password_confirmation, nil, :required => true, :id => "tooltip3", "data-placement" => "right", :title => "Por favor confirme su contraseña" %>
 	  </div>
 	  <br />
 	  <div class="actions">
@@ -52,3 +52,11 @@
 	  </div>
 	<% end %>
 </div>
+
+<script>
+    $(function () {
+        $('#tooltip1').tooltip();
+        $('#tooltip2').tooltip();
+        $('#tooltip3').tooltip();
+    });
+</script>
