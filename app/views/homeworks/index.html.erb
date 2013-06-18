@@ -3,7 +3,7 @@
   <li class="active">Viendo Buzones de Tareas</li>
 </ul>
 
-<h1>Viendo Buzones de Tareas <%= link_to 'Crear Buzón', new_homework_path, :name => "commit", :class => "btn btn-primary"  %></h1>
+<h1>Viendo Buzones de Tareas <%= link_to '+ Crear Nuevo Buzón', new_homework_path, :name => "commit", :class => "btn btn-primary"  %></h1>
 <% if @homeworks.count > 0 %>
 <table class="footable">
     <thead>

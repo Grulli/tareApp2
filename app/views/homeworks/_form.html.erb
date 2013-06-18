@@ -1,68 +1,69 @@
 <div class="content_centered">
-    <%= form_for(@homework, :html => {:multipart => true}) do |f| %>
-        <% if @homework.errors.any? %>
-            <div id="error_explanation">
-                <h2><%= pluralize(@homework.errors.count, "error") %> impidió que este buzón se guardara:</h2>
-                <ul>
-                    <% @homework.errors.full_messages.each do |msg| %>
-                        <li><%= msg %></li>
-                    <% end %>
-                </ul>
+    <div class = "row-fluid">
+        <%= form_for(@homework, :html => {:multipart => true}) do |f| %>
+            <% if @homework.errors.any? %>
+                <div id="error_explanation">
+                    <h2><%= pluralize(@homework.errors.count, "error") %> impidió que este buzón se guardara:</h2>
+                    <ul>
+                        <% @homework.errors.full_messages.each do |msg| %>
+                            <li><%= msg %></li>
+                        <% end %>
+                    </ul>
+                </div>
+            <% end %>
+            
+            <div class="field">
+                <label for="homework_name">Nombre del buzón:</label>
+                <%= f.text_field :name, :class => "span12" %>
             </div>
-        <% end %>
-        
-        <div class="field">
-            <label for="homework_name">Nombre del buzón</label>
-            <%= f.text_field :name %>
-        </div>
-        <br />
-        <div class="field">
-            <label for="homework_filename">Archivo de Enunciado</label>
-            <%= file_field_tag 'file' %>
-        </div>
-        <br />
-        <div class="field">
-            <label for="homework_description">Descripción</label>
-            <%= f.text_area :description %>
-        </div>
-        <br />
-        <div class="field">
-            <label for="homework_active">¿Activo?</label>
-            <%= f.check_box :active %>
-        </div>
-        <br />
-        <div class="field">
-            <label for="homework_expires_at">Fecha Límite</label>
+            <br />
+            <div class="field">
+                <label for="homework_description">Descripción:</label>
+                <%= f.text_area :description, :class => "span12" %>
+            </div>
+            <br />
+            <div class="field">
+                <label for="homework_filename">Subir un archivo de Enunciado:</label>
+                <%= file_field_tag 'file' %>
+            </div>
+            <br />
+            <div class="field">
+                <label for="homework_active">¿Activo?</label>
+                <%= f.check_box :active%>
+            </div>
+            <br />
+            <div class="field">
+                <label for="homework_expires_at">Fecha de Entrega:</label>
 
-            <% if @homework.expires_at %>
-                <% @date_value = @homework.expires_at.to_date.to_s + "T" %>
-                <% if @homework.expires_at.hour < 10 %>
-                    <% @date_value = @date_value + "0" %>
-                <% end %>
+                <% if @homework.expires_at %>
+                    <% @date_value = @homework.expires_at.to_date.to_s + "T" %>
+                    <% if @homework.expires_at.hour < 10 %>
+                        <% @date_value = @date_value + "0" %>
+                    <% end %>
+                    
+                    <% @date_value = @date_value + @homework.expires_at.hour.to_s + ":" %>
+                    <% if @homework.expires_at.min < 10 %>
+                        <% @date_value = @date_value + "0" %>
+                    <% end %>
+            
+                    <% @date_value = @date_value + @homework.expires_at.min.to_s + ":" %>
+                    <% if @homework.expires_at.sec < 10 %>
+                        <% @date_value = @date_value + "0" %>
+                    <% end %>
+            
+                    <% @date_value = @date_value + @homework.expires_at.sec.to_s %>
+                    <input type="datetime-local" name="homework[expires_at]" value = "<%= @date_value.to_s %>" required>
                 
-                <% @date_value = @date_value + @homework.expires_at.hour.to_s + ":" %>
-                <% if @homework.expires_at.min < 10 %>
-                    <% @date_value = @date_value + "0" %>
-                <% end %>
-        
-                <% @date_value = @date_value + @homework.expires_at.min.to_s + ":" %>
-                <% if @homework.expires_at.sec < 10 %>
-                    <% @date_value = @date_value + "0" %>
-                <% end %>
-        
-                <% @date_value = @date_value + @homework.expires_at.sec.to_s %>
-                <input type="datetime-local" name="homework[expires_at]" value = "<%= @date_value.to_s %>" required>
+                <% else %>
+                    <input type="datetime-local" name="homework[expires_at]" required>
+                
+                <% end%>
+            </div>
             
-            <% else %>
-                <input type="datetime-local" name="homework[expires_at]" required>
-            
-            <% end%>
-        </div>
+            <div class="actions">
+                <%= f.submit "Guardar Buzón de Tareas", :class => "btn btn-inverse"%>
+            </div>
         
-        <div class="actions">
-            <%= f.submit "Guardar Buzón de Tareas", :class => "btn btn-inverse"%>
-        </div>
-    
-    <% end %>
-
+        <% end %>
+    </div>
 </div>

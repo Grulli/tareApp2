@@ -7,13 +7,12 @@
 
 <% if !session[:user_id] %>
 	<% if !session[:login_error_count] %>
-		<div<div class="row-fluid">
+		<div class="row-fluid">
 		  	<div class="span8">
-		  		<div class="content_centered">
-		  			<h3>Algunos de nuestros usuarios destacados:</h3>
+		  		<h3>Algunos de nuestros usuarios destacados:</h3>
+		  		Puede hacer clic para ver los perfiles completos
 
-		  			<%= render 'featured_users' %>
-		  		</div>
+		  		<%= render 'featured_users' %>
 		  	</div>
 
 		  	<div class="span4">
@@ -23,13 +22,12 @@
 		
 	<% else %>
 		<% if session[:login_error_count].to_i < 3 %>
-			<div<div class="row-fluid">
+			<div class="row-fluid">
 			  	<div class="span8">
-			  		<div class="content_centered">
-			  			<h3>Algunos de nuestros usuarios destacados:</h3>
-
-			  			<%= render 'featured_users' %>
-			  		</div>
+			  		<h3>Algunos de nuestros usuarios destacados:</h3>
+			  		Puede hacer clic para ver los perfiles completos
+			  		
+			  		<%= render 'featured_users' %>
 			  	</div>
 			  	
 			  	<div class="span4">
@@ -37,13 +35,12 @@
 			  	</div>
 			</div>
 		<% else %>
-			<div<div class="row-fluid">
+			<div class="row-fluid">
 			  	<div class="span8">
-			  		<div class="content_centered">
-			  			<h3>Algunos de nuestros usuarios destacados:</h3>
+			  		<h3>Algunos de nuestros usuarios destacados:</h3>
+			  		Puede hacer clic para ver los perfiles completos
 
-			  			<%= render 'featured_users' %>
-			  		</div>
+			  		<%= render 'featured_users' %>
 			  	</div>
 			  	
 			  	<div class="span4">
