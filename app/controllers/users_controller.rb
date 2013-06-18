@@ -1,3 +1,4 @@
+#encoding: utf-8
 require 'digest/sha1'
 require 'securerandom'
 
@@ -416,13 +417,13 @@ class UsersController < ApplicationController
 		end
 		
 		if(@hashed != @user.hashed_password)
-			flash[:error] = "Contrasena incorrecta"
+			flash[:error] = "Contraseña incorrecta"
 			redirect_to change_password_path
 			return
 		end
 		
 		if(params[:new_password] != params[:new_password_confirmation])
-			flash[:error] = "Su nueva contrasena no es igual a la confirmacion"
+			flash[:error] = "Su nueva contraseña no es igual a la confirmación"
 			redirect_to change_password_path
 			return
 		end
@@ -435,7 +436,7 @@ class UsersController < ApplicationController
 		@user.hashed_password = @hashed
 		@user.save
 		
-		flash[:succes] = "Contrasena actualizada exitosamente"
+		flash[:succes] = "Contraseña actualizada exitosamente"
 		
 		redirect_to "/profile/#{session[:user_id]}"
 		
@@ -460,7 +461,7 @@ class UsersController < ApplicationController
 			return
 		end
 		if(params[:password] != params[:password_confirmation])
-			flash[:error] = "Error en la contrasena"
+			flash[:error] = "Error en la contraseña"
 			redirect_to users_path
 			return
 		end
@@ -596,7 +597,7 @@ class UsersController < ApplicationController
 		@recovery = PasswordRecovery.find(params[:recover_id])
 		
 		if(DateTime.now > @recovery.expires_at)
-			flash[:error] = "El enlace para recuperar su contrasena ha vencido, solicite otro"
+			flash[:error] = "El enlace para recuperar su contraseña ha vencido, solicite otro"
 			redirect_to home_path
 			return
 		end
@@ -643,19 +644,19 @@ class UsersController < ApplicationController
 		@user.save
 		
 		session[:user_id] = @user.id
-		flash[:succes] = "Su contrasena ha sido recuperada satisfactoriamente"
+		flash[:succes] = "Su contraseña ha sido recuperada satisfactoriamente"
 		redirect_to home_path
 
 	end
 	
 	def activate_first
 		if(session[:user_id])
-			flash[:error] = "Error 1"
+			flash[:error] = "Acceso denegado"
 			redirect_to home_path
 			return
 		end
 		if(!params[:activation_id] or ! params[:token])
-			flash[:error] = "Error 2"
+			flash[:error] = "Acceso denegado"
 			redirect_to home_path
 			return
 		end
@@ -664,7 +665,7 @@ class UsersController < ApplicationController
 		@user = @activation.user
 		
 		if(params[:token] != @activation.token)
-			flash[:error] = "Error 3"
+			flash[:error] = "Acceso denegado"
 			redirect_to home_path
 			return
 		end

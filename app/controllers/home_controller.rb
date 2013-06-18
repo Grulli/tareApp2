@@ -1,3 +1,4 @@
+#encoding: utf-8
 require 'digest/sha1'
 require 'open-uri'
 
@@ -52,7 +53,7 @@ class HomeController < ApplicationController
 		
 		#Revisamos si existe el mail y no este eliminado
 		if(!User.exists?(:email => params[:email], :deleted => 0))
-			flash[:error] = "Error al iniciar sesion"
+			flash[:error] = "Error al iniciar sesión"
 			if(!session[:login_error_count])
 				session[:login_error_count] = 1
 			else
@@ -76,7 +77,7 @@ class HomeController < ApplicationController
 			hashed = Digest::SHA1.hexdigest(hashed)
 		end
 		if(hashed != user.hashed_password)
-			flash[:error] = "Error al iniciar sesion"
+			flash[:error] = "Error al iniciar sesión"
 			if(!session[:login_error_count])
 				session[:login_error_count] = 1
 			else
@@ -113,7 +114,7 @@ class HomeController < ApplicationController
 		
 		#Revisamos que no hayan modificado los hidden
 		if(params[:captcha_random_hash] != Digest::SHA1.hexdigest(params[:captcha_random]))
-			flash[:error] = "Error al iniciar sesion"
+			flash[:error] = "Error al iniciar sesión"
 			session[:login_error_count] = session[:login_error_count].to_i + 1
 			redirect_to home_path
 			return
@@ -122,7 +123,7 @@ class HomeController < ApplicationController
 		#Revisamos que el captcha este bueno
 		@captcha_value = open("http://captchator.com/captcha/check_answer/#{params[:captcha_random]}/#{params[:captcha]}").read.to_i
 		if(@captcha_value != 1)
-			flash[:error] = "Error al iniciar sesion"
+			flash[:error] = "Error al iniciar sesión"
 			session[:login_error_count] = session[:login_error_count].to_i + 1
 			redirect_to home_path
 			return
@@ -130,7 +131,7 @@ class HomeController < ApplicationController
 		
 		#Revisamos que exista el mail y no este eliminado
 		if(!User.exists?(:email => params[:email], :deleted => 0, :active => true))
-			flash[:error] = "Error al iniciar sesion"
+			flash[:error] = "Error al iniciar sesión"
 			session[:login_error_count] = session[:login_error_count].to_i + 1
 			redirect_to home_path
 			return
@@ -143,7 +144,7 @@ class HomeController < ApplicationController
 			hashed = Digest::SHA1.hexdigest(hashed)
 		end
 		if(hashed != user.hashed_password)
-			flash[:error] = "Error al iniciar sesion"
+			flash[:error] = "Error al iniciar sesión"
 			session[:login_error_count] = session[:login_error_count].to_i + 1
 			redirect_to home_path
 			return
@@ -177,7 +178,7 @@ class HomeController < ApplicationController
 		
 		#borramos la sesion
 		reset_session
-		flash[:succes] = "Sesion cerrada exitosamente"
+		flash[:succes] = "Sesión cerrada exitosamente"
 		redirect_to home_path
 	end
 	

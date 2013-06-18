@@ -1,3 +1,4 @@
+#encoding: utf-8
 require 'open-uri'
 require 'uri'
 require 'json'
@@ -51,10 +52,10 @@ class OauthController < ApplicationController
 					if user.active
 						session[:user_id] = user.id
 						@user = User.find_by_email(@result['email'])
-						flash[:succes] = "Sesion iniciada exitosamente"
+						flash[:succes] = "Sesión iniciada exitosamente"
 						return redirect_to home_path
 					else
-						flash[:error] = "So ha activado su cuenta"
+						flash[:error] = "Se ha activado su cuenta"
 						return redirect_to home_path
 					end
 				else
