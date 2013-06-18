@@ -129,14 +129,19 @@ class HomeworksController < ApplicationController
       respond_to do |format|
           if @homework.save
 			
-			directory = Dir::pwd + "/public/shared_files/#{userid.to_s}"
-			Dir::mkdir(directory) unless File.exists?(directory)
-			directory = Dir::pwd + "/public/shared_files/#{userid.to_s}/#{@homework.id.to_s}"
-			Dir::mkdir(directory) unless File.exists?(directory)
+      begin
+			 directory = Dir::pwd + "/public/shared_files/#{userid.to_s}"
+			 Dir::mkdir(directory) unless File.exists?(directory)
+			 directory = Dir::pwd + "/public/shared_files/#{userid.to_s}/#{@homework.id.to_s}"
+			 Dir::mkdir(directory) unless File.exists?(directory)
+
+        File.open(Rails.root.join('public', "shared_files/#{userid.to_s}/#{@homework.id.to_s}", @homework.filename), 'wb') do |file|
+          file.write(uploaded_io.read)
+        end
+			rescue
+        #Este rescue existe para capturar el error de permisos, el cual no afecta el flujo del programa (pues los buzones se crean igual).
+      end
 			
-			File.open(Rails.root.join('public', "shared_files/#{userid.to_s}/#{@homework.id.to_s}", @homework.filename), 'wb') do |file|
-				file.write(uploaded_io.read)
-			end
 			
             format.html { redirect_to @homework, notice: 'Buzon creado exitosamente' }
             format.json { render json: @homework, status: :created, location: @homework }
