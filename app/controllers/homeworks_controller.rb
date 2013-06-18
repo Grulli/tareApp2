@@ -300,7 +300,7 @@ class HomeworksController < ApplicationController
             @user.name = "Firstname"
             @user.lastname = "Lastname"
             @user.admin = false
-
+            @user.active = false;
             #Guardamos el hash
             @user.salt = SecureRandom.hex
             @hashed = @user.salt
