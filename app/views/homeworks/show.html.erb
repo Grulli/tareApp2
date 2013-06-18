@@ -41,7 +41,9 @@
 		<tbody>
 			<tr>
 				<td>
-					<% @user = User.find(@homework.user_id) %><%= @user.name%> <%= @user.lastname%>
+					<% @user = User.find(@homework.user_id) %>
+
+					<%= link_to @user.name + ' ' + @user.lastname, "/profile/#{@user.id}" %>
 				</td>
 				<td>
 					<% if @homework.active %>
@@ -76,7 +78,9 @@
 				<% @invitations.each do |invite| %>
 				<% user = User.find(invite.user_id)%>
 			  		<tr>
-					    <td><%= user.email %></td>
+					    <td>
+					    	<%= link_to user.email, "/profile/#{user.id}" %>
+					    </td>
 					    <td><%= user.name %></td>
 					    <td><%= user.lastname %></td>
 					    <td>

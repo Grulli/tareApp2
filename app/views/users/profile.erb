@@ -1,6 +1,11 @@
 <ul class="breadcrumb">
-  <li><a href=<%= home_path %>>Inicio</a> <span class="divider">/</span></li>
-  <li class="active">Mi Perfil</li>
+	<% if session[:user_id] == @user.id %>
+  		<li><a href=<%= home_path %>>Inicio</a> <span class="divider">/</span></li>
+  		<li class="active">Mi Perfil</li>
+  	<% else %>
+  		<li><a href=<%= home_path %>>Inicio</a> <span class="divider">/</span></li>
+  		<li class="active">Perfil de <%= @user.name + ' ' + @user.lastname %></li>
+  	<% end %>
 </ul>
 
 <h2>Perfil de <%= @user.name + ' ' + @user.lastname %> </h2>
