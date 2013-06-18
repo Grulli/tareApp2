@@ -4,13 +4,15 @@
 </ul>
 
 <div class="content_centered">
-	<div class="pull-right downloadText">
-		<a href = "<%= "/shared_files/#{@homework.user_id}/#{@homework.id}/#{@homework.filename}" %>">
-			<h3>Descargar Enunciado 
-              	<img class="downloadImage" src="/download.png" />
-       		</h3>
-       	</a>
-	</div>
+	<% if !@homework.filename.empty? %>
+		<div class="pull-right downloadText">
+			<a href = "<%= "/shared_files/#{@homework.user_id}/#{@homework.id}/#{@homework.filename}" %>">
+				<h3>Descargar Enunciado 
+	              	<img class="downloadImage" src="/download.png" />
+	       		</h3>
+	       	</a>
+		</div>
+	<% end %>
 	<h2><%= @homework.name %></h2>
 		<% if (session[:user_id] == @homework.user_id) || (User.find(session[:user_id]).admin) %>
 			<i class="icon-pencil"></i> <%= link_to 'Editar', edit_homework_path(@homework) %>
