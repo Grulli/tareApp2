@@ -1,0 +1,14 @@
+development:
+application_id: 447261195351468
+api_key: 447261195351468
+secret_key: 0beaff15109c00b110fa3cf6663b9d5c
+canvas_page_name: MyApps
+callback_url: http://desaweb1.ing.puc.cl/facebook_login
+pretty_errors: true
+set_asset_host_to_callback_url: true
+tunnel:
+public_host_username:
+public_host:
+public_port: 4007
+local_port: 3000
+server_alive_interval: 0

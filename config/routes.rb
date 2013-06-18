@@ -39,5 +39,8 @@ TareApp2::Application.routes.draw do
 	match 'homeworks/:homework_id/viewfiles/:user_id' => 'homeworks#viewfiles'
 	match 'example_file.txt' => 'homeworks#example_file', :as => :example_file
 	
+	match 'facebook' => 'oauth#new_facebook', :as => :facebook_login
+
+	match 'facebook_login' => 'oauth#facebook_login'
 	
 end
