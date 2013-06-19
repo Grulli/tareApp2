@@ -577,13 +577,15 @@ class HomeworksController < ApplicationController
       end
     end
 
+	@homework = Homework.find(params[:homework_id])
+	
     #Revisamos nivel de acceso
     #Si es administrador, el usuario que está viendo es el entregado
     @user = User.find(session[:user_id])
-    if(@user.admin)
+    if(@user.admin or @homework.user.id == session[:user_id].to_i)
         @user = User.find(params[:user_id])
     end
-    @homework = Homework.find(params[:homework_id])
+    
     
     #Obtenemos todos los archivos
     @archives = Array.new
